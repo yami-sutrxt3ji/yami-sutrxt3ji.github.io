@@ -11,6 +11,9 @@ const player = {
 };
 
 let mode = "pong";
+let score = 0;
+let highScore = Number(localStorage.getItem("highScore") || 0);
+let scoreTick = 0;
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -18,8 +21,10 @@ function updateHUD() {
   const hudFocus = document.getElementById("hudFocus");
   const hudXP = document.getElementById("hudXP");
   const hudMode = document.getElementById("hudMode");
+  const hudScore = document.getElementById("hudScore");
+  const hudHigh = document.getElementById("hudHigh");
 
-  if (!hudPlayer || !hudLvl || !hudFocus || !hudXP || !hudMode) {
+  if (!hudPlayer || !hudLvl || !hudFocus || !hudXP || !hudMode || !hudScore || !hudHigh) {
     return;
   }
 
@@ -28,12 +33,32 @@ function updateHUD() {
   hudFocus.textContent = `FOCUS: ${player.focus}/10`;
   hudXP.textContent = `XP: ${player.xp}`;
   hudMode.textContent = `MODE: ${mode.toUpperCase()}`;
+  hudScore.textContent = `SCORE: ${score}`;
+  hudHigh.textContent = `HIGH: ${highScore}`;
 }
 
 function gainXP(amount) {
   player.xp += amount;
   player.level = Math.max(2, Math.floor(player.xp / 100) + 1);
   updateHUD();
+}
+
+function updateScore(amount = 1) {
+  score += amount;
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScore", String(highScore));
+  }
+  checkUnlock();
+  updateHUD();
+}
+
+function checkUnlock() {
+  const gems = document.getElementById("gems");
+  if (!gems) {
+    return;
+  }
+  gems.hidden = highScore <= 50;
 }
 
 function setActiveNav(id) {
@@ -86,6 +111,7 @@ function startGame() {
 
 function toggleMode() {
   mode = mode === "pong" ? "shooter" : "pong";
+  score = 0;
   updateHUD();
 }
 
@@ -160,6 +186,7 @@ function drawPong() {
   ) {
     ball.dx = Math.abs(ball.dx);
     gainXP(1);
+    updateScore(2);
   }
 
   ctx.fillStyle = "#00e5ff";
@@ -197,6 +224,7 @@ function drawShooter() {
       const hit = Math.abs(bullet.x - enemy.x) < 10 && Math.abs(bullet.y - enemy.y) < 10;
       if (hit) {
         gainXP(2);
+        updateScore(3);
       }
       return !hit;
     });
@@ -212,6 +240,10 @@ function drawShooter() {
 
 function gameLoop() {
   ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+  scoreTick += 1;
+  if (scoreTick % 60 === 0) {
+    updateScore(1);
+  }
   if (mode === "pong") {
     drawPong();
   } else {
@@ -238,6 +270,13 @@ window.changeAvatar = changeAvatar;
 
 resizeCanvas();
 loadSavedAvatar();
+checkUnlock();
 updateHUD();
 setActiveNav("start");
 gameLoop();
+
+document.querySelectorAll("button").forEach((button) => {
+  button.addEventListener("click", () => {
+    gainXP(1);
+  });
+});
