@@ -11,6 +11,29 @@
 </head>
 <body>
   <main class="viewport">
+    <div class="abstract-art" aria-hidden="true">
+      <span class="art-block b1"></span>
+      <span class="art-block b2"></span>
+      <span class="art-block b3"></span>
+      <span class="art-block b4"></span>
+      <span class="art-block b5"></span>
+      <span class="art-block b6"></span>
+      <span class="art-block b7"></span>
+      <span class="art-block b8"></span>
+    </div>
+
+    <nav class="top-nav">
+      <div class="nav-track"></div>
+      <div class="nav-buttons">
+        <button class="button nav-btn" onclick="goBack()">[ BACK ]</button>
+        <button class="button nav-btn" data-target="start" onclick="navigateTo('start')">[ START ]</button>
+        <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ PROFILE ]</button>
+        <button class="button nav-btn" data-target="explore" onclick="navigateTo('explore')">[ EXPLORE ]</button>
+        <button class="button nav-btn" data-target="projects" onclick="navigateTo('projects')">[ PROJECTS ]</button>
+        <button class="button nav-btn" data-target="inventory" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
+      </div>
+    </nav>
+
     <section id="start" class="screen active">
       <h1>ASHISH.EXE</h1>
       <p>retro system booting...</p>
@@ -37,7 +60,7 @@
         </div>
       </div>
       <div class="row">
-        <button class="button" onclick="openSection('explore')">[ EXPLORE MAP ]</button>
+        <button class="button" onclick="navigateTo('explore')">[ EXPLORE MAP ]</button>
       </div>
     </section>
 
@@ -49,8 +72,8 @@
         <p>MASTER OF NONE, EXPLORER OF EVERYTHING.</p>
       </div>
       <div class="row">
-        <button class="button" onclick="openProjects()">[ PROJECTS ]</button>
-        <button class="button" onclick="openSection('inventory')">[ INVENTORY ]</button>
+        <button class="button" onclick="navigateTo('projects')">[ PROJECTS ]</button>
+        <button class="button" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
       </div>
     </section>
 
@@ -61,7 +84,7 @@
         <p>Story-first format: what I tried, what broke, what worked.</p>
       </div>
       <div class="row">
-        <button class="button" onclick="openSection('explore')">[ BACK ]</button>
+        <button class="button" onclick="goBack()">[ BACK ]</button>
       </div>
     </section>
 
@@ -71,7 +94,7 @@
         <p>More projects coming soon...</p>
       </div>
       <div class="row">
-        <button class="button" onclick="openSection('explore')">[ BACK ]</button>
+        <button class="button" onclick="goBack()">[ BACK ]</button>
       </div>
     </section>
   </main>
