@@ -13,7 +13,7 @@ This project is a static portfolio (`index.html`, `style.css`, `script.js`) for 
    git init -b main
    git add .
    git commit -m "Initial portfolio"
-   gh repo create Astro.github.io --public --source=. --remote=origin --push
+   gh repo create yami-sutrxt3ji.github.io --public --source=. --remote=origin --push
    ```
 4. Enable GitHub Pages from `main` branch root.
 5. Keep `CNAME` file as:
@@ -25,5 +25,12 @@ This project is a static portfolio (`index.html`, `style.css`, `script.js`) for 
    - `A @ 185.199.109.153`
    - `A @ 185.199.110.153`
    - `A @ 185.199.111.153`
-   - `CNAME www astro.github.io`
+   - `CNAME www yami-sutrxt3ji.github.io`
 7. In Pages settings, set custom domain to `t3jiyami.page` and enable HTTPS.
+
+## Next commit and push
+```bash
+git add .
+git commit -m "Update portfolio content"
+git push origin main
+```

@@ -14,11 +14,11 @@ Run inside this folder:
 git init -b main
 git add .
 git commit -m "Initial portfolio"
-gh repo create Astro.github.io --public --source=. --remote=origin --push
+gh repo create yami-sutrxt3ji.github.io --public --source=. --remote=origin --push
 ```
 
 ## 4. Enable Pages
-On GitHub: **Astro.github.io → Settings → Pages**
+On GitHub: **yami-sutrxt3ji.github.io → Settings → Pages**
 - Source: **Deploy from a branch**
 - Branch: **main / root**
 
@@ -33,8 +33,15 @@ Add DNS at your registrar:
 - `A` record `@` → `185.199.109.153`
 - `A` record `@` → `185.199.110.153`
 - `A` record `@` → `185.199.111.153`
-- `CNAME` record `www` → `astro.github.io`
+- `CNAME` record `www` → `yami-sutrxt3ji.github.io`
 
 Then in GitHub Pages settings:
 - Custom domain: `t3jiyami.page`
 - Enable **HTTPS**
+
+## Next commit + push (after you edit files)
+```bash
+git add .
+git commit -m "Update portfolio content"
+git push origin main
+```
