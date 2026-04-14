@@ -27,6 +27,11 @@ This project is a static portfolio (`index.html`, `style.css`, `script.js`) for 
    - `A @ 185.199.111.153`
    - `CNAME www yami-sutrxt3ji.github.io`
 7. In Pages settings, set custom domain to `t3jiyami.page` and enable HTTPS.
+8. If browser shows `ERR_CERT_COMMON_NAME_INVALID`:
+   - remove custom domain in Pages and save
+   - re-add `t3jiyami.page` and save
+   - wait for GitHub to issue the cert, then enable HTTPS
+   - if Cloudflare is used, keep records as DNS-only
 
 ## Next commit and push
 ```bash

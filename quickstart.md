@@ -39,6 +39,11 @@ Then in GitHub Pages settings:
 - Custom domain: `t3jiyami.page`
 - Enable **HTTPS**
 
+If you see `ERR_CERT_COMMON_NAME_INVALID`:
+- In Pages settings, remove custom domain, save, add `t3jiyami.page` again, save.
+- Wait for certificate provisioning, then enable HTTPS.
+- If using Cloudflare, set DNS records to **DNS only** (no proxy).
+
 ## Next commit + push (after you edit files)
 ```bash
 git add .
