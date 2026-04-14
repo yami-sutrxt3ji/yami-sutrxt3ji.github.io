@@ -11,6 +11,17 @@
 </head>
 <body>
   <main class="viewport">
+    <canvas id="gameCanvas" aria-hidden="true"></canvas>
+    <div class="watermark" aria-hidden="true">T3JIYAMI • T3JIYAMI • T3JIYAMI</div>
+
+    <aside class="player-hud panel">
+      <p id="hudPlayer">PLAYER: ASHISH</p>
+      <p id="hudLvl">LVL: 2</p>
+      <p id="hudFocus">FOCUS: 2/10</p>
+      <p id="hudXP">XP: 120</p>
+      <p id="hudMode">MODE: PONG</p>
+    </aside>
+
     <div class="abstract-art" aria-hidden="true">
       <span class="art-block b1"></span>
       <span class="art-block b2"></span>
@@ -27,10 +38,11 @@
       <div class="nav-buttons">
         <button class="button nav-btn" onclick="goBack()">[ BACK ]</button>
         <button class="button nav-btn" data-target="start" onclick="navigateTo('start')">[ START ]</button>
-        <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ PROFILE ]</button>
-        <button class="button nav-btn" data-target="explore" onclick="navigateTo('explore')">[ EXPLORE ]</button>
-        <button class="button nav-btn" data-target="projects" onclick="navigateTo('projects')">[ PROJECTS ]</button>
+        <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ CHARACTER ]</button>
+        <button class="button nav-btn" data-target="projects" onclick="navigateTo('projects')">[ MISSIONS ]</button>
         <button class="button nav-btn" data-target="inventory" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
+        <button class="button nav-btn" data-target="terminal" onclick="navigateTo('terminal')">[ TERMINAL ]</button>
+        <button class="button nav-btn" onclick="toggleMode()">[ TOGGLE MODE ]</button>
       </div>
     </nav>
 
@@ -42,12 +54,12 @@
     </section>
 
     <section id="profile" class="screen">
-      <header class="hud">
+      <header class="status-strip">
         <span>LAZY MODE: ACTIVE</span>
         <span>BUGS: FEATURED</span>
       </header>
       <div class="panel profile-grid">
-        <img src="assets/avatar.png" alt="Avatar" class="avatar">
+        <img src="assets/avatar.png" alt="Avatar" class="avatar" id="avatar">
         <div>
           <h2>ASHISH.EXE</h2>
           <p>Level: 2nd Year CS @ GITAM Hyderabad</p>
@@ -57,33 +69,26 @@
           <p>I procrastinate. I start too many things. But I keep coming back.</p>
           <p>Goal: build real things (hardware + software) and tell stories through tech.</p>
           <p>Status: Learning. Always.</p>
+          <div class="row">
+            <button class="button" onclick="changeAvatar()">[ CHANGE AVATAR ]</button>
+            <input type="file" id="avatarInput" hidden accept="image/*">
+          </div>
         </div>
       </div>
       <div class="row">
-        <button class="button" onclick="navigateTo('explore')">[ EXPLORE MAP ]</button>
-      </div>
-    </section>
-
-    <section id="explore" class="screen">
-      <h2>EXPLORE MAP</h2>
-      <div class="panel">
-        <p>FOCUS: 2/10</p>
-        <p>CURIOSITY: 10/10</p>
-        <p>MASTER OF NONE, EXPLORER OF EVERYTHING.</p>
-      </div>
-      <div class="row">
-        <button class="button" onclick="navigateTo('projects')">[ PROJECTS ]</button>
+        <button class="button" onclick="navigateTo('projects')">[ MISSIONS ]</button>
         <button class="button" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
       </div>
     </section>
 
     <section id="projects" class="screen">
-      <h2>PROJECTS</h2>
+      <h2>MISSIONS</h2>
       <div class="panel">
-        <p>Unlocked zone. Drop project cards here as you build.</p>
+        <p>Unlocked zone. Drop mission cards here as you build.</p>
         <p>Story-first format: what I tried, what broke, what worked.</p>
       </div>
       <div class="row">
+        <button class="button" onclick="gainXP(10)">[ COMPLETE +10 XP ]</button>
         <button class="button" onclick="goBack()">[ BACK ]</button>
       </div>
     </section>
@@ -91,7 +96,19 @@
     <section id="inventory" class="screen">
       <h2>INVENTORY</h2>
       <div class="panel">
-        <p>More projects coming soon...</p>
+        <p>Tools, skills, experiments, and random sidequests.</p>
+      </div>
+      <div class="row">
+        <button class="button" onclick="goBack()">[ BACK ]</button>
+      </div>
+    </section>
+
+    <section id="terminal" class="screen">
+      <h2>TERMINAL</h2>
+      <div class="panel">
+        <p>&gt; contact --mail ashish@t3jiyami.page</p>
+        <p>&gt; socials --github yami-sutrxt3ji</p>
+        <p>&gt; status Learning. Always.</p>
       </div>
       <div class="row">
         <button class="button" onclick="goBack()">[ BACK ]</button>
