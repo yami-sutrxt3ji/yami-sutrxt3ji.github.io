@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASHISH.EXE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="viewport">
+    <section id="start" class="screen active">
+      <h1>ASHISH.EXE</h1>
+      <p>retro system booting...</p>
+      <button class="button" onclick="startGame()">[ START ]</button>
+      <p class="hint">CURRENT QUEST: consistency.exe</p>
+    </section>
+
+    <section id="profile" class="screen">
+      <header class="hud">
+        <span>LAZY MODE: ACTIVE</span>
+        <span>BUGS: FEATURED</span>
+      </header>
+      <div class="panel profile-grid">
+        <img src="assets/avatar.png" alt="Avatar" class="avatar">
+        <div>
+          <h2>ASHISH.EXE</h2>
+          <p>Level: 2nd Year CS @ GITAM Hyderabad</p>
+          <p>A curious builder who likes breaking things just to understand how they work.</p>
+          <p>Currently exploring:</p>
+          <p>- 3D printing &amp; machining<br>- Firmware &amp; low-level systems<br>- Cybersecurity (binary exploitation)<br>- LeetCode (slow but real grind)</p>
+          <p>I procrastinate. I start too many things. But I keep coming back.</p>
+          <p>Goal: build real things (hardware + software) and tell stories through tech.</p>
+          <p>Status: Learning. Always.</p>
+        </div>
+      </div>
+      <div class="row">
+        <button class="button" onclick="openSection('explore')">[ EXPLORE MAP ]</button>
+      </div>
+    </section>
+
+    <section id="explore" class="screen">
+      <h2>EXPLORE MAP</h2>
+      <div class="panel">
+        <p>FOCUS: 2/10</p>
+        <p>CURIOSITY: 10/10</p>
+        <p>MASTER OF NONE, EXPLORER OF EVERYTHING.</p>
+      </div>
+      <div class="row">
+        <button class="button" onclick="openProjects()">[ PROJECTS ]</button>
+        <button class="button" onclick="openSection('inventory')">[ INVENTORY ]</button>
+      </div>
+    </section>
+
+    <section id="projects" class="screen">
+      <h2>PROJECTS</h2>
+      <div class="panel">
+        <p>Unlocked zone. Drop project cards here as you build.</p>
+        <p>Story-first format: what I tried, what broke, what worked.</p>
+      </div>
+      <div class="row">
+        <button class="button" onclick="openSection('explore')">[ BACK ]</button>
+      </div>
+    </section>
+
+    <section id="inventory" class="screen">
+      <h2>INVENTORY</h2>
+      <div class="panel">
+        <p>More projects coming soon...</p>
+      </div>
+      <div class="row">
+        <button class="button" onclick="openSection('explore')">[ BACK ]</button>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
