@@ -17,6 +17,15 @@ let scoreTick = 0;
 const contactEmail = "gator77@t3jiyami.page";
 let terminalSequenceToken = 0;
 let selectedMission = "kenkoDetail";
+const missionConfig = {
+  kenkoDetail: { xp: 50, mode: null, unlockedTitle: "KENKO_AAHARA" },
+  mission02Detail: { xp: 150, mode: "shooter", unlockedTitle: "NUTRI_TRACE" },
+  mission03Detail: { xp: 260, mode: "shooter", unlockedTitle: "UNKNOWN_SIGNAL" },
+};
+const missionUnlockState = {
+  mission02Detail: false,
+  mission03Detail: false,
+};
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -85,11 +94,15 @@ function openSection(id, pushHistory = true) {
     screen.classList.remove("active");
   });
   target.classList.add("active");
+  target.classList.remove("section-glitch");
+  void target.offsetWidth;
+  target.classList.add("section-glitch");
   currentSection = id;
   setActiveNav(id);
   if (id === "projects") {
     updateMissionUnlocks();
-    if (selectedMission === "mission02Detail" && player.xp < 150) {
+    const selectedCard = document.querySelector(`.mission-node[data-mission="${selectedMission}"]`);
+    if (selectedCard && selectedCard.classList.contains("locked")) {
       selectedMission = "kenkoDetail";
     }
     openMission(selectedMission);
@@ -126,6 +139,7 @@ function startGame() {
 function toggleMode() {
   mode = mode === "pong" ? "shooter" : "pong";
   score = 0;
+  checkUnlock();
   updateHUD();
 }
 
@@ -168,20 +182,38 @@ function loadSavedAvatar() {
 
 function updateMissionUnlocks() {
   const missionTwoCard = document.getElementById("mission02Card");
-  if (!missionTwoCard) {
+  const missionThreeCard = document.getElementById("mission03Card");
+  if (!missionTwoCard || !missionThreeCard) {
     return;
   }
-  const missionTwoTitle = missionTwoCard.querySelector(".mission-node-title");
-  const missionTwoStatus = missionTwoCard.querySelector(".mission-node-status");
-  const isUnlocked = player.xp >= 150;
 
-  missionTwoCard.classList.toggle("locked", !isUnlocked);
-  if (missionTwoTitle) {
-    missionTwoTitle.textContent = isUnlocked ? "NUTRI_TRACE" : "LOCKED";
+  const missionTwoState = getMissionState("mission02Detail");
+  const missionThreeState = getMissionState("mission03Detail");
+
+  setMissionCardState(
+    missionTwoCard,
+    ".mission-node-title",
+    ".mission-node-status",
+    missionConfig.mission02Detail.unlockedTitle,
+    missionTwoState
+  );
+  setMissionCardState(
+    missionThreeCard,
+    ".mission-node3-title",
+    ".mission-node3-status",
+    missionConfig.mission03Detail.unlockedTitle,
+    missionThreeState
+  );
+
+  if (!missionUnlockState.mission02Detail && missionTwoState.unlocked) {
+    pulseMissionUnlock(missionTwoCard);
   }
-  if (missionTwoStatus) {
-    missionTwoStatus.textContent = isUnlocked ? "STATUS: UNLOCKED" : "REQUIRES XP 150";
+  if (!missionUnlockState.mission03Detail && missionThreeState.unlocked) {
+    pulseMissionUnlock(missionThreeCard);
   }
+  missionUnlockState.mission02Detail = missionTwoState.unlocked;
+  missionUnlockState.mission03Detail = missionThreeState.unlocked;
+  updateMissionProgress();
 }
 
 function openMission(id) {
@@ -205,6 +237,85 @@ function openMission(id) {
   document.querySelectorAll(".mission-node").forEach((card) => {
     card.classList.toggle("active", card.dataset.mission === id && !card.classList.contains("locked"));
   });
+}
+
+function getMissionState(id) {
+  const config = missionConfig[id];
+  if (!config) {
+    return { unlocked: true, progress: 100, modeUnlocked: true, xpUnlocked: true, xp: 0 };
+  }
+  const progress = Math.min(100, Math.floor((player.xp / config.xp) * 100));
+  const xpUnlocked = player.xp >= config.xp;
+  const modeUnlocked = !config.mode || mode === config.mode;
+  return {
+    unlocked: xpUnlocked && modeUnlocked,
+    progress,
+    xpUnlocked,
+    modeUnlocked,
+    xp: config.xp,
+    mode: config.mode,
+  };
+}
+
+function setMissionCardState(card, titleSelector, statusSelector, unlockedTitle, state) {
+  const title = card.querySelector(titleSelector);
+  const status = card.querySelector(statusSelector);
+  card.classList.toggle("locked", !state.unlocked);
+  if (title) {
+    title.textContent = state.unlocked ? unlockedTitle : "LOCKED";
+  }
+  if (!status) {
+    return;
+  }
+  if (!state.xpUnlocked) {
+    status.textContent = `REQUIRES XP ${state.xp}`;
+    return;
+  }
+  if (!state.modeUnlocked) {
+    status.textContent = `REQUIRES MODE ${String(state.mode || "").toUpperCase()}`;
+    return;
+  }
+  status.textContent = "STATUS: UNLOCKED";
+}
+
+function pulseMissionUnlock(card) {
+  card.classList.remove("unlocked-flash");
+  void card.offsetWidth;
+  card.classList.add("unlocked-flash");
+}
+
+function setProgressBar(fillId, textId, value) {
+  const fill = document.getElementById(fillId);
+  const label = document.getElementById(textId);
+  if (fill) {
+    fill.style.width = `${value}%`;
+  }
+  if (label) {
+    label.textContent = `PROGRESS: ${value}%`;
+  }
+}
+
+function updateMissionProgress() {
+  setProgressBar("mission01Progress", "mission01ProgressText", getMissionState("kenkoDetail").progress);
+  setProgressBar("mission02Progress", "mission02ProgressText", getMissionState("mission02Detail").progress);
+  setProgressBar("mission03Progress", "mission03ProgressText", getMissionState("mission03Detail").progress);
+}
+
+function syncMissionMode() {
+  const config = missionConfig[selectedMission];
+  if (!config || !config.mode) {
+    alert("CURRENT MISSION RUNS ON ANY MODE.");
+    return;
+  }
+  if (mode === config.mode) {
+    alert("MODE ALREADY SYNCED.");
+    return;
+  }
+  mode = config.mode;
+  score = 0;
+  checkUnlock();
+  updateHUD();
+  alert(`MODE SYNCED: ${config.mode.toUpperCase()}`);
 }
 
 function typeText(el, text, speed = 30) {
@@ -374,6 +485,7 @@ window.gainXP = gainXP;
 window.changeAvatar = changeAvatar;
 window.copyEmail = copyEmail;
 window.openMission = openMission;
+window.syncMissionMode = syncMissionMode;
 
 resizeCanvas();
 loadSavedAvatar();

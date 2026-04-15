@@ -472,6 +472,10 @@ li {
   color: inherit;
 }
 
+.mission-node span {
+  display: block;
+}
+
 .mission-meta {
   color: var(--yellow);
   margin-bottom: 10px;
