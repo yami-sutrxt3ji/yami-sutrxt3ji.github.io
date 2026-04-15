@@ -111,9 +111,17 @@
       <section id="terminal" class="screen">
         <h2>TERMINAL</h2>
         <div class="panel">
-          <p>&gt; contact --mail ashish@t3jiyami.page</p>
-          <p>&gt; socials --github yami-sutrxt3ji</p>
-          <p>&gt; status Learning. Always.</p>
+          <div class="terminal-box" aria-live="polite">
+            <p id="terminalLog"></p>
+            <p id="terminalSignal"></p>
+            <p class="success" id="terminalStatus"></p>
+            <p>&gt; email: <span class="highlight" id="contactEmail">gator77@t3jiyami.page</span></p>
+            <p>&gt; status: online</p>
+          </div>
+          <div class="row terminal-actions">
+            <button class="button" onclick="copyEmail()">[ COPY EMAIL ]</button>
+            <a class="button link-button" href="mailto:gator77@t3jiyami.page">[ SEND MESSAGE ]</a>
+          </div>
         </div>
         <div class="row">
           <button class="button" onclick="goBack()">[ BACK ]</button>

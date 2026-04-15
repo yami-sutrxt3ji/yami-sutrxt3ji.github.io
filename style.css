@@ -372,6 +372,38 @@ p {
   padding: 10px;
 }
 
+.terminal-box {
+  border: 2px solid var(--cyan);
+  padding: 15px;
+  background: var(--bg-main);
+  color: var(--green);
+}
+
+.terminal-box p {
+  margin: 0 0 10px;
+}
+
+.terminal-box p:last-child {
+  margin-bottom: 0;
+}
+
+.highlight {
+  color: var(--cyan);
+}
+
+.success {
+  color: var(--green);
+}
+
+.terminal-actions {
+  margin-top: 14px;
+}
+
+.link-button {
+  text-decoration: none;
+  display: inline-block;
+}
+
 @keyframes glitch {
   0% {
     transform: translate(0, 0);

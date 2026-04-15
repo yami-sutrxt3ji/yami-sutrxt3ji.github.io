@@ -14,6 +14,8 @@ let mode = "pong";
 let score = 0;
 let highScore = Number(localStorage.getItem("highScore") || 0);
 let scoreTick = 0;
+const contactEmail = "gator77@t3jiyami.page";
+let terminalSequenceToken = 0;
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -83,6 +85,9 @@ function openSection(id, pushHistory = true) {
   target.classList.add("active");
   currentSection = id;
   setActiveNav(id);
+  if (id === "terminal") {
+    playTerminalSequence();
+  }
 }
 
 function navigateTo(id) {
@@ -150,6 +155,56 @@ function loadSavedAvatar() {
     };
     reader.readAsDataURL(file);
   });
+}
+
+function typeText(el, text, speed = 30) {
+  return new Promise((resolve) => {
+    if (!el) {
+      resolve();
+      return;
+    }
+    el.textContent = "";
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i += 1;
+        setTimeout(type, speed);
+      } else {
+        resolve();
+      }
+    };
+    type();
+  });
+}
+
+async function playTerminalSequence() {
+  terminalSequenceToken += 1;
+  const token = terminalSequenceToken;
+  const terminalLog = document.getElementById("terminalLog");
+  const terminalSignal = document.getElementById("terminalSignal");
+  const terminalStatus = document.getElementById("terminalStatus");
+  const contactEl = document.getElementById("contactEmail");
+  if (contactEl) {
+    contactEl.textContent = contactEmail;
+  }
+
+  await typeText(terminalLog, "> establishing connection...", 24);
+  if (token !== terminalSequenceToken) return;
+  await typeText(terminalSignal, "> routing signal...", 24);
+  if (token !== terminalSequenceToken) return;
+  await typeText(terminalStatus, "✔ secure link established", 24);
+}
+
+function copyEmail() {
+  navigator.clipboard
+    .writeText(contactEmail)
+    .then(() => {
+      alert("Copied to clipboard ⚡");
+    })
+    .catch(() => {
+      alert("Clipboard blocked. Copy manually: gator77@t3jiyami.page");
+    });
 }
 
 const gameCanvas = document.getElementById("gameCanvas");
@@ -267,6 +322,7 @@ window.goBack = goBack;
 window.toggleMode = toggleMode;
 window.gainXP = gainXP;
 window.changeAvatar = changeAvatar;
+window.copyEmail = copyEmail;
 
 resizeCanvas();
 loadSavedAvatar();
