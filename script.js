@@ -42,6 +42,7 @@ function updateHUD() {
 function gainXP(amount) {
   player.xp += amount;
   player.level = Math.max(2, Math.floor(player.xp / 100) + 1);
+  checkUnlock();
   updateHUD();
 }
 
@@ -57,10 +58,13 @@ function updateScore(amount = 1) {
 
 function checkUnlock() {
   const gems = document.getElementById("gems");
-  if (!gems) {
-    return;
+  if (gems) {
+    gems.hidden = highScore <= 50;
   }
-  gems.hidden = highScore <= 50;
+  const kenko = document.getElementById("kenko");
+  if (kenko) {
+    kenko.hidden = player.xp <= 50;
+  }
 }
 
 function setActiveNav(id) {
