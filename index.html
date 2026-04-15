@@ -34,88 +34,101 @@
     </div>
 
     <div class="container app-container">
-      <aside class="player-hud panel">
-        <p id="hudPlayer">PLAYER: ASHISH</p>
-        <p id="hudLvl">LVL: 2</p>
-        <p id="hudFocus">FOCUS: 2/10</p>
-        <p id="hudXP">XP: 120</p>
-        <p id="hudMode">MODE: PONG</p>
-        <p id="hudScore">SCORE: 0</p>
-        <p id="hudHigh">HIGH: 0</p>
-      </aside>
+      <div class="stack">
+        <nav class="top-nav panel" data-title="NAVIGATION">
+          <div class="nav-track"></div>
+          <div class="nav-buttons navbar">
+            <button class="button nav-btn" onclick="goBack()">[ BACK ]</button>
+            <button class="button nav-btn" data-target="start" onclick="navigateTo('start')">[ START ]</button>
+            <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ CHARACTER ]</button>
+            <button class="button nav-btn" data-target="projects" onclick="navigateTo('projects')">[ MISSIONS ]</button>
+            <button class="button nav-btn" data-target="inventory" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
+            <button class="button nav-btn" data-target="terminal" onclick="navigateTo('terminal')">[ TERMINAL ]</button>
+            <button class="button nav-btn" onclick="toggleMode()">[ TOGGLE MODE ]</button>
+          </div>
+        </nav>
 
-      <nav class="top-nav">
-        <div class="nav-track"></div>
-        <div class="nav-buttons navbar">
-          <button class="button nav-btn" onclick="goBack()">[ BACK ]</button>
-          <button class="button nav-btn" data-target="start" onclick="navigateTo('start')">[ START ]</button>
-          <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ CHARACTER ]</button>
-          <button class="button nav-btn" data-target="projects" onclick="navigateTo('projects')">[ MISSIONS ]</button>
-          <button class="button nav-btn" data-target="inventory" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
-          <button class="button nav-btn" data-target="terminal" onclick="navigateTo('terminal')">[ TERMINAL ]</button>
-          <button class="button nav-btn" onclick="toggleMode()">[ TOGGLE MODE ]</button>
-        </div>
-      </nav>
+        <aside class="player-hud panel hud-panel" data-title="PLAYER_STATS">
+          <p id="hudPlayer">PLAYER: ASHISH</p>
+          <p id="hudLvl">LVL: 2</p>
+          <p id="hudFocus">FOCUS: 2/10</p>
+          <p id="hudXP">XP: 120</p>
+          <p id="hudMode">MODE: PONG</p>
+          <p id="hudScore">SCORE: 0</p>
+          <p id="hudHigh">HIGH: 0</p>
+        </aside>
 
-      <section id="start" class="screen section active">
-        <h1>ASHISH.EXE</h1>
-        <p>retro system booting...</p>
-        <button class="button" onclick="startGame()">[ START ]</button>
-        <p class="hint">CURRENT QUEST: consistency.exe</p>
-      </section>
+        <section id="start" class="screen section active">
+          <div class="panel" data-title="SYSTEM_BOOT">
+            <h1>ASHISH.EXE</h1>
+            <p>retro system booting...</p>
+            <button class="button" onclick="startGame()">[ START ]</button>
+            <p class="hint">CURRENT QUEST: consistency.exe</p>
+          </div>
+        </section>
 
-      <section id="profile" class="screen section">
-        <header class="status-strip">
-          <span>LAZY MODE: ACTIVE</span>
-          <span>BUGS: FEATURED</span>
-        </header>
-        <div class="panel profile-grid">
-          <img id="avatar" src="assets/avatar.png?v=1" alt="Avatar" class="avatar" width="96" height="96" loading="eager">
-          <div>
-            <h2>ASHISH.EXE</h2>
-            <p>Level: 2nd Year CS @ GITAM Hyderabad</p>
-            <p>A curious builder who likes breaking things just to understand how they work.</p>
-            <p>Currently exploring:</p>
-            <p>- 3D printing &amp; machining<br>- Firmware &amp; low-level systems<br>- Cybersecurity (binary exploitation)<br>- LeetCode (slow but real grind)</p>
-            <p>I procrastinate. I start too many things. But I keep coming back.</p>
-            <p>Goal: build real things (hardware + software) and tell stories through tech.</p>
-            <p>Status: Learning. Always.</p>
-            <div class="row">
-              <button class="button" onclick="changeAvatar()">[ CHANGE AVATAR ]</button>
-              <input type="file" id="avatarInput" hidden accept="image/*">
+        <section id="profile" class="screen section">
+          <header class="status-strip">
+            <span>LAZY MODE: ACTIVE</span>
+            <span>BUGS: FEATURED</span>
+          </header>
+          <div class="panel character-panel char-grid" data-title="CHARACTER">
+            <img id="avatar" src="assets/avatar.png?v=1" alt="Avatar" class="avatar" width="96" height="96" loading="eager">
+            <div class="char-info">
+              <h1>ASHISH.EXE</h1>
+              <p>Level: 2nd Year CS @ GITAM Hyderabad</p>
+              <p>A curious builder who likes breaking things just to understand how they work.</p>
+              <p>&gt; CURRENTLY_EXPLORING:</p>
+              <ul>
+                <li>3D printing &amp; machining</li>
+                <li>Firmware &amp; low-level systems</li>
+                <li>Cybersecurity (binary exploitation)</li>
+                <li>LeetCode (slow but real grind)</li>
+              </ul>
+              <p>I procrastinate. I start too many things. But I keep coming back.</p>
+              <p>Goal: build real things (hardware + software) and tell stories through tech.</p>
+              <p>Status: Learning. Always.</p>
+              <div class="row">
+                <button class="button" onclick="changeAvatar()">[ CHANGE AVATAR ]</button>
+                <input type="file" id="avatarInput" hidden accept="image/*">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <button class="button" onclick="navigateTo('projects')">[ MISSIONS ]</button>
-          <button class="button" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
-        </div>
-      </section>
+          <div class="row">
+            <button class="button" onclick="navigateTo('projects')">[ MISSIONS ]</button>
+            <button class="button" onclick="navigateTo('inventory')">[ INVENTORY ]</button>
+          </div>
+        </section>
 
-      <section id="projects" class="screen section">
-        <h2>MISSIONS</h2>
-        <div class="panel">
+        <section id="projects" class="screen section">
+          <h2>MISSIONS</h2>
+          <div class="panel" data-title="MISSIONS">
           <div class="mission-grid">
             <div class="mission-node active" data-mission="kenkoDetail" onclick="openMission('kenkoDetail')">
-              <p>MISSION_01</p>
+              <p class="mission-meta">[🧪] MISSION_01</p>
               <h3>KENKO_AAHARA</h3>
+              <span class="mission-difficulty">DIFF: CORE</span>
               <span>STATUS: IDEATION</span>
             </div>
             <div id="mission02Card" class="mission-node locked" data-mission="mission02Detail" onclick="openMission('mission02Detail')">
-              <p>MISSION_02</p>
+              <p class="mission-meta">[📈] MISSION_02</p>
               <h3 class="mission-node-title">LOCKED</h3>
+              <span class="mission-difficulty">DIFF: HARD</span>
               <span class="mission-node-status">REQUIRES XP 150</span>
             </div>
-            <div class="mission-node" data-mission="mission03Detail" onclick="openMission('mission03Detail')">
-              <p>MISSION_03</p>
-              <h3>COMING_SOON</h3>
-              <span>???</span>
+            <div id="mission03Card" class="mission-node locked" data-mission="mission03Detail" onclick="openMission('mission03Detail')">
+              <p class="mission-meta">[🛰] MISSION_03</p>
+              <h3 class="mission-node3-title">LOCKED</h3>
+              <span class="mission-difficulty">DIFF: LEGEND</span>
+              <span class="mission-node3-status">REQUIRES XP 260</span>
             </div>
           </div>
 
           <div id="kenkoDetail" class="mission-card mission-detail">
             <h2>MISSION: KENKO_AAHARA</h2>
             <p class="status">STATUS: IDEATION</p>
+            <div class="mission-progress"><div id="mission01Progress" class="mission-progress-fill"></div></div>
+            <p id="mission01ProgressText">PROGRESS: 0%</p>
             <p>&gt; initializing project...</p>
             <p>&gt; objective: build a food system for people with chronic illnesses</p>
             <p>&gt; mode_1: CARE_MODE</p>
@@ -135,9 +148,12 @@
           <div id="mission02Detail" class="mission-card mission-detail" hidden>
             <h2>MISSION: NUTRI_TRACE</h2>
             <p class="status">STATUS: UNLOCKED</p>
+            <div class="mission-progress"><div id="mission02Progress" class="mission-progress-fill"></div></div>
+            <p id="mission02ProgressText">PROGRESS: 0%</p>
             <p>&gt; boot sequence complete...</p>
             <p>&gt; objective: help users trace nutrition impact over time</p>
             <p>&gt; mission arc: meal logs -&gt; symptom tags -&gt; trend map</p>
+            <p>&gt; required mode: SHOOTER</p>
             <p>&gt; player reward: clearer feedback loops, fewer random guesses</p>
             <p class="mission-highlight">&gt; system intent: turn food decisions into measurable signals</p>
           </div>
@@ -145,47 +161,52 @@
           <div id="mission03Detail" class="mission-card mission-detail" hidden>
             <h2>MISSION: UNKNOWN_SIGNAL</h2>
             <p class="status">STATUS: SCOUTING</p>
+            <div class="mission-progress"><div id="mission03Progress" class="mission-progress-fill"></div></div>
+            <p id="mission03ProgressText">PROGRESS: 0%</p>
             <p>&gt; no stable data yet...</p>
             <p>&gt; waiting for new sidequest to be discovered</p>
+            <p>&gt; required mode: SHOOTER</p>
             <p>&gt; future node reserved for your next build story</p>
           </div>
-        </div>
-        <div class="row">
-          <button class="button" onclick="gainXP(10)">[ COMPLETE +10 XP ]</button>
-          <button class="button" onclick="goBack()">[ BACK ]</button>
-        </div>
-      </section>
-
-      <section id="inventory" class="screen section">
-        <h2>INVENTORY</h2>
-        <div class="panel">
-          <p>Tools, skills, experiments, and random sidequests.</p>
-          <div id="gems" class="gems" hidden>💎 SECRET GEMS UNLOCKED</div>
-        </div>
-        <div class="row">
-          <button class="button" onclick="goBack()">[ BACK ]</button>
-        </div>
-      </section>
-
-      <section id="terminal" class="screen section">
-        <h2>TERMINAL</h2>
-        <div class="panel">
-          <div class="terminal-box" aria-live="polite">
-            <p id="terminalLog"></p>
-            <p id="terminalSignal"></p>
-            <p class="success" id="terminalStatus"></p>
-            <p>&gt; email: <span class="highlight" id="contactEmail">gator77@t3jiyami.page</span></p>
-            <p>&gt; status: online</p>
           </div>
-          <div class="row terminal-actions">
-            <button class="button" onclick="copyEmail()">[ COPY EMAIL ]</button>
-            <a class="button link-button" href="mailto:gator77@t3jiyami.page">[ SEND MESSAGE ]</a>
+          <div class="row">
+            <button class="button" onclick="syncMissionMode()">[ SYNC MISSION MODE ]</button>
+            <button class="button" onclick="gainXP(10)">[ COMPLETE +10 XP ]</button>
+            <button class="button" onclick="goBack()">[ BACK ]</button>
           </div>
-        </div>
-        <div class="row">
-          <button class="button" onclick="goBack()">[ BACK ]</button>
-        </div>
-      </section>
+        </section>
+
+        <section id="inventory" class="screen section">
+          <h2>INVENTORY</h2>
+          <div class="panel" data-title="INVENTORY">
+            <p>Tools, skills, experiments, and random sidequests.</p>
+            <div id="gems" class="gems" hidden>💎 SECRET GEMS UNLOCKED</div>
+          </div>
+          <div class="row">
+            <button class="button" onclick="goBack()">[ BACK ]</button>
+          </div>
+        </section>
+
+        <section id="terminal" class="screen section">
+          <h2>TERMINAL</h2>
+          <div class="panel" data-title="TERMINAL">
+            <div class="terminal-box" aria-live="polite">
+              <p id="terminalLog"></p>
+              <p id="terminalSignal"></p>
+              <p class="success" id="terminalStatus"></p>
+              <p>&gt; email: <span class="highlight" id="contactEmail">gator77@t3jiyami.page</span></p>
+              <p>&gt; status: online</p>
+            </div>
+            <div class="row terminal-actions">
+              <button class="button" onclick="copyEmail()">[ COPY EMAIL ]</button>
+              <a class="button link-button" href="mailto:gator77@t3jiyami.page">[ SEND MESSAGE ]</a>
+            </div>
+          </div>
+          <div class="row">
+            <button class="button" onclick="goBack()">[ BACK ]</button>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
   <script src="script.js"></script>

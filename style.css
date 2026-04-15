@@ -16,8 +16,7 @@ html,
 body {
   margin: 0;
   width: 100%;
-  height: 100%;
-  overflow-y: hidden;
+  min-height: 100%;
   overflow-x: hidden;
 }
 
@@ -46,8 +45,8 @@ body::after {
 
 .viewport {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   border: 2px solid var(--purple);
   overflow: hidden;
   box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--cyan);
@@ -57,16 +56,15 @@ body::after {
 .app-container {
   position: relative;
   max-width: 1200px;
-  height: 100%;
   margin: 0 auto;
   padding: 20px;
   z-index: 2;
 }
 
 #gameCanvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   opacity: 0.22;
   pointer-events: none;
 }
@@ -110,13 +108,9 @@ body::after {
 }
 
 .player-hud {
-  position: absolute;
-  top: 76px;
-  left: 20px;
-  z-index: 4;
-  width: 260px;
-  border-color: var(--green);
-  color: var(--green);
+  position: relative;
+  width: 100%;
+  max-width: 280px;
   padding: 12px;
 }
 
@@ -228,13 +222,10 @@ body::after {
 }
 
 .top-nav {
-  position: absolute;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  right: 0;
+  z-index: 2;
   border-bottom: 2px solid var(--cyan);
   background: var(--bg-main);
+  margin-top: 0;
 }
 
 .nav-track {
@@ -296,9 +287,9 @@ body::after {
 .screen {
   display: none;
   width: 100%;
-  height: 100%;
-  padding: 172px 16px 24px 286px;
-  background: rgba(15, 11, 26, 0.88);
+  height: auto;
+  padding: 0;
+  background: transparent;
   position: relative;
   z-index: 2;
 }
@@ -306,6 +297,10 @@ body::after {
 .screen.active {
   display: block;
   animation: bootIn 0.24s steps(4, end);
+}
+
+.screen.section-glitch {
+  animation: screenGlitch 0.32s steps(3, end);
 }
 
 @keyframes bootIn {
@@ -319,6 +314,13 @@ body::after {
   }
 }
 
+@keyframes screenGlitch {
+  0% { filter: none; transform: translateX(0); }
+  25% { filter: hue-rotate(25deg); transform: translateX(3px); }
+  50% { filter: hue-rotate(-25deg); transform: translateX(-3px); }
+  100% { filter: none; transform: translateX(0); }
+}
+
 h1,
 h2 {
   color: var(--pink);
@@ -329,6 +331,16 @@ h2 {
 p {
   line-height: 1.7;
   font-size: 12px;
+  margin: 0 0 8px;
+}
+
+ul {
+  margin: 10px 0 12px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
 }
 
 .hint {
@@ -347,24 +359,61 @@ p {
 .panel {
   border: 2px solid var(--cyan);
   background: var(--bg-main);
-  padding: 16px;
-  box-shadow: 4px 4px 0 var(--purple);
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+  box-shadow: 0 0 8px var(--cyan), 4px 4px 0 var(--purple);
 }
 
-.profile-grid {
+.panel::before {
+  content: attr(data-title);
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background: var(--bg-main);
+  padding: 0 8px;
+  color: var(--pink);
+  font-size: 10px;
+}
+
+.panel.active {
+  border-color: var(--pink);
+}
+
+.hud-panel {
+  margin-top: 0;
+  width: 100%;
+  max-width: 280px;
+  border-color: var(--green);
+  color: var(--green);
+  z-index: 2;
+}
+
+.char-grid {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 120px 1fr;
   gap: 20px;
   align-items: start;
 }
 
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  margin: 0;
+}
+
 .avatar {
-  width: 140px;
-  height: 140px;
+  width: 100px;
+  height: 100px;
   border: 2px solid var(--pink);
   object-fit: cover;
   background: var(--bg-secondary);
   box-shadow: 4px 4px 0 var(--cyan);
+  image-rendering: pixelated;
 }
 
 .row {
@@ -423,6 +472,17 @@ p {
   color: inherit;
 }
 
+.mission-meta {
+  color: var(--yellow);
+  margin-bottom: 10px;
+}
+
+.mission-difficulty {
+  display: inline-block;
+  color: var(--purple);
+  margin-bottom: 8px;
+}
+
 .mission-node:hover {
   background: var(--cyan);
   color: var(--bg-main);
@@ -449,6 +509,16 @@ p {
   transform: scale(0.95);
 }
 
+.mission-node.unlocked-flash {
+  animation: unlockedPulse 0.8s steps(4, end) 1;
+}
+
+@keyframes unlockedPulse {
+  0% { box-shadow: 0 0 0 transparent; }
+  50% { box-shadow: 0 0 16px var(--green); border-color: var(--green); }
+  100% { box-shadow: 0 0 0 transparent; }
+}
+
 .mission-card {
   border: 2px solid var(--cyan);
   padding: 20px;
@@ -471,6 +541,20 @@ p {
 
 .mission-detail {
   margin-top: 20px;
+}
+
+.mission-progress {
+  height: 14px;
+  border: 2px solid var(--cyan);
+  background: var(--bg-secondary);
+  margin: 10px 0 8px;
+}
+
+.mission-progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  transition: width 0.24s ease-out;
 }
 
 .terminal-box {
@@ -521,23 +605,17 @@ p {
 }
 
 @media (max-width: 980px) {
-  .screen {
-    padding: 182px 16px 16px 16px;
+  .hud-panel {
+    max-width: 100%;
   }
 
-  .player-hud {
-    position: static;
-    width: auto;
-    margin: 84px 16px 0;
-  }
-
-  .profile-grid {
+  .char-grid {
     grid-template-columns: 1fr;
   }
 
   .avatar {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
   .status-strip {
@@ -553,6 +631,10 @@ p {
   .container,
   .app-container {
     padding: 12px;
+  }
+
+  .navbar {
+    justify-content: center;
   }
 }
 
