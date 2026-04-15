@@ -16,6 +16,7 @@ let highScore = Number(localStorage.getItem("highScore") || 0);
 let scoreTick = 0;
 const contactEmail = "gator77@t3jiyami.page";
 let terminalSequenceToken = 0;
+let selectedMission = "kenkoDetail";
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -61,10 +62,7 @@ function checkUnlock() {
   if (gems) {
     gems.hidden = highScore <= 50;
   }
-  const kenko = document.getElementById("kenko");
-  if (kenko) {
-    kenko.hidden = player.xp <= 50;
-  }
+  updateMissionUnlocks();
 }
 
 function setActiveNav(id) {
@@ -89,6 +87,13 @@ function openSection(id, pushHistory = true) {
   target.classList.add("active");
   currentSection = id;
   setActiveNav(id);
+  if (id === "projects") {
+    updateMissionUnlocks();
+    if (selectedMission === "mission02Detail" && player.xp < 150) {
+      selectedMission = "kenkoDetail";
+    }
+    openMission(selectedMission);
+  }
   if (id === "terminal") {
     playTerminalSequence();
   }
@@ -158,6 +163,47 @@ function loadSavedAvatar() {
       localStorage.setItem("avatar", result);
     };
     reader.readAsDataURL(file);
+  });
+}
+
+function updateMissionUnlocks() {
+  const missionTwoCard = document.getElementById("mission02Card");
+  if (!missionTwoCard) {
+    return;
+  }
+  const missionTwoTitle = missionTwoCard.querySelector(".mission-node-title");
+  const missionTwoStatus = missionTwoCard.querySelector(".mission-node-status");
+  const isUnlocked = player.xp >= 150;
+
+  missionTwoCard.classList.toggle("locked", !isUnlocked);
+  if (missionTwoTitle) {
+    missionTwoTitle.textContent = isUnlocked ? "NUTRI_TRACE" : "LOCKED";
+  }
+  if (missionTwoStatus) {
+    missionTwoStatus.textContent = isUnlocked ? "STATUS: UNLOCKED" : "REQUIRES XP 150";
+  }
+}
+
+function openMission(id) {
+  const target = document.getElementById(id);
+  if (!target) {
+    return;
+  }
+
+  const selectedCard = document.querySelector(`.mission-node[data-mission="${id}"]`);
+  if (selectedCard && selectedCard.classList.contains("locked")) {
+    alert("MISSION LOCKED. GAIN MORE XP.");
+    return;
+  }
+
+  document.querySelectorAll(".mission-detail").forEach((panel) => {
+    panel.hidden = true;
+  });
+  target.hidden = false;
+  selectedMission = id;
+
+  document.querySelectorAll(".mission-node").forEach((card) => {
+    card.classList.toggle("active", card.dataset.mission === id && !card.classList.contains("locked"));
   });
 }
 
@@ -327,6 +373,7 @@ window.toggleMode = toggleMode;
 window.gainXP = gainXP;
 window.changeAvatar = changeAvatar;
 window.copyEmail = copyEmail;
+window.openMission = openMission;
 
 resizeCanvas();
 loadSavedAvatar();

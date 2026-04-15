@@ -88,7 +88,25 @@
       <section id="projects" class="screen">
         <h2>MISSIONS</h2>
         <div class="panel">
-          <div id="kenko" class="mission-card" hidden>
+          <div class="mission-grid">
+            <div class="mission-node active" data-mission="kenkoDetail" onclick="openMission('kenkoDetail')">
+              <p>MISSION_01</p>
+              <h3>KENKO_AAHARA</h3>
+              <span>STATUS: IDEATION</span>
+            </div>
+            <div id="mission02Card" class="mission-node locked" data-mission="mission02Detail" onclick="openMission('mission02Detail')">
+              <p>MISSION_02</p>
+              <h3 class="mission-node-title">LOCKED</h3>
+              <span class="mission-node-status">REQUIRES XP 150</span>
+            </div>
+            <div class="mission-node" data-mission="mission03Detail" onclick="openMission('mission03Detail')">
+              <p>MISSION_03</p>
+              <h3>COMING_SOON</h3>
+              <span>???</span>
+            </div>
+          </div>
+
+          <div id="kenkoDetail" class="mission-card mission-detail">
             <h2>MISSION: KENKO_AAHARA</h2>
             <p class="status">STATUS: IDEATION</p>
             <p>&gt; initializing project...</p>
@@ -105,6 +123,24 @@
             <p>&gt; problem detected: decision fatigue in patients</p>
             <p>&gt; system response: automate nutrition</p>
             <p>&gt; build status: experimental</p>
+          </div>
+
+          <div id="mission02Detail" class="mission-card mission-detail" hidden>
+            <h2>MISSION: NUTRI_TRACE</h2>
+            <p class="status">STATUS: UNLOCKED</p>
+            <p>&gt; boot sequence complete...</p>
+            <p>&gt; objective: help users trace nutrition impact over time</p>
+            <p>&gt; mission arc: meal logs -&gt; symptom tags -&gt; trend map</p>
+            <p>&gt; player reward: clearer feedback loops, fewer random guesses</p>
+            <p class="mission-highlight">&gt; system intent: turn food decisions into measurable signals</p>
+          </div>
+
+          <div id="mission03Detail" class="mission-card mission-detail" hidden>
+            <h2>MISSION: UNKNOWN_SIGNAL</h2>
+            <p class="status">STATUS: SCOUTING</p>
+            <p>&gt; no stable data yet...</p>
+            <p>&gt; waiting for new sidequest to be discovered</p>
+            <p>&gt; future node reserved for your next build story</p>
           </div>
         </div>
         <div class="row">
