@@ -53,12 +53,14 @@ body::after {
   box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--cyan);
 }
 
-.container {
+.container,
+.app-container {
   position: relative;
-  max-width: 1100px;
+  max-width: 1200px;
   height: 100%;
   margin: 0 auto;
   padding: 20px;
+  z-index: 2;
 }
 
 #gameCanvas {
@@ -69,23 +71,41 @@ body::after {
   pointer-events: none;
 }
 
-.watermark {
-  position: absolute;
-  top: 46%;
-  left: -480px;
-  z-index: 1;
-  color: rgba(255, 75, 129, 0.24);
-  font-size: 34px;
-  white-space: nowrap;
-  animation: roll 11s linear infinite;
+.bg-watermark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+  transform: rotate(-30deg) translate(-20%, -20%);
 }
 
-@keyframes roll {
+.wm-line {
+  margin: 18px 0;
+  font-size: 24px;
+  white-space: nowrap;
+  line-height: 1.4;
+  animation: scrollText 24s linear infinite;
+}
+
+.wm-cyan {
+  color: var(--cyan);
+}
+
+.wm-pink {
+  color: var(--pink);
+  animation-duration: 28s;
+}
+
+@keyframes scrollText {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(180vw);
+    transform: translateX(-50%);
   }
 }
 
@@ -253,6 +273,16 @@ body::after {
   align-items: center;
 }
 
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.navbar button {
+  padding: 8px 12px;
+}
+
 .nav-btn.active-nav {
   background: var(--pink);
   color: var(--bg-main);
@@ -293,6 +323,7 @@ h1,
 h2 {
   color: var(--pink);
   line-height: 1.4;
+  margin: 0 0 15px;
 }
 
 p {
@@ -421,7 +452,7 @@ p {
 .mission-card {
   border: 2px solid var(--cyan);
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
   background: var(--bg-main);
   color: var(--cyan);
 }
@@ -519,7 +550,8 @@ p {
 }
 
 @media (max-width: 768px) {
-  .container {
+  .container,
+  .app-container {
     padding: 12px;
   }
 }

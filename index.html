@@ -13,7 +13,14 @@
 <body>
   <main class="viewport">
     <canvas id="gameCanvas" aria-hidden="true"></canvas>
-    <div class="watermark" aria-hidden="true">T3JIYAMI • T3JIYAMI • T3JIYAMI</div>
+    <div class="bg-watermark" aria-hidden="true">
+      <p class="wm-line wm-cyan">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+      <p class="wm-line wm-pink">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+      <p class="wm-line wm-cyan">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+      <p class="wm-line wm-pink">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+      <p class="wm-line wm-cyan">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+      <p class="wm-line wm-pink">ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH ASHISH</p>
+    </div>
 
     <div class="abstract-art" aria-hidden="true">
       <span class="art-block b1"></span>
@@ -26,7 +33,7 @@
       <span class="art-block b8"></span>
     </div>
 
-    <div class="container">
+    <div class="container app-container">
       <aside class="player-hud panel">
         <p id="hudPlayer">PLAYER: ASHISH</p>
         <p id="hudLvl">LVL: 2</p>
@@ -39,7 +46,7 @@
 
       <nav class="top-nav">
         <div class="nav-track"></div>
-        <div class="nav-buttons">
+        <div class="nav-buttons navbar">
           <button class="button nav-btn" onclick="goBack()">[ BACK ]</button>
           <button class="button nav-btn" data-target="start" onclick="navigateTo('start')">[ START ]</button>
           <button class="button nav-btn" data-target="profile" onclick="navigateTo('profile')">[ CHARACTER ]</button>
@@ -50,14 +57,14 @@
         </div>
       </nav>
 
-      <section id="start" class="screen active">
+      <section id="start" class="screen section active">
         <h1>ASHISH.EXE</h1>
         <p>retro system booting...</p>
         <button class="button" onclick="startGame()">[ START ]</button>
         <p class="hint">CURRENT QUEST: consistency.exe</p>
       </section>
 
-      <section id="profile" class="screen">
+      <section id="profile" class="screen section">
         <header class="status-strip">
           <span>LAZY MODE: ACTIVE</span>
           <span>BUGS: FEATURED</span>
@@ -85,7 +92,7 @@
         </div>
       </section>
 
-      <section id="projects" class="screen">
+      <section id="projects" class="screen section">
         <h2>MISSIONS</h2>
         <div class="panel">
           <div class="mission-grid">
@@ -149,7 +156,7 @@
         </div>
       </section>
 
-      <section id="inventory" class="screen">
+      <section id="inventory" class="screen section">
         <h2>INVENTORY</h2>
         <div class="panel">
           <p>Tools, skills, experiments, and random sidequests.</p>
@@ -160,7 +167,7 @@
         </div>
       </section>
 
-      <section id="terminal" class="screen">
+      <section id="terminal" class="screen section">
         <h2>TERMINAL</h2>
         <div class="panel">
           <div class="terminal-box" aria-live="polite">
