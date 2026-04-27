@@ -65,12 +65,23 @@ async function startBootSequence() {
   
   console.log("Starting cinematic boot...");
 
+  // Hard Fail-safe: If boot takes > 20s, force enter the website
+  const failSafe = setTimeout(() => {
+    if (!bootComplete) {
+      console.warn("Boot timeout: force entering site.");
+      initMainUIAfterBoot();
+    }
+  }, 20000);
+  bootTimeouts.push(failSafe);
+
   // Phase 1: SIGNAL DETECTED (3s with visible timer)
   showScreen("power-on");
   if (window.playBeep) window.playBeep();
   
   const timerEl = document.getElementById("boot-timer");
   let timeLeft = 3;
+  if (timerEl) timerEl.textContent = `INITIALIZING IN ${timeLeft}s...`;
+  
   const timerInterval = setInterval(() => {
     timeLeft--;
     if (timerEl) timerEl.textContent = `INITIALIZING IN ${timeLeft}s...`;
@@ -81,20 +92,25 @@ async function startBootSequence() {
   bootTimeouts.push(timerInterval);
 
   bootTimeouts.push(setTimeout(() => {
-    if (bootSkipped) return;
+    if (bootSkipped || bootComplete) return;
     // Phase 2: UEFI INITIALIZATION (3s)
     showScreen("diagnostics");
     diagnosticsSequence();
-  }, 3000));
+  }, 3500)); // 3.5s to allow for the 3s timer + small transition
 
   // Phase 3: BOOTLOADER MENU (Auto-confirm after 5s)
+  // We'll calculate the delay based on the diagnostics length
+  // Diagnostics has 5 lines, each 400ms = 2s total. 
+  // So Phase 3 starts around 3.5s + 2s + 0.5s buffer = 6s
   bootTimeouts.push(setTimeout(() => {
-    if (bootSkipped) return;
+    if (bootSkipped || bootComplete) return;
     showScreen("bios");
     updateBiosMenuDisplay();
     
     const autoBootEl = document.getElementById("auto-boot-text");
     let autoTimeLeft = 5;
+    if (autoBootEl) autoBootEl.textContent = `Auto-boot in ${autoTimeLeft}s...`;
+
     const autoBootInterval = setInterval(() => {
       autoTimeLeft--;
       if (autoBootEl) autoBootEl.textContent = `Auto-boot in ${autoTimeLeft}s...`;
@@ -108,8 +124,8 @@ async function startBootSequence() {
       if (!bootComplete && !bootSkipped) {
         biosMenuConfirm();
       }
-    }, 5000));
-  }, 7500));
+    }, 5500));
+  }, 7000));
 }
 
 async function diagnosticsSequence() {
