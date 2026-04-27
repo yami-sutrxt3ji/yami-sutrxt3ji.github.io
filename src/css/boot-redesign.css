@@ -483,3 +483,105 @@
     min-height: 80px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* KEYFRAME ANIMATIONS - Boot Sequence Effects */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes powerOnFlash {
+  0% {
+    opacity: 0;
+    background: #00ff00;
+  }
+  30% {
+    background: #00ff00;
+  }
+  100% {
+    opacity: 1;
+    background: var(--stage1-bg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes diagnosticsScroll {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes diskSeekBeam {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes progressPulse {
+  0% {
+    width: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    opacity: 0.8;
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 255, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes typeWriter {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
