@@ -8,6 +8,59 @@ const historyStack = [];
 let bootComplete = false;
 let biosMenuIndex = 0;
 let bootInProgress = false;
+let bootSkipped = false;
+
+/* ═════════════════════════════════════════ */
+/* WEB AUDIO API - SOUND EFFECTS */
+/* ═════════════════════════════════════════ */
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const soundEnabled = localStorage.getItem("soundEnabled") !== "false";
+
+function playTone(frequency, duration = 100, type = "sine", volume = 0.1) {
+  if (!soundEnabled || audioContext.state === "suspended") return;
+  
+  const now = audioContext.currentTime;
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  
+  osc.frequency.value = frequency;
+  osc.type = type;
+  
+  gain.gain.setValueAtTime(volume, now);
+  gain.gain.exponentialRampToValueAtTime(0.01, now + duration / 1000);
+  
+  osc.start(now);
+  osc.stop(now + duration / 1000);
+}
+
+function playBeep() { playTone(800, 80, "sine", 0.08); }
+function playSelect() { playTone(600, 120, "sine", 0.1); }
+function playDiskSeek() { playTone(400, 60, "square", 0.06); }
+function playLoad() { playTone(1200, 150, "sine", 0.08); }
+function playSuccess() { 
+  playTone(800, 100, "sine", 0.08);
+  setTimeout(() => playTone(1000, 100, "sine", 0.08), 120);
+}
+
+/* ═════════════════════════════════════════ */
+/* BOOT STATE PERSISTENCE */
+/* ═════════════════════════════════════════ */
+function hasBootedBefore() {
+  return localStorage.getItem("bootCompleted") === "true";
+}
+
+function markBootAsCompleted() {
+  localStorage.setItem("bootCompleted", "true");
+  localStorage.setItem("lastBootTime", new Date().toISOString());
+}
+
+function resetBootState() {
+  localStorage.removeItem("bootCompleted");
+  localStorage.removeItem("lastBootTime");
+}
 
 const player = {
   name: "ASHISH",
@@ -41,16 +94,19 @@ const missionUnlockState = {
 function biosMenuUp() {
   biosMenuIndex = (biosMenuIndex - 1 + 3) % 3;
   updateBiosMenuDisplay();
+  playBeep();
 }
 
 function biosMenuDown() {
   biosMenuIndex = (biosMenuIndex + 1) % 3;
   updateBiosMenuDisplay();
+  playBeep();
 }
 
 function biosMenuConfirm() {
   if (bootInProgress) return;
   bootInProgress = true;
+  playSelect();
   startBootSequence();
 }
 
@@ -95,11 +151,15 @@ async function playDiskLoadingSequence() {
     progress += Math.random() * 15 + 5;
     if (progress > 100) progress = 100;
     
+    // Play disk seek sounds during loading
+    if (progress % 20 < 5) playDiskSeek();
+    
     if (progressFill) progressFill.style.width = progress + "%";
     if (progressText) progressText.textContent = `PROGRESS: ${Math.floor(progress)}%`;
     
     if (progress >= 100) {
       clearInterval(interval);
+      playLoad();
       setTimeout(() => {
         playAsciiReveal();
       }, 500);
@@ -110,6 +170,7 @@ async function playDiskLoadingSequence() {
     await new Promise(resolve => setTimeout(resolve, 300 + i * 400));
     if (logElements[i]) {
       logElements[i].textContent = logLines[i] || "";
+      playDiskSeek();
     }
   }
 }
@@ -124,6 +185,8 @@ async function playAsciiReveal() {
   loadingScreen.classList.remove("active");
   bannerScreen.classList.add("active");
   
+  playSuccess();
+  
   const bannerLines = document.querySelectorAll(".banner-line");
   const bannerMessages = [
     "ASHISH.EXE LOADED",
@@ -135,6 +198,7 @@ async function playAsciiReveal() {
   for (let i = 0; i < bannerLines.length; i++) {
     await new Promise(resolve => setTimeout(resolve, 600));
     await typeText(bannerLines[i], bannerMessages[i], 15);
+    playBeep();
   }
   
   await new Promise(resolve => setTimeout(resolve, 1500));
@@ -151,6 +215,8 @@ async function playAsciiReveal() {
 
 function initMainUIAfterBoot() {
   bootComplete = true;
+  markBootAsCompleted();
+  updateSoundToggle();
   const startScreen = document.getElementById("start");
   if (startScreen) {
     startScreen.classList.add("active");
@@ -164,6 +230,19 @@ function initMainUIAfterBoot() {
 /* ═════════════════════════════════════════ */
 /* END BOOT SEQUENCE */
 /* ═════════════════════════════════════════ */
+
+function toggleSound() {
+  const newState = soundEnabled ? "false" : "true";
+  localStorage.setItem("soundEnabled", newState);
+  location.reload();
+}
+
+function updateSoundToggle() {
+  const btn = document.getElementById("soundToggle");
+  if (btn) {
+    btn.textContent = soundEnabled ? "[ 🔊 ON ]" : "[ 🔇 OFF ]";
+  }
+}
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -634,8 +713,63 @@ window.biosMenuConfirm = biosMenuConfirm;
 
 loadSavedAvatar();
 
+/* ═════════════════════════════════════════ */
+/* BOOT SKIP LOGIC - CHECK IF ALREADY BOOTED */
+/* ═════════════════════════════════════════ */
+if (hasBootedBefore()) {
+  // Skip boot sequence for returning visitors
+  bootInProgress = true;
+  
+  // Hide all boot screens instantly
+  const biosScreen = document.getElementById("bios");
+  const loadingScreen = document.getElementById("disk-loading");
+  const bannerScreen = document.getElementById("ascii-banner");
+  
+  if (biosScreen) biosScreen.classList.remove("active");
+  if (loadingScreen) loadingScreen.classList.remove("active");
+  if (bannerScreen) bannerScreen.classList.remove("active");
+  
+  // Show main UI
+  const mainStack = document.getElementById("main-ui-stack");
+  if (mainStack) mainStack.classList.add("active");
+  
+  // Initialize after 1s for smooth appearance
+  setTimeout(() => {
+    initMainUIAfterBoot();
+  }, 1000);
+}
+
 /* KEYBOARD LISTENERS FOR BIOS NAVIGATION */
 document.addEventListener("keydown", (event) => {
+  // ESC key can also skip boot (and toggle sound)
+  if (event.key === "Escape") {
+    event.preventDefault();
+    if (!bootComplete && !bootInProgress) {
+      // Instant skip to main UI
+      bootInProgress = true;
+      const biosScreen = document.getElementById("bios");
+      const loadingScreen = document.getElementById("disk-loading");
+      const bannerScreen = document.getElementById("ascii-banner");
+      const mainStack = document.getElementById("main-ui-stack");
+      
+      if (biosScreen) biosScreen.classList.remove("active");
+      if (loadingScreen) loadingScreen.classList.remove("active");
+      if (bannerScreen) bannerScreen.classList.remove("active");
+      if (mainStack) mainStack.classList.add("active");
+      
+      markBootAsCompleted();
+      bootSkipped = true;
+      setTimeout(() => {
+        initMainUIAfterBoot();
+      }, 300);
+    } else if (bootComplete) {
+      // Toggle sound when boot is complete
+      const newSoundState = soundEnabled ? "false" : "true";
+      localStorage.setItem("soundEnabled", newSoundState);
+      console.log("🔊 Sound:", newSoundState === "false" ? "OFF" : "ON");
+    }
+  }
+  
   if (!bootComplete && !bootInProgress) {
     if (event.key === "ArrowUp") {
       event.preventDefault();
@@ -656,6 +790,7 @@ updateBiosMenuDisplay();
 
 /* START BOOT SEQUENCE (will initialize main UI when complete) */
 console.log("Boot sequence starting...");
+console.log("💡 Tip: Press ESC to skip boot or toggle sound");
 
 document.querySelectorAll("button").forEach((button) => {
   button.addEventListener("click", () => {
