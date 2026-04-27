@@ -185,11 +185,11 @@ async function playDiskLoadingSequence() {
   }
   
   const logLines = [
-    "> Mounting /dev/self...",
-    "> Reading partition: /dev/ideas1",
-    "> Scanning sectors: building personality traits...",
-    "> Loading passion modules...",
-    "> Compiling core identity..."
+    "Initializing UEFI firmware...",
+    "Loading kernel: ashish_profile.efi",
+    "Mounting /dev/self partition",
+    "Reading user modules...",
+    "Starting interface manager..."
   ];
   
   const progressFill = document.querySelector(".progress-fill");
@@ -230,7 +230,8 @@ async function playDiskLoadingSequence() {
 async function playAsciiReveal() {
   const loadingScreen = document.getElementById("disk-loading");
   const bannerScreen = document.getElementById("ascii-banner");
-  const mainStack = document.getElementById("main-ui-stack");
+  const bootOverlay = document.getElementById("boot-overlay");
+  const mainPortfolio = document.getElementById("main-portfolio");
   
   if (!loadingScreen || !bannerScreen) return;
   
@@ -242,7 +243,7 @@ async function playAsciiReveal() {
   const bannerLines = document.querySelectorAll(".banner-line");
   const bannerMessages = [
     "ASHISH.EXE LOADED",
-    "Traits enumerated.",
+    "System integrity verified.",
     "Ready for interaction.",
     "> Transitioning to main interface..."
   ];
@@ -255,9 +256,12 @@ async function playAsciiReveal() {
   
   await new Promise(resolve => setTimeout(resolve, 1500));
   
-  bannerScreen.classList.remove("active");
-  if (mainStack) {
-    mainStack.classList.add("active");
+  // Fade out boot overlay, fade in main portfolio
+  if (bootOverlay) {
+    bootOverlay.classList.remove("active");
+  }
+  if (mainPortfolio) {
+    mainPortfolio.classList.add("active");
   }
   
   setTimeout(() => {
@@ -269,14 +273,18 @@ function initMainUIAfterBoot() {
   bootComplete = true;
   markBootAsCompleted();
   updateSoundToggle();
-  const startScreen = document.getElementById("start");
-  if (startScreen) {
-    startScreen.classList.add("active");
+  
+  // Hide boot overlay completely
+  const bootOverlay = document.getElementById("boot-overlay");
+  if (bootOverlay) {
+    bootOverlay.style.display = "none";
   }
-  setActiveNav("start");
-  updateHUD();
-  resizeCanvas();
-  gameLoop();
+  
+  // Make sure main portfolio is visible
+  const mainPortfolio = document.getElementById("main-portfolio");
+  if (mainPortfolio) {
+    mainPortfolio.classList.add("active");
+  }
 }
 
 /* ═════════════════════════════════════════ */
@@ -749,6 +757,24 @@ document.addEventListener("mousemove", (event) => {
 
 window.addEventListener("resize", resizeCanvas);
 
+/* ═════════════════════════════════════════ */
+/* PORTFOLIO NAVIGATION FUNCTIONS */
+/* ═════════════════════════════════════════ */
+
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function updateSoundToggle() {
+  const soundToggle = document.getElementById("soundToggle");
+  if (soundToggle) {
+    soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+  }
+}
+
 window.startGame = startGame;
 window.openSection = openSection;
 window.navigateTo = navigateTo;
@@ -762,6 +788,9 @@ window.syncMissionMode = syncMissionMode;
 window.biosMenuUp = biosMenuUp;
 window.biosMenuDown = biosMenuDown;
 window.biosMenuConfirm = biosMenuConfirm;
+window.scrollToSection = scrollToSection;
+window.toggleSound = toggleSound;
+window.updateSoundToggle = updateSoundToggle;
 
 loadSavedAvatar();
 
@@ -772,18 +801,17 @@ if (hasBootedBefore()) {
   // Skip boot sequence for returning visitors
   bootInProgress = true;
   
-  // Hide all boot screens instantly
-  const biosScreen = document.getElementById("bios");
-  const loadingScreen = document.getElementById("disk-loading");
-  const bannerScreen = document.getElementById("ascii-banner");
+  // Hide boot overlay
+  const bootOverlay = document.getElementById("boot-overlay");
+  if (bootOverlay) {
+    bootOverlay.classList.remove("active");
+  }
   
-  if (biosScreen) biosScreen.classList.remove("active");
-  if (loadingScreen) loadingScreen.classList.remove("active");
-  if (bannerScreen) bannerScreen.classList.remove("active");
-  
-  // Show main UI
-  const mainStack = document.getElementById("main-ui-stack");
-  if (mainStack) mainStack.classList.add("active");
+  // Show main portfolio
+  const mainPortfolio = document.getElementById("main-portfolio");
+  if (mainPortfolio) {
+    mainPortfolio.classList.add("active");
+  }
   
   // Initialize after 1s for smooth appearance
   setTimeout(() => {
@@ -799,15 +827,16 @@ document.addEventListener("keydown", (event) => {
     if (!bootComplete && !bootInProgress) {
       // Instant skip to main UI
       bootInProgress = true;
-      const biosScreen = document.getElementById("bios");
-      const loadingScreen = document.getElementById("disk-loading");
-      const bannerScreen = document.getElementById("ascii-banner");
-      const mainStack = document.getElementById("main-ui-stack");
       
-      if (biosScreen) biosScreen.classList.remove("active");
-      if (loadingScreen) loadingScreen.classList.remove("active");
-      if (bannerScreen) bannerScreen.classList.remove("active");
-      if (mainStack) mainStack.classList.add("active");
+      const bootOverlay = document.getElementById("boot-overlay");
+      if (bootOverlay) {
+        bootOverlay.classList.remove("active");
+      }
+      
+      const mainPortfolio = document.getElementById("main-portfolio");
+      if (mainPortfolio) {
+        mainPortfolio.classList.add("active");
+      }
       
       markBootAsCompleted();
       bootSkipped = true;

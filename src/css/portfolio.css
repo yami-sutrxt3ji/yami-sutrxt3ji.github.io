@@ -1,0 +1,610 @@
+/* ═══════════════════════════════════════════════════════════════ */
+/* PORTFOLIO INTERFACE - Clean, Modern Retro Design */
+/* ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Main Portfolio Palette */
+  --portfolio-bg: #070711;
+  --portfolio-panel: #0f1020;
+  --portfolio-border: #00e5ff;
+  --portfolio-accent: #ff4b81;
+  --portfolio-secondary: #7b61ff;
+  --portfolio-success: #8cff98;
+  --portfolio-text: #a8b3c7;
+  --portfolio-text-bright: #d9e2ec;
+  --portfolio-warning: #ffbf47;
+  --portfolio-error: #ff4d4d;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* MAIN PORTFOLIO CONTAINER */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.main-portfolio {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--portfolio-bg);
+  color: var(--portfolio-text);
+  font-family: "IBM Plex Mono", monospace;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-portfolio.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* NAVIGATION BAR */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.navbar {
+  background: var(--portfolio-panel);
+  border-bottom: 2px solid var(--portfolio-border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-family: "Silkscreen", monospace;
+  font-size: 1.5rem;
+  color: var(--portfolio-border);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu a {
+  color: var(--portfolio-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.navbar-menu a:hover {
+  color: var(--portfolio-border);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.navbar-btn {
+  background: none;
+  border: 2px solid var(--portfolio-border);
+  color: var(--portfolio-border);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.navbar-btn:hover {
+  background: rgba(0, 229, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* SECTION CONTAINER & LAYOUT */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  width: 100%;
+}
+
+.section-title {
+  font-family: "Silkscreen", monospace;
+  font-size: 2rem;
+  color: var(--portfolio-border);
+  margin: 0 0 2rem 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+  border-left: 3px solid var(--portfolio-accent);
+  padding-left: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* HERO SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.hero-section {
+  background: linear-gradient(135deg, rgba(7, 7, 17, 0.9) 0%, rgba(15, 16, 32, 0.6) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  padding: 4rem 2rem;
+}
+
+.hero-container {
+  text-align: center;
+  max-width: 800px;
+}
+
+.hero-title {
+  font-family: "Silkscreen", monospace;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--portfolio-border);
+  margin: 0 0 1rem 0;
+  letter-spacing: 3px;
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--portfolio-secondary);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: var(--portfolio-text);
+  line-height: 1.6;
+  margin: 0 0 3rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  padding: 0.75rem 2rem;
+  border: 2px solid;
+  background: none;
+  font-family: "Silkscreen", monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cta-btn.primary {
+  border-color: var(--portfolio-border);
+  color: var(--portfolio-border);
+}
+
+.cta-btn.primary:hover {
+  background: rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+}
+
+.cta-btn.secondary {
+  border-color: var(--portfolio-accent);
+  color: var(--portfolio-accent);
+}
+
+.cta-btn.secondary:hover {
+  background: rgba(255, 75, 129, 0.2);
+  box-shadow: 0 0 20px rgba(255, 75, 129, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ABOUT SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.about-section {
+  background: var(--portfolio-bg);
+  padding: 3rem 1.5rem;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.about-avatar {
+  width: 120px;
+  height: 120px;
+  border: 2px solid var(--portfolio-border);
+  border-radius: 0;
+  background: var(--portfolio-panel);
+  object-fit: cover;
+}
+
+.about-text h3 {
+  font-family: "Silkscreen", monospace;
+  color: var(--portfolio-border);
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+
+.about-text p {
+  margin: 0 0 1rem 0;
+  line-height: 1.8;
+  color: var(--portfolio-text);
+}
+
+.about-quirk {
+  color: var(--portfolio-secondary);
+  font-style: italic;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--portfolio-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* PROJECTS SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--portfolio-panel);
+  border: 2px solid var(--portfolio-border);
+  padding: 1.5rem;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+.project-card:hover {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+  transform: translateY(-2px);
+  border-color: var(--portfolio-accent);
+}
+
+.project-header {
+  margin-bottom: 1rem;
+}
+
+.project-tag {
+  display: inline-block;
+  background: rgba(0, 229, 255, 0.2);
+  color: var(--portfolio-border);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--portfolio-border);
+}
+
+.project-title {
+  font-family: "Silkscreen", monospace;
+  font-size: 1.25rem;
+  color: var(--portfolio-border);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.project-description {
+  color: var(--portfolio-text);
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.project-status {
+  color: var(--portfolio-secondary);
+  font-size: 0.9rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* SKILLS SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.skill-group {
+  background: var(--portfolio-panel);
+  border-left: 3px solid var(--portfolio-border);
+  padding: 1.5rem;
+}
+
+.skill-category {
+  font-family: "Silkscreen", monospace;
+  color: var(--portfolio-border);
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+}
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-list li {
+  color: var(--portfolio-text);
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.skill-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--portfolio-secondary);
+}
+
+.skill-list li:hover {
+  color: var(--portfolio-border);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* CONTACT SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.contact-content {
+  max-width: 600px;
+}
+
+.contact-intro {
+  font-size: 1.1rem;
+  color: var(--portfolio-text);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.contact-methods {
+  background: var(--portfolio-panel);
+  border: 2px solid var(--portfolio-border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact-label {
+  font-family: "Silkscreen", monospace;
+  color: var(--portfolio-border);
+  min-width: 80px;
+  font-size: 0.9rem;
+}
+
+.contact-value {
+  color: var(--portfolio-text);
+  background: rgba(0, 229, 255, 0.05);
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 2px;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.contact-link {
+  color: var(--portfolio-secondary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--portfolio-secondary);
+  transition: all 0.3s;
+}
+
+.contact-link:hover {
+  color: var(--portfolio-border);
+  border-bottom-color: var(--portfolio-border);
+}
+
+.contact-btn {
+  padding: 0.4rem 0.8rem;
+  background: none;
+  border: 1px solid var(--portfolio-secondary);
+  color: var(--portfolio-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 1px;
+}
+
+.contact-btn:hover {
+  background: rgba(123, 97, 255, 0.2);
+  border-color: var(--portfolio-border);
+  color: var(--portfolio-border);
+}
+
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* FOOTER */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.footer {
+  background: var(--portfolio-panel);
+  border-top: 2px solid var(--portfolio-border);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--portfolio-text);
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ANIMATIONS */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ACCESSIBILITY */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* RESPONSIVE DESIGN */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    gap: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .section-container {
+    padding: 2rem 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    gap: 1rem;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .about-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-methods {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-menu {
+    gap: 0.5rem;
+  }
+
+  .navbar-menu a {
+    font-size: 0.75rem;
+  }
+
+  .hero-section {
+    min-height: calc(100vh - 50px);
+    padding: 2rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .cta-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .skill-category {
+    font-size: 1rem;
+  }
+}
