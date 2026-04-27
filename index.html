@@ -29,6 +29,7 @@
       <section id="power-on" class="screen boot-screen active">
         <div class="power-text">SIGNAL DETECTED...</div>
         <div class="power-subtext">restoring memory from storage</div>
+        <div class="boot-timer" id="boot-timer">INITIALIZING IN 3s...</div>
       </section>
 
       <!-- STAGE 2: DIAGNOSTICS - Hardware checks -->
@@ -81,6 +82,7 @@
             </div>
           </div>
           <div class="bios-footer">
+            <p id="auto-boot-text">Auto-boot in 5s...</p>
             <p>[Use ↑↓ Arrows or Tap Buttons, Press Enter to Continue]</p>
             <div class="bios-mobile-nav">
               <button class="bios-nav-btn" onclick="biosMenuUp()">[ ↑ ]</button>

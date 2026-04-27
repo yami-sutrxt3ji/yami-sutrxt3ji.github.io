@@ -65,29 +65,51 @@ async function startBootSequence() {
   
   console.log("Starting cinematic boot...");
 
-  // Phase 1: SIGNAL DETECTED (1.5s)
+  // Phase 1: SIGNAL DETECTED (3s with visible timer)
   showScreen("power-on");
   if (window.playBeep) window.playBeep();
   
+  const timerEl = document.getElementById("boot-timer");
+  let timeLeft = 3;
+  const timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timerEl) timerEl.textContent = `INITIALIZING IN ${timeLeft}s...`;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+    }
+  }, 1000);
+  bootTimeouts.push(timerInterval);
+
   bootTimeouts.push(setTimeout(() => {
     if (bootSkipped) return;
     // Phase 2: UEFI INITIALIZATION (3s)
     showScreen("diagnostics");
     diagnosticsSequence();
-  }, 1500));
+  }, 3000));
 
-  // Phase 3: BOOTLOADER MENU (Auto-confirm after 4s)
+  // Phase 3: BOOTLOADER MENU (Auto-confirm after 5s)
   bootTimeouts.push(setTimeout(() => {
     if (bootSkipped) return;
     showScreen("bios");
     updateBiosMenuDisplay();
     
+    const autoBootEl = document.getElementById("auto-boot-text");
+    let autoTimeLeft = 5;
+    const autoBootInterval = setInterval(() => {
+      autoTimeLeft--;
+      if (autoBootEl) autoBootEl.textContent = `Auto-boot in ${autoTimeLeft}s...`;
+      if (autoTimeLeft <= 0) {
+        clearInterval(autoBootInterval);
+      }
+    }, 1000);
+    bootTimeouts.push(autoBootInterval);
+
     bootTimeouts.push(setTimeout(() => {
       if (!bootComplete && !bootSkipped) {
         biosMenuConfirm();
       }
-    }, 4000));
-  }, 4500));
+    }, 5000));
+  }, 7500));
 }
 
 async function diagnosticsSequence() {

@@ -94,6 +94,14 @@
   opacity: 0.6;
 }
 
+.boot-timer {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #ffb000; /* Amber timer */
+  opacity: 0.8;
+  letter-spacing: 2px;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /* SCREEN 2: UEFI - Full terminal logs */
 /* ═══════════════════════════════════════════════════════════════════════════ */
