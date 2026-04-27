@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Initialize quote rotation
-  rotateQuote();
+  if (window.rotateQuote) window.rotateQuote();
 
   // XP on button clicks
   document.querySelectorAll("button").forEach((button) => {

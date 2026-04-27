@@ -412,7 +412,7 @@ function handleTerminalCommand(event) {
       toggleGraveyard();
       break;
     case 'quote':
-      rotateQuote();
+      if (window.rotateQuote) window.rotateQuote();
       output = '> quote\nGenerating wisdom...';
       break;
     case 'help':
