@@ -110,7 +110,10 @@
   background: #050505 !important;
   color: #00ff66;
   font-family: var(--font-boot), monospace;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 5vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .diag-container {
