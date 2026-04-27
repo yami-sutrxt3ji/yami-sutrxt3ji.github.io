@@ -40,8 +40,95 @@
     padding: var(--spacing-md);
   }
 
-  .navbar {
+  /* Hamburger Menu */
+  .nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+  }
+
+  .nav-hamburger span {
+    width: 100%;
+    height: 3px;
+    background: var(--cyan);
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+  }
+
+  .nav-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+
+  .navbar-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70%;
+    background: var(--bg-main);
+    border-left: 2px solid var(--cyan);
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .navbar-menu.active {
+    right: 0;
+  }
+
+  .navbar-menu li {
+    margin: var(--spacing-md) 0;
+  }
+
+  .navbar {
+    justify-content: space-between;
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Stack sections vertically */
+  .about-profile {
+    flex-direction: column;
+  }
+
+  .profile-card {
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .interest-cards {
+    width: 100%;
+  }
+
+  /* Modals full width */
+  .win98-window {
+    width: 95% !important;
+    height: auto !important;
+    max-height: 90vh;
+  }
+
+  /* Reduce font sizes */
+  :root {
+    --fs-xl: 2.5rem;
+    --fs-lg: 1.8rem;
+    --fs-md: 1.2rem;
   }
 
   .mission-grid {

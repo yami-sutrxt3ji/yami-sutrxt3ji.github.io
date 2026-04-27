@@ -8,6 +8,7 @@
   <!-- CSS Modules (Design System) -->
   <link rel="stylesheet" href="src/css/variables.css">
   <link rel="stylesheet" href="src/css/boot-redesign.css">
+  <link rel="stylesheet" href="src/css/animations.css">
   <link rel="stylesheet" href="src/css/portfolio.css">
   <link rel="stylesheet" href="src/css/arcade.css">
   <link rel="stylesheet" href="src/css/responsive.css">
@@ -140,12 +141,18 @@
       <nav class="navbar">
         <div class="navbar-container">
           <div class="navbar-brand">ASHISH.EXE</div>
-          <ul class="navbar-menu">
+          <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="navbar-menu" id="navbarMenu">
             <li><a href="#hero" onclick="scrollToSection('hero')">HOME</a></li>
             <li><a href="#about" onclick="scrollToSection('about')">ABOUT</a></li>
             <li><a href="#projects" onclick="scrollToSection('projects')">PROJECTS</a></li>
             <li><a href="#skills" onclick="scrollToSection('skills')">SKILLS</a></li>
             <li><a href="#contact" onclick="scrollToSection('contact')">CONTACT</a></li>
+            <li><a href="connect.html" class="navbar-btn qr-btn" title="Scan QR / vCard" data-track="click" data-label="qr_button">QR</a></li>
             <li><button class="navbar-btn" id="soundToggle" onclick="toggleSound()" title="ESC to toggle">🔊</button></li>
           </ul>
         </div>
@@ -160,40 +167,45 @@
             Curious about firmware, hardware, and systems. I break things to understand how they work.
           </p>
           <div class="hero-buttons">
-            <button class="cta-btn primary" onclick="scrollToSection('projects')">VIEW PROJECTS</button>
-            <button class="cta-btn secondary" onclick="scrollToSection('contact')">GET IN TOUCH</button>
+            <button class="cta-btn primary" onclick="scrollToSection('projects')" data-track="click" data-label="view_projects">VIEW PROJECTS</button>
+            <button class="cta-btn secondary" onclick="openArcadeApp()" data-track="click" data-label="launch_arcade">LAUNCH ARCADE.EXE</button>
+            <button class="cta-btn secondary" onclick="scrollToSection('contact')" data-track="click" data-label="get_in_touch">GET IN TOUCH</button>
           </div>
         </div>
       </section>
 
-      <!-- ARCADE.EXE WINDOW - Intentional Game Panel -->
-      <section id="arcade-section" class="arcade-section">
-        <div class="arcade-window">
-          <div class="arcade-header">
-            <div class="arcade-title">ARCADE.EXE</div>
-            <div class="arcade-controls">
-              <button class="arcade-btn" onclick="toggleArcadeMode()">[ PONG ]</button>
-              <button class="arcade-btn" onclick="toggleArcadeMode('shooter')">[ SHOOTER ]</button>
-              <button class="arcade-close" onclick="closeArcade()">[ × ]</button>
-            </div>
+    <!-- ARCADE_ARCADE.EXE - Windows 98 Retro Application Window -->
+    <div id="arcadeApp" class="win98-app hidden">
+      <div class="win98-window" id="arcadeWindow">
+        <div class="win98-titlebar" id="arcadeTitlebar">
+          <span class="win98-title">ARCADE.EXE</span>
+          <div class="win98-buttons">
+            <button class="win98-btn minimize" onclick="minimizeArcadeApp()">_</button>
+            <button class="win98-btn close" onclick="closeArcadeApp()">✕</button>
           </div>
-          
+        </div>
+
+        <div class="win98-content arcade-content">
           <div class="arcade-stats">
             <span>SCORE: <span id="arcadeScore">0</span></span>
             <span>HIGH: <span id="arcadeHigh">0</span></span>
-            <span id="arcadeStatus">READY</span>
           </div>
 
           <div class="arcade-canvas-container">
             <canvas id="arcadeCanvas" width="600" height="400" class="arcade-canvas"></canvas>
           </div>
-
-          <div class="arcade-controls-footer">
-            <p id="arcadeInstructions">MOUSE: Move Paddle | CLICK: Start Game | ESC: Close</p>
-            <button class="arcade-btn primary" onclick="startArcadeGame()">[ PLAY NOW ]</button>
-          </div>
         </div>
-      </section>
+
+        <div class="win98-controls">
+          <p id="arcadeInstructions">MOUSE: Move Paddle | CLICK: Start | ESC: Close</p>
+          <button class="win98-btn nav-btn" onclick="startArcadeGame()">PLAY NOW</button>
+        </div>
+
+        <div class="win98-statusbar">
+          <span class="status-text" id="arcadeStatus">READY</span>
+        </div>
+      </div>
+    </div>
 
       <section id="about" class="about-section">
         <div class="section-container">
@@ -284,6 +296,33 @@
                   <div class="interest-tag">Game Theory</div>
                   <div class="interest-tag">Consistency Mode</div>
                   <div class="interest-tag">Portfolio Hacks</div>
+                </div>
+              </div>
+
+              <!-- SYSTEM METRICS (Visual Only) -->
+              <div class="card-section metrics-section">
+                <h4 class="card-title">📟 SYSTEM_METRICS.EXE</h4>
+                <div class="metrics-grid">
+                  <div class="metric-item">
+                    <span class="metric-label">Uptime:</span>
+                    <span class="metric-value">chaotic-ish</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Status:</span>
+                    <span class="metric-value">ONLINE</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Projects Built:</span>
+                    <span class="metric-value">12+</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Coffee Consumed:</span>
+                    <span class="metric-value">999+ cups</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Systems Broken:</span>
+                    <span class="metric-value">too many to count</span>
+                  </div>
                 </div>
               </div>
 
@@ -564,6 +603,13 @@
 
   </main>
 
-  <script src="script.js"></script>
+  <!-- Modular Scripts -->
+  <script src="src/js/effects.js"></script>
+  <script src="src/js/boot.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/arcade.js"></script>
+  <script src="src/js/kenko.js"></script>
+  <script src="src/js/analytics.js"></script>
+  <script src="src/js/main.js"></script>
 </body>
 </html>

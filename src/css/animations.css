@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ANIMATIONS & EFFECTS */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. CRT Scanlines */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, .03),
+    rgba(255, 255, 255, .03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* 2. Realistic CRT Flicker */
+@keyframes subtleFlicker {
+  0%, 100% { opacity: 1; }
+  98% { opacity: 0.985; }
+  99% { opacity: 0.975; }
+  99.5% { opacity: 0.99; }
+}
+
+.screen {
+  animation: subtleFlicker 4s infinite;
+}
+
+/* 3. Text Glitch */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-2px, -1px); }
+  80% { transform: translate(2px, 1px); }
+  100% { transform: translate(0); }
+}
+
+.glitch-text {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+}
+
+/* 5. Window Open Effect */
+@keyframes windowOpen {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.win98-window {
+  animation: windowOpen 0.3s ease-out forwards;
+}
+
+/* 6. Easter Egg: Konami / God Mode */
+.konami-mode {
+  animation: flicker 0.1s infinite, glitch 0.5s infinite;
+  filter: hue-rotate(90deg) contrast(150%);
+}
+
+.konami-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Silkscreen', monospace;
+  font-size: 4rem;
+  color: #ff003c;
+  text-shadow: 0 0 20px #ff003c, 0 0 40px #ff003c;
+  z-index: 10000;
+  pointer-events: none;
+  animation: windowOpen 0.5s ease-out forwards;
+}
