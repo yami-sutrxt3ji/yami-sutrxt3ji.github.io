@@ -1,0 +1,305 @@
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE.EXE WINDOW - Game Panel Feature */
+/* ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Arcade Window Palette */
+  --arcade-bg: #0a0a15;
+  --arcade-header: #1a1a2e;
+  --arcade-border: #00e5ff;
+  --arcade-accent: #ff4b81;
+  --arcade-text: #a8b3c7;
+  --arcade-text-bright: #d9e2ec;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE SECTION CONTAINER */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.arcade-section {
+  background: var(--portfolio-bg);
+  padding: 3rem 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.arcade-window {
+  width: 100%;
+  max-width: 700px;
+  background: var(--arcade-bg);
+  border: 3px solid var(--arcade-border);
+  border-radius: 0;
+  box-shadow: 
+    0 0 20px rgba(0, 229, 255, 0.2),
+    inset 0 0 20px rgba(0, 229, 255, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: windowPop 0.3s ease-out;
+}
+
+@keyframes windowPop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE HEADER - Window Title Bar */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.arcade-header {
+  background: var(--arcade-header);
+  border-bottom: 2px solid var(--arcade-border);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.arcade-title {
+  font-family: "Silkscreen", monospace;
+  color: var(--arcade-border);
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.arcade-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.arcade-btn {
+  background: none;
+  border: 2px solid var(--arcade-border);
+  color: var(--arcade-border);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.arcade-btn:hover {
+  background: rgba(0, 229, 255, 0.1);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+.arcade-btn.primary {
+  border-color: var(--arcade-accent);
+  color: var(--arcade-accent);
+}
+
+.arcade-btn.primary:hover {
+  background: rgba(255, 75, 129, 0.1);
+  text-shadow: 0 0 8px rgba(255, 75, 129, 0.5);
+}
+
+.arcade-close {
+  background: none;
+  border: 2px solid var(--arcade-accent);
+  color: var(--arcade-accent);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.arcade-close:hover {
+  background: rgba(255, 75, 129, 0.2);
+  text-shadow: 0 0 8px rgba(255, 75, 129, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE STATS DISPLAY */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.arcade-stats {
+  background: rgba(0, 229, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  color: var(--arcade-text-bright);
+  letter-spacing: 1px;
+}
+
+.arcade-stats span {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#arcadeScore,
+#arcadeHigh {
+  color: var(--arcade-accent);
+  font-weight: bold;
+}
+
+#arcadeStatus {
+  color: var(--arcade-border);
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--arcade-border);
+  background: rgba(0, 229, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE CANVAS - Game Display */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.arcade-canvas-container {
+  background: #000;
+  border-bottom: 1px solid var(--arcade-border);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.arcade-canvas {
+  display: block;
+  background: #000;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ARCADE CONTROLS FOOTER */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.arcade-controls-footer {
+  background: rgba(0, 229, 255, 0.05);
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+#arcadeInstructions {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--arcade-text);
+  margin: 0;
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* RESPONSIVE DESIGN */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .arcade-window {
+    max-width: 100%;
+    border-width: 2px;
+  }
+
+  .arcade-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .arcade-title {
+    font-size: 1rem;
+    min-width: 100%;
+  }
+
+  .arcade-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .arcade-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .arcade-stats {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .arcade-canvas {
+    width: 100%;
+    height: auto;
+  }
+
+  .arcade-controls-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #arcadeInstructions {
+    text-align: center;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-window {
+    margin: 0 -1.5rem;
+    max-width: calc(100% + 3rem);
+    border-width: 2px;
+  }
+
+  .arcade-header {
+    padding: 0.75rem;
+  }
+
+  .arcade-title {
+    font-size: 0.9rem;
+  }
+
+  .arcade-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .arcade-stats {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    justify-content: space-evenly;
+  }
+
+  .arcade-controls-footer {
+    padding: 0.75rem;
+  }
+
+  #arcadeInstructions {
+    font-size: 0.65rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ACCESSIBILITY */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-window {
+    animation: none;
+  }
+}

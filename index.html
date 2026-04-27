@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="src/css/variables.css">
   <link rel="stylesheet" href="src/css/boot-redesign.css">
   <link rel="stylesheet" href="src/css/portfolio.css">
+  <link rel="stylesheet" href="src/css/arcade.css">
   <link rel="stylesheet" href="src/css/responsive.css">
 
   <!-- Performance -->
@@ -165,7 +166,35 @@
         </div>
       </section>
 
-      <!-- ABOUT SECTION -->
+      <!-- ARCADE.EXE WINDOW - Intentional Game Panel -->
+      <section id="arcade-section" class="arcade-section">
+        <div class="arcade-window">
+          <div class="arcade-header">
+            <div class="arcade-title">ARCADE.EXE</div>
+            <div class="arcade-controls">
+              <button class="arcade-btn" onclick="toggleArcadeMode()">[ PONG ]</button>
+              <button class="arcade-btn" onclick="toggleArcadeMode('shooter')">[ SHOOTER ]</button>
+              <button class="arcade-close" onclick="closeArcade()">[ × ]</button>
+            </div>
+          </div>
+          
+          <div class="arcade-stats">
+            <span>SCORE: <span id="arcadeScore">0</span></span>
+            <span>HIGH: <span id="arcadeHigh">0</span></span>
+            <span id="arcadeStatus">READY</span>
+          </div>
+
+          <div class="arcade-canvas-container">
+            <canvas id="arcadeCanvas" width="600" height="400" class="arcade-canvas"></canvas>
+          </div>
+
+          <div class="arcade-controls-footer">
+            <p id="arcadeInstructions">MOUSE: Move Paddle | CLICK: Start Game | ESC: Close</p>
+            <button class="arcade-btn primary" onclick="startArcadeGame()">[ PLAY NOW ]</button>
+          </div>
+        </div>
+      </section>
+
       <section id="about" class="about-section">
         <div class="section-container">
           <h2 class="section-title">ABOUT ME</h2>
