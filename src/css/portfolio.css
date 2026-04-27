@@ -150,6 +150,21 @@
     min-height: auto;
     padding: 3rem 1.5rem;
   }
+
+  /* BUILD LOG & MISSIONS tablet */
+  .build-log-section,
+  .missions-section {
+    padding: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .missions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .build-item {
+    padding: 0.75rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1370,6 +1385,41 @@
 
   .status-text {
     font-size: 11px;
+  }
+
+  /* BUILD LOG & MISSIONS responsive */
+  .build-log-section,
+  .missions-section {
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .build-log-title,
+  .missions-title {
+    font-size: 1rem;
+  }
+
+  .build-item {
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .build-tag {
+    font-size: 0.65rem;
+  }
+
+  .build-text {
+    font-size: 0.9rem;
+  }
+
+  .missions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .mission-card {
+    padding: 1rem;
   }
 }
 
