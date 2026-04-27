@@ -88,8 +88,59 @@ const missionUnlockState = {
 };
 
 /* ═════════════════════════════════════════ */
-/* BOOT SEQUENCE FUNCTIONS */
+/* BOOT SEQUENCE FUNCTIONS - MULTI-STAGE */
 /* ═════════════════════════════════════════ */
+
+async function startBootSequence() {
+  bootInProgress = true;
+  
+  // Stage 1: Power On (1s)
+  await powerOnSequence();
+  
+  // Stage 2: Diagnostics (2s)
+  await diagnosticsSequence();
+  
+  // Stage 3: Bootloader Menu (user waits here)
+  // biosMenuConfirm() will call diskSeekSequence()
+  showBootloaderMenu();
+}
+
+async function powerOnSequence() {
+  const powerOnScreen = document.getElementById("power-on");
+  if (!powerOnScreen) return;
+  
+  powerOnScreen.classList.add("active");
+  playBeep(); // Initial power beep
+  
+  return new Promise(resolve => {
+    setTimeout(() => {
+      powerOnScreen.classList.remove("active");
+      resolve();
+    }, 1000);
+  });
+}
+
+async function diagnosticsSequence() {
+  const diagScreen = document.getElementById("diagnostics");
+  if (!diagScreen) return;
+  
+  diagScreen.classList.add("active");
+  
+  // Let CSS animations handle the scrolling
+  return new Promise(resolve => {
+    setTimeout(() => {
+      diagScreen.classList.remove("active");
+      resolve();
+    }, 2000);
+  });
+}
+
+function showBootloaderMenu() {
+  const biosScreen = document.getElementById("bios");
+  if (biosScreen) {
+    biosScreen.classList.add("active");
+  }
+}
 
 function biosMenuUp() {
   biosMenuIndex = (biosMenuIndex - 1 + 3) % 3;
@@ -107,7 +158,7 @@ function biosMenuConfirm() {
   if (bootInProgress) return;
   bootInProgress = true;
   playSelect();
-  startBootSequence();
+  transitionToDiskSeek();
 }
 
 function updateBiosMenuDisplay() {
@@ -117,21 +168,22 @@ function updateBiosMenuDisplay() {
   });
 }
 
-function startBootSequence() {
+function transitionToDiskSeek() {
   const biosScreen = document.getElementById("bios");
-  const loadingScreen = document.getElementById("disk-loading");
-  
-  if (!biosScreen || !loadingScreen) return;
-  
-  biosScreen.classList.remove("active");
-  loadingScreen.classList.add("active");
-  
+  if (biosScreen) {
+    biosScreen.classList.remove("active");
+  }
   setTimeout(() => {
     playDiskLoadingSequence();
   }, 300);
 }
 
 async function playDiskLoadingSequence() {
+  const loadingScreen = document.getElementById("disk-loading");
+  if (loadingScreen) {
+    loadingScreen.classList.add("active");
+  }
+  
   const logLines = [
     "> Mounting /dev/self...",
     "> Reading partition: /dev/ideas1",
@@ -142,7 +194,7 @@ async function playDiskLoadingSequence() {
   
   const progressFill = document.querySelector(".progress-fill");
   const progressText = document.querySelector(".progress-text");
-  const logElements = document.querySelectorAll(".log-line");
+  const logElements = document.querySelectorAll("#disk-loading .log-line");
   
   if (!progressFill) return;
   

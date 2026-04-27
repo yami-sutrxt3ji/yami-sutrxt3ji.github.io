@@ -8,7 +8,7 @@
   <!-- CSS Modules (Design System) -->
   <link rel="stylesheet" href="src/css/variables.css">
   <link rel="stylesheet" href="src/css/main.css">
-  <link rel="stylesheet" href="src/css/boot.css">
+  <link rel="stylesheet" href="src/css/boot-redesign.css">
   <link rel="stylesheet" href="src/css/responsive.css">
   
   <!-- Performance -->
@@ -39,7 +39,37 @@
 
     <div class="container app-container">
       <!-- BOOT SEQUENCE SCREENS -->
-      <section id="bios" class="screen boot-screen active">
+      
+      <!-- STAGE 1: POWER ON - Black screen with electrical startup -->
+      <section id="power-on" class="screen boot-screen active">
+        <div class="power-text">SIGNAL DETECTED...</div>
+        <div class="power-subtext">restoring memory from storage</div>
+      </section>
+
+      <!-- STAGE 2: DIAGNOSTICS - Hardware checks -->
+      <section id="diagnostics" class="screen boot-screen">
+        <div class="diag-container">
+          <div class="diag-header">POST DIAGNOSTICS</div>
+          <div class="diag-line">
+            <span class="label">CPU:</span><span class="value">curiosity-core-i7 online</span>
+          </div>
+          <div class="diag-line">
+            <span class="label">RAM:</span><span class="value">16GB optimism allocated</span>
+          </div>
+          <div class="diag-line">
+            <span class="label">GPU:</span><span class="value">creative-rtx enabled</span>
+          </div>
+          <div class="diag-line">
+            <span class="label">DISK:</span><span class="value">ideas.img mounted [524MB]</span>
+          </div>
+          <div class="diag-line">
+            <span class="label">STATUS:</span><span class="value">All systems operational</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STAGE 3: BOOTLOADER MENU - User interactive selection -->
+      <section id="bios" class="screen boot-screen">
         <div class="bios-container">
           <div class="bios-header">
             <h1 class="bios-title">ASHISH SYSTEM BIOS v2.3</h1>
@@ -50,10 +80,9 @@
             <p>RAM: 16GB (allocation: insufficient but optimistic)</p>
             <p>Storage: ideas.img [524.9 MB mounted]</p>
             <p>GPU: creative-rtx enabled</p>
-            <p>&nbsp;</p>
           </div>
           <div class="bios-menu-section">
-            <p class="bios-label">Boot Options:</p>
+            <p class="bios-menu-label">Boot Options:</p>
             <div class="bios-menu">
               <div class="bios-menu-item active" data-index="0">
                 <span class="bios-cursor">→ </span>Load ashish_profile.efi
@@ -77,13 +106,13 @@
         </div>
       </section>
 
+      <!-- STAGE 4: DISK SEEK - Loading animation with progress bar -->
       <section id="disk-loading" class="screen boot-screen">
         <div class="loading-container">
           <div class="loading-header">
-            <h1 class="loading-title">SYSTEM INITIALIZATION</h1>
-            <div class="loading-divider">═════════════════════════════════════════</div>
+            <h1 class="loading-title">DISK SEEK AND DATA RECOVERY</h1>
           </div>
-          <div class="loading-logs">
+          <div class="loading-log">
             <p class="log-line"></p>
             <p class="log-line"></p>
             <p class="log-line"></p>
@@ -91,7 +120,9 @@
             <p class="log-line"></p>
           </div>
           <div class="progress-section">
+            <div class="progress-label">RECOVERY PROGRESS</div>
             <div class="progress-bar">
+              <span class="seek-beam"></span>
               <div class="progress-fill"></div>
             </div>
             <p class="progress-text">PROGRESS: 0%</p>
