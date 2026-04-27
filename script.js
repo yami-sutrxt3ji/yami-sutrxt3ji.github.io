@@ -1362,3 +1362,101 @@ function playClickSound() {
     // Audio API not available, silent
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* INTERACTIVE ABOUT SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+// Terminal command handler
+function handleTerminalCommand(event) {
+  if (event.key !== 'Enter') return;
+  
+  const field = event.target;
+  const command = field.value.toLowerCase().trim();
+  let output = '';
+  
+  switch (command) {
+    case 'skills':
+      output = '> skills\nFirmware • OS Internals • Embedded Systems\n3D Printing • Game Development • Binary Analysis';
+      break;
+    case 'graveyard':
+      output = '> graveyard\n47 unfinished projects detected\nRust: 2 weeks progress\nHalf-done game engine\nSmart robot v2\nTelemetry dashboard\n...opening graveyard folder';
+      toggleGraveyard();
+      break;
+    case 'quote':
+      rotateQuote();
+      output = '> quote\nGenerating wisdom...';
+      break;
+    case 'help':
+      output = '> help\nAvailable commands:\nskills | graveyard | quote | clear';
+      break;
+    case 'clear':
+      field.value = '';
+      return;
+    default:
+      output = `> ${command}\nCommand not found. Try: skills, graveyard, quote, help`;
+  }
+  
+  if (output) {
+    field.value = '';
+    alert(output);
+  }
+}
+
+// Graveyard folder toggle
+function toggleGraveyard() {
+  const list = document.getElementById('graveyardList');
+  const toggle = document.getElementById('graveyardToggle');
+  
+  if (list.classList.contains('hidden')) {
+    list.classList.remove('hidden');
+    toggle.classList.add('open');
+  } else {
+    list.classList.add('hidden');
+    toggle.classList.remove('open');
+  }
+}
+
+// Rotating quotes
+const quotes = [
+  '"I like systems more than surfaces."',
+  '"Frontend scares me less now."',
+  '"One day I will finish Rust."',
+  '"Breaking things to understand them."',
+  '"Low-level > high-level."',
+  '"Why buy new when you can revive old?"',
+  '"Consistency > brilliance."',
+  '"Building discipline, shipping projects."'
+];
+
+let currentQuoteIndex = 0;
+
+function rotateQuote() {
+  const quoteEl = document.getElementById('rotatingQuote');
+  currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+  quoteEl.textContent = quotes[currentQuoteIndex];
+  quoteEl.style.animation = 'none';
+  setTimeout(() => {
+    quoteEl.style.animation = 'fadeInQuote 0.8s ease-out';
+  }, 10);
+}
+
+// Avatar click counter for easter egg
+let avatarClickCount = 0;
+
+document.addEventListener('DOMContentLoaded', function() {
+  const avatar = document.getElementById('profileAvatar');
+  if (avatar) {
+    avatar.addEventListener('click', function() {
+      avatarClickCount++;
+      if (avatarClickCount === 5) {
+        alert('🎮 PROCRASTINATION LEVEL: 9000\n\nYou found the hidden stat!\nReward: +50 XP, +10 Guilt');
+        avatarClickCount = 0;
+      }
+    });
+  }
+  
+  // Initialize quote rotation
+  rotateQuote();
+});
+

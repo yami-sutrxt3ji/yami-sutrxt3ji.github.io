@@ -254,50 +254,284 @@
   padding: 3rem 1.5rem;
 }
 
-.about-content {
+.about-profile {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 2rem;
-  align-items: start;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.about-avatar {
-  width: 120px;
-  height: 120px;
+/* PROFILE CARD - LEFT SIDE */
+.profile-card {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.05) 0%, rgba(255, 75, 129, 0.05) 100%);
   border: 2px solid var(--portfolio-border);
-  border-radius: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--portfolio-border);
   background: var(--portfolio-panel);
   object-fit: cover;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
 }
 
-.about-text h3 {
+.profile-avatar:hover {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.profile-avatar:active {
+  transform: scale(0.95);
+}
+
+.profile-title h3 {
   font-family: "Silkscreen", monospace;
   color: var(--portfolio-border);
-  margin: 0 0 1rem 0;
-  font-size: 1.3rem;
+  margin: 0;
+  font-size: 1.2rem;
   letter-spacing: 1px;
 }
 
-.about-text p {
-  margin: 0 0 1rem 0;
-  line-height: 1.8;
-  color: var(--portfolio-text);
+.profile-title p {
+  color: var(--portfolio-secondary);
+  margin: 0.3rem 0 0 0;
+  font-size: 0.9rem;
 }
 
-.about-quirk {
+/* STATUS TAGS */
+.status-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--portfolio-border);
+  border: 1px solid var(--portfolio-border);
+  font-size: 0.8rem;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.5px;
+  width: fit-content;
+  transition: all 0.3s;
+}
+
+.status-tag.active {
+  background: rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  animation: glow 2s ease-in-out infinite;
+}
+
+.status-tag.pulse {
+  animation: pulse-anim 1.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes pulse-anim {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* PERSONALITY STATS */
+.personality-stats {
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+  padding-top: 1.5rem;
+}
+
+.stat-bar {
+  margin-bottom: 1rem;
+}
+
+.stat-bar label {
+  display: block;
+  color: var(--portfolio-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--portfolio-border), var(--portfolio-accent));
+  box-shadow: 0 0 8px rgba(255, 75, 129, 0.5);
+  animation: fillBar 1s ease-out forwards;
+}
+
+@keyframes fillBar {
+  from { width: 0; opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* TERMINAL INPUT */
+.terminal-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.8rem;
+  border: 1px solid var(--portfolio-border);
+  border-radius: 2px;
+  margin-top: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.terminal-prompt {
+  color: var(--portfolio-border);
+  font-weight: bold;
+}
+
+.terminal-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--portfolio-border);
+  outline: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+}
+
+.terminal-field::placeholder {
+  color: rgba(0, 229, 255, 0.5);
+}
+
+/* INTEREST CARDS - RIGHT SIDE */
+.interest-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card-section {
+  background: var(--portfolio-panel);
+  border: 2px solid var(--portfolio-border);
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.card-section:hover {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  border-color: var(--portfolio-accent);
+}
+
+.card-title {
+  color: var(--portfolio-border);
+  font-size: 1rem;
+  font-family: "Silkscreen", monospace;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+  cursor: default;
+  transition: all 0.3s;
+}
+
+.card-title:hover {
+  color: var(--portfolio-accent);
+}
+
+.graveyard-section .card-title {
+  cursor: pointer;
+}
+
+.interest-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.interest-tag {
+  display: inline-block;
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--portfolio-text);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.interest-tag:hover {
+  background: rgba(0, 229, 255, 0.2);
+  border-color: var(--portfolio-border);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+/* GRAVEYARD FOLDER */
+.graveyard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 2px solid var(--portfolio-accent);
+}
+
+.graveyard-list.hidden {
+  display: none;
+}
+
+.graveyard-item {
+  color: var(--portfolio-secondary);
+  font-size: 0.85rem;
+  font-family: "IBM Plex Mono", monospace;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 75, 129, 0.3);
+}
+
+#graveyardToggle {
+  display: inline-block;
+  transition: transform 0.3s;
+  margin-left: 0.5rem;
+}
+
+#graveyardToggle.open {
+  transform: rotate(90deg);
+}
+
+/* ROTATING QUOTE */
+.rotating-quote {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 75, 129, 0.1) 0%, rgba(0, 229, 255, 0.1) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.2);
   color: var(--portfolio-secondary);
   font-style: italic;
-  margin-top: 1.5rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--portfolio-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  animation: fadeInQuote 0.8s ease-out;
 }
 
-.about-tags {
-  color: var(--portfolio-secondary);
-  font-size: 0.9rem;
-  margin-top: 1.5rem;
-  letter-spacing: 0.5px;
-  word-break: break-word;
+@keyframes fadeInQuote {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -844,6 +1078,55 @@
   .about-content {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .about-profile {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .profile-card {
+    padding: 1.5rem;
+  }
+
+  .profile-header {
+    gap: 1rem;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-title h3 {
+    font-size: 1rem;
+  }
+
+  .interest-cards {
+    gap: 1rem;
+  }
+
+  .card-section {
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .interest-grid {
+    gap: 0.5rem;
+  }
+
+  .interest-tag {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .rotating-quote {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
   }
 
   .about-avatar {
