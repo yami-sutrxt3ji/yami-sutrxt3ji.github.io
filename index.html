@@ -255,7 +255,10 @@
               </p>
               <div class="project-meta featured-meta">
                 <span>Strong concept in early planning phase</span>
-                <a href="projects/kenko-pitch.html" class="project-link">[ PITCH DECK ]</a>
+                <div class="project-actions">
+                  <button class="project-link" onclick="openKenkoViewer()">[ PREVIEW ]</button>
+                  <a href="projects/kenko-pitch.html" class="project-link">[ FULL DECK ]</a>
+                </div>
               </div>
             </div>
 
@@ -389,6 +392,38 @@
         <p>© 2024 ASHISH.EXE | Designed with curiosity and code</p>
       </footer>
 
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- KENKO DECK VIEWER MODAL - Inline Slide Player -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div id="kenkoViewer" class="kenko-viewer hidden">
+      <div class="viewer-window">
+        <!-- TITLEBAR -->
+        <div class="viewer-titlebar">
+          <span class="viewer-title">KENKO_DECK.EXE</span>
+          <div class="titlebar-buttons">
+            <button class="titlebar-btn" onclick="toggleKenkoFullscreen()" title="Fullscreen">⛶</button>
+            <button class="titlebar-btn close-btn" onclick="closeKenkoViewer()" title="Close">✕</button>
+          </div>
+        </div>
+
+        <!-- SLIDE DISPLAY -->
+        <div class="viewer-content">
+          <img id="kenkoSlide" src="assets/slides/kenko/01.webp" alt="Slide" class="slide-image">
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="viewer-controls">
+          <button class="nav-btn" id="prevBtn" onclick="prevKenkoSlide()" title="Previous slide">◀</button>
+          <div class="slide-counter">
+            <span id="slideNumber">1</span> / <span id="totalSlides">21</span>
+          </div>
+          <button class="nav-btn" id="nextBtn" onclick="nextKenkoSlide()" title="Next slide">▶</button>
+          <button class="control-btn" id="autoplayBtn" onclick="toggleKenkoAutoplay()" title="Autoplay">⏯</button>
+          <a href="projects/kenko-pitch.html" class="control-btn" title="Open full viewer">⇗</a>
+        </div>
+      </div>
     </div>
 
   </main>

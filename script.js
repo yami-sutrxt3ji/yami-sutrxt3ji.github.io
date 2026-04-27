@@ -1035,3 +1035,139 @@ document.querySelectorAll("button").forEach((button) => {
     }
   });
 });
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* KENKO DECK VIEWER - Inline Slide Player */
+/* ═══════════════════════════════════════════════════════════════ */
+
+let kenkoCurrentSlide = 1;
+const kenkoTotalSlides = 21;
+let kenkoAutoplay = false;
+let kenkoAutoplayInterval = null;
+
+function openKenkoViewer() {
+  const viewer = document.getElementById("kenkoViewer");
+  viewer.classList.remove("hidden");
+  showKenkoSlide();
+  
+  // Add keyboard listeners
+  document.addEventListener("keydown", handleKenkoKeyboard);
+}
+
+function closeKenkoViewer() {
+  const viewer = document.getElementById("kenkoViewer");
+  viewer.classList.add("hidden");
+  
+  // Stop autoplay
+  if (kenkoAutoplay) {
+    toggleKenkoAutoplay();
+  }
+  
+  // Remove keyboard listeners
+  document.removeEventListener("keydown", handleKenkoKeyboard);
+}
+
+function showKenkoSlide() {
+  const slideNum = String(kenkoCurrentSlide).padStart(2, "0");
+  const slide = document.getElementById("kenkoSlide");
+  const counter = document.getElementById("slideNumber");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  
+  slide.src = `assets/slides/kenko/${slideNum}.webp`;
+  slide.onerror = () => {
+    slide.src = `assets/slides/kenko/01.webp`;
+    console.warn(`Slide ${slideNum} not found, showing slide 01`);
+  };
+  
+  counter.textContent = kenkoCurrentSlide;
+  
+  // Disable buttons at edges
+  prevBtn.disabled = kenkoCurrentSlide <= 1;
+  nextBtn.disabled = kenkoCurrentSlide >= kenkoTotalSlides;
+}
+
+function nextKenkoSlide() {
+  if (kenkoCurrentSlide < kenkoTotalSlides) {
+    kenkoCurrentSlide++;
+    showKenkoSlide();
+  }
+}
+
+function prevKenkoSlide() {
+  if (kenkoCurrentSlide > 1) {
+    kenkoCurrentSlide--;
+    showKenkoSlide();
+  }
+}
+
+function toggleKenkoAutoplay() {
+  kenkoAutoplay = !kenkoAutoplay;
+  const btn = document.getElementById("autoplayBtn");
+  
+  if (kenkoAutoplay) {
+    btn.style.background = "var(--portfolio-success)";
+    btn.style.borderColor = "var(--portfolio-success)";
+    
+    kenkoAutoplayInterval = setInterval(() => {
+      if (kenkoCurrentSlide < kenkoTotalSlides) {
+        nextKenkoSlide();
+      } else {
+        kenkoCurrentSlide = 1;
+        showKenkoSlide();
+      }
+    }, 4000); // 4-second interval per slide
+  } else {
+    btn.style.background = "var(--portfolio-secondary)";
+    btn.style.borderColor = "var(--portfolio-secondary)";
+    
+    if (kenkoAutoplayInterval) {
+      clearInterval(kenkoAutoplayInterval);
+      kenkoAutoplayInterval = null;
+    }
+  }
+}
+
+function toggleKenkoFullscreen() {
+  const window = document.querySelector(".viewer-window");
+  if (!window) return;
+  
+  if (!document.fullscreenElement) {
+    window.requestFullscreen().catch(() => {
+      console.log("Fullscreen request denied");
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+function handleKenkoKeyboard(e) {
+  const viewer = document.getElementById("kenkoViewer");
+  if (viewer.classList.contains("hidden")) return;
+  
+  switch (e.key) {
+    case "ArrowRight":
+    case " ":
+      e.preventDefault();
+      nextKenkoSlide();
+      break;
+    case "ArrowLeft":
+      e.preventDefault();
+      prevKenkoSlide();
+      break;
+    case "p":
+    case "P":
+      e.preventDefault();
+      toggleKenkoAutoplay();
+      break;
+    case "f":
+    case "F":
+      e.preventDefault();
+      toggleKenkoFullscreen();
+      break;
+    case "Escape":
+      e.preventDefault();
+      closeKenkoViewer();
+      break;
+  }
+}

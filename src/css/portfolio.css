@@ -810,3 +810,225 @@
     align-items: flex-start;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* KENKO DECK VIEWER MODAL */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.kenko-viewer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.kenko-viewer.hidden {
+  display: none;
+}
+
+.viewer-window {
+  display: flex;
+  flex-direction: column;
+  background: var(--portfolio-panel);
+  border: 2px solid var(--portfolio-border);
+  border-radius: 0;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.3), inset 0 0 20px rgba(0, 229, 255, 0.05);
+  max-width: 900px;
+  width: 95vw;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+/* TITLEBAR */
+.viewer-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #00e5ff, #7b61ff);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--portfolio-border);
+  user-select: none;
+}
+
+.viewer-title {
+  color: #000;
+  font-family: "Silkscreen", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.titlebar-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.titlebar-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.titlebar-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.titlebar-btn.close-btn:hover {
+  background: #ff4b81;
+  color: #fff;
+  border-color: #ff4b81;
+}
+
+/* SLIDE DISPLAY */
+.viewer-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  animation: slideIn 0.4s ease-out;
+}
+
+/* CONTROLS */
+.viewer-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--portfolio-panel);
+  border-top: 1px solid var(--portfolio-border);
+}
+
+.nav-btn {
+  background: var(--portfolio-accent);
+  color: #fff;
+  border: 1px solid var(--portfolio-accent);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #ff6b96;
+  box-shadow: 0 0 10px rgba(255, 75, 129, 0.5);
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.slide-counter {
+  color: var(--portfolio-border);
+  font-weight: bold;
+  text-align: center;
+  min-width: 80px;
+  font-family: "Silkscreen", monospace;
+}
+
+.control-btn {
+  background: var(--portfolio-secondary);
+  color: #fff;
+  border: 1px solid var(--portfolio-secondary);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border-radius: 2px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+}
+
+.control-btn:hover {
+  background: #9d7dff;
+  box-shadow: 0 0 10px rgba(123, 97, 255, 0.5);
+}
+
+/* PROJECT ACTIONS LAYOUT */
+.project-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .viewer-window {
+    max-height: 90vh;
+    width: 98vw;
+  }
+
+  .viewer-titlebar {
+    padding: 0.5rem;
+  }
+
+  .viewer-title {
+    font-size: 0.9rem;
+  }
+
+  .viewer-controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav-btn {
+    flex: 1;
+    width: 100%;
+  }
+
+  .control-btn {
+    flex: 1;
+  }
+
+  .slide-counter {
+    width: 100%;
+  }
+}
