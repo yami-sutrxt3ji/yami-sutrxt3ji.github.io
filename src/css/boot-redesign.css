@@ -1,0 +1,454 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* BOOT SEQUENCE REDESIGN - MULTI-STAGE VISUAL PROGRESSION */
+/* Cinematic boot experience with color & motion drama */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* CRT Scanlines Overlay (Global) */
+.boot-screen::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.08) 0px,
+    rgba(0, 0, 0, 0.08) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 999;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen::before {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STAGE 1: POWER ON - Black screen + Electric Green flash */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#power-on {
+  background: var(--stage1-bg) !important;
+  color: var(--stage1-text);
+  font-family: var(--font-boot), var(--font-boot-fallback);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+  overflow: hidden;
+  animation: powerOnFlash 1s ease-in-out forwards;
+}
+
+#power-on .power-text {
+  font-size: var(--fs-lg);
+  letter-spacing: 4px;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+#power-on .power-subtext {
+  font-size: var(--fs-sm);
+  margin-top: var(--spacing-md);
+  opacity: 0.7;
+  animation: fadeIn 0.8s ease-out 0.8s forwards;
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STAGE 2: DIAGNOSTICS - Hardware checks with scrolling effect */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#diagnostics {
+  background: var(--stage2-bg) !important;
+  color: var(--stage2-text);
+  font-family: var(--font-boot), var(--font-boot-fallback);
+  padding: var(--spacing-xl);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.diag-container {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.diag-header {
+  font-size: var(--fs-md);
+  letter-spacing: 3px;
+  margin-bottom: var(--spacing-lg);
+  color: var(--stage2-accent);
+  font-weight: 700;
+}
+
+.diag-line {
+  font-size: var(--fs-sm);
+  margin: var(--spacing-md) 0;
+  letter-spacing: 1px;
+  animation: diagnosticsScroll 0.5s ease-out forwards;
+  opacity: 0;
+  min-height: 1.5em;
+}
+
+.diag-line:nth-child(2) { animation-delay: 0.2s; }
+.diag-line:nth-child(3) { animation-delay: 0.4s; color: var(--stage2-accent); }
+.diag-line:nth-child(4) { animation-delay: 0.6s; }
+.diag-line:nth-child(5) { animation-delay: 0.8s; color: var(--stage2-tertiary); }
+
+.diag-line .label {
+  color: var(--stage2-accent);
+  font-weight: 700;
+  margin-right: 0.5em;
+}
+
+.diag-line .value {
+  color: var(--stage2-tertiary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STAGE 3: BOOTLOADER MENU - Navy background + interactive selection */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#bios {
+  background: var(--stage3-bg) !important;
+  color: var(--stage3-text);
+  font-family: var(--font-boot), var(--font-boot-fallback);
+}
+
+.bios-container {
+  width: 100%;
+  max-width: 700px;
+  background: rgba(10, 10, 26, 0.8);
+  border: 2px solid var(--stage3-hover);
+  padding: var(--spacing-xl);
+  box-shadow: 0 0 24px var(--stage3-glow), inset 0 0 16px rgba(0, 229, 255, 0.1);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bios-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.bios-title {
+  color: var(--stage3-text);
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--fs-lg);
+  letter-spacing: 3px;
+  font-family: var(--font-boot), var(--font-boot-fallback);
+  font-weight: 700;
+}
+
+.bios-divider {
+  color: var(--stage3-text);
+  text-align: center;
+  margin: var(--spacing-md) 0;
+  font-size: var(--fs-xs);
+  opacity: 0.6;
+}
+
+.bios-system-info {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 2px solid var(--stage3-hover);
+  padding: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+  font-size: var(--fs-xs);
+  line-height: 1.8;
+}
+
+.bios-system-info p {
+  margin: 0.5em 0;
+  color: var(--stage3-text);
+}
+
+.bios-menu-section {
+  margin: var(--spacing-lg) 0;
+}
+
+.bios-menu-label {
+  color: var(--stage3-text);
+  font-size: var(--fs-sm);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.bios-menu-item {
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-sm) 0;
+  cursor: pointer;
+  color: var(--stage3-text);
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+  font-size: var(--fs-sm);
+  letter-spacing: 1px;
+}
+
+.bios-menu-item.active {
+  background: rgba(0, 229, 255, 0.1);
+  border-left-color: var(--stage3-hover);
+  color: var(--stage3-hover);
+  box-shadow: 0 0 16px var(--stage3-glow);
+  animation: glowPulse 0.6s ease-in-out infinite;
+}
+
+.bios-footer {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: var(--fs-xs);
+  color: var(--stage3-text);
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STAGE 4: DISK SEEK - Navy + Cyan with animated beam & progress */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#disk-loading {
+  background: var(--stage4-bg) !important;
+  color: var(--stage4-text);
+  font-family: var(--font-boot), var(--font-boot-fallback);
+}
+
+.loading-container {
+  width: 100%;
+  max-width: 700px;
+  background: rgba(13, 13, 32, 0.9);
+  border: 2px solid var(--stage4-text);
+  padding: var(--spacing-xl);
+  box-shadow: 0 0 32px var(--stage4-glow), inset 0 0 20px rgba(0, 229, 255, 0.08);
+}
+
+.loading-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.loading-title {
+  color: var(--stage4-text);
+  font-size: var(--fs-md);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md);
+}
+
+.loading-log {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--stage4-text);
+  border-left: 3px solid var(--stage4-progress);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  font-size: var(--fs-xs);
+  line-height: 1.8;
+  min-height: 120px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.log-line {
+  color: var(--stage4-text);
+  margin: 0.6em 0;
+  animation: fadeIn 0.4s ease-out;
+  min-height: 1.2em;
+}
+
+.log-line.highlight {
+  color: var(--stage4-progress);
+  font-weight: 700;
+}
+
+/* Disk Seek Beam Animation */
+.seek-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--stage4-text), transparent);
+  box-shadow: 0 0 16px var(--stage4-progress);
+  animation: diskSeekBeam 0.8s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Progress Bar */
+.progress-section {
+  margin: var(--spacing-lg) 0;
+}
+
+.progress-label {
+  color: var(--stage4-muted);
+  font-size: var(--fs-xs);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--stage4-text);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--stage4-progress), var(--stage4-text));
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 12px var(--stage4-progress);
+  animation: progressPulse 0.5s ease-in-out infinite;
+}
+
+.progress-text {
+  color: var(--stage4-muted);
+  font-size: var(--fs-xs);
+  margin-top: var(--spacing-sm);
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STAGE 5: ASCII BANNER - Black-Violet + typeout effect */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#ascii-banner {
+  background: var(--stage5-bg) !important;
+  color: var(--stage5-text);
+  font-family: var(--font-boot), var(--font-boot-fallback);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+  overflow: hidden;
+}
+
+.banner-container {
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.ascii-art {
+  font-size: var(--fs-sm);
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  margin: var(--spacing-lg) 0;
+  color: var(--stage5-text);
+  text-shadow: 0 0 16px var(--stage5-glow);
+}
+
+.banner-line {
+  font-size: var(--fs-sm);
+  margin: var(--spacing-md) 0;
+  color: var(--stage5-text);
+  text-shadow: 0 0 12px var(--stage5-glow);
+  min-height: 1.5em;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.banner-highlight {
+  color: var(--stage5-accent);
+  font-weight: 700;
+  animation: glowPulse 1s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* TRANSITIONS BETWEEN STAGES */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.boot-screen {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+.boot-screen.active {
+  animation: fadeIn 0.3s ease-out !important;
+}
+
+.boot-screen.exit {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ACCESSIBILITY */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  #power-on .power-text,
+  #power-on .power-subtext,
+  .diag-line,
+  .bios-container,
+  .loading-container,
+  #ascii-banner {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* MOBILE RESPONSIVE */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .bios-container,
+  .loading-container {
+    max-width: 90vw;
+    padding: var(--spacing-md);
+  }
+  
+  .bios-title,
+  .loading-title {
+    font-size: var(--fs-md);
+  }
+  
+  .ascii-art {
+    font-size: 10px;
+  }
+  
+  .bios-menu-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--fs-xs);
+  }
+}
+
+@media (max-width: 640px) {
+  #power-on .power-text {
+    font-size: var(--fs-md);
+  }
+  
+  .bios-title,
+  .loading-title {
+    font-size: var(--fs-sm);
+    letter-spacing: 2px;
+  }
+  
+  .ascii-art {
+    font-size: 8px;
+  }
+  
+  .loading-log {
+    font-size: 10px;
+    min-height: 80px;
+  }
+}

@@ -5,6 +5,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 :root {
   /* ═══════════════════════════════════════════════════════════════════════ */
@@ -13,13 +14,54 @@
   
   --font-display: "Silkscreen", monospace;
   --font-body: "IBM Plex Mono", monospace;
+  --font-boot: "VT323", monospace;  /* Retro boot font */
   
   /* Fallbacks */
   --font-display-fallback: "Courier New", monospace;
   --font-body-fallback: "Courier New", monospace;
+  --font-boot-fallback: "Courier New", monospace;
   
   /* ═══════════════════════════════════════════════════════════════════════ */
-  /* PALETTE 1: BOOT / BIOS / GRUB (Green Phosphor CRT) */
+  /* BOOT STAGE PALETTES (Multi-Stage Color Progression) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  /* Stage 1: Cold Boot - Pure Black + Electric Green */
+  --stage1-bg: #000000;            /* Pure black - startup */
+  --stage1-text: #00ff66;          /* Electric green */
+  --stage1-accent: #ffb000;        /* Amber warning */
+  --stage1-flash: #ffffff;         /* White flash */
+  --stage1-glow: rgba(0, 255, 102, 0.4);
+  
+  /* Stage 2: Diagnostics - Green + Amber + Cyan intro */
+  --stage2-bg: #050505;            /* Slightly less pure */
+  --stage2-text: #00ff66;          /* Green primary */
+  --stage2-accent: #ffb000;        /* Amber secondary */
+  --stage2-tertiary: #00e5ff;      /* Cyan starting */
+  --stage2-glow: rgba(0, 255, 102, 0.3);
+  
+  /* Stage 3: Menu - Navy + Green (user control zone) */
+  --stage3-bg: #0a0a1a;            /* Navy entering */
+  --stage3-text: #00ff66;          /* Green normal */
+  --stage3-selected: #ffb000;      /* Amber selected */
+  --stage3-hover: #00e5ff;         /* Cyan hover */
+  --stage3-glow: rgba(0, 229, 255, 0.3);
+  
+  /* Stage 4: Disk Seek - Navy + Cyan + Pink (active loading) */
+  --stage4-bg: #0d0d20;            /* Deep navy */
+  --stage4-text: #00e5ff;          /* Cyan primary */
+  --stage4-progress: #ff4b81;      /* Pink progress bar */
+  --stage4-accent: #7b61ff;        /* Purple accents */
+  --stage4-muted: #a8b3c7;         /* Steel text */
+  --stage4-glow: rgba(0, 229, 255, 0.4);
+  
+  /* Stage 5: Banner - Black-Violet + Green + Cyan glow */
+  --stage5-bg: #050510;            /* Black-violet */
+  --stage5-text: #00ff66;          /* Green success */
+  --stage5-glow: #00e5ff;          /* Cyan halo */
+  --stage5-accent: #ff4b81;        /* Pink highlights */
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* PALETTE 1: BOOT / BIOS / GRUB (Green Phosphor CRT) [Legacy] */
   /* ═══════════════════════════════════════════════════════════════════════ */
   
   --boot-bg: #050505;           /* Almost black - CRT cutoff */
@@ -108,6 +150,17 @@
   --transition-slow: 0.5s ease-out;
   
   /* ═══════════════════════════════════════════════════════════════════════ */
+  /* ANIMATION DURATIONS (Boot Sequence) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --anim-power-on: 1.0s;
+  --anim-diagnostics: 2.0s;
+  --anim-menu: 3.5s;
+  --anim-disk-seek: 2.0s;
+  --anim-banner: 1.0s;
+  --anim-main-fade: 1.0s;
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
   /* BREAKPOINTS */
   /* ═══════════════════════════════════════════════════════════════════════ */
   
@@ -140,3 +193,67 @@
   --yellow-legacy: var(--amber);
   --green-legacy: var(--green);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* KEYFRAME ANIMATIONS (Boot Sequence Visual Effects) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes powerOnFlash {
+  0% { opacity: 0; background-color: #000000; }
+  20% { opacity: 1; background-color: #ffffff; }
+  40% { opacity: 0.8; background-color: #000000; }
+  60% { opacity: 1; background-color: #ffffff; }
+  100% { opacity: 1; background-color: #000000; }
+}
+
+@keyframes diagnosticsScroll {
+  0% { transform: translateY(40px); opacity: 0; }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes scanlineMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes diskSeekBeam {
+  0% { left: 0%; opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { left: 100%; opacity: 0.8; }
+}
+
+@keyframes progressPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--stage4-progress); }
+  50% { opacity: 0.7; box-shadow: 0 0 16px var(--stage4-progress); }
+}
+
+@keyframes textTypewriter {
+  0% { width: 0; opacity: 1; }
+  100% { width: 100%; opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 8px var(--stage4-glow); }
+  50% { text-shadow: 0 0 20px var(--stage4-glow); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes colorShift {
+  0% { color: var(--stage1-text); }
+  25% { color: var(--stage2-tertiary); }
+  50% { color: var(--stage3-hover); }
+  75% { color: var(--stage4-text); }
+  100% { color: var(--stage5-glow); }
+}
+
