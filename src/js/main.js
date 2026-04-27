@@ -21,6 +21,9 @@ window.toggleSound = toggleSound;
 window.updateSoundToggle = updateSoundToggle;
 window.startArcadeGame = startArcadeGame;
 window.toggleArcadeMode = toggleArcadeMode;
+window.openArcadeApp = openArcadeApp;
+window.closeArcadeApp = closeArcadeApp;
+window.minimizeArcadeApp = minimizeArcadeApp;
 window.closeArcade = closeArcade;
 window.openKenkoApp = openKenkoApp;
 window.closeKenkoApp = closeKenkoApp;
@@ -44,9 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize Sound UI
   updateSoundToggle();
 
-  // Resize canvas initially
-  resizeCanvas();
-  
   // Setup BIOS menu
   updateBiosMenuDisplay();
 
@@ -103,12 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("💡 Tip: Press ESC or Tap to skip boot");
     startBootSequence();
   }
-
-  // Start background game loop
-  gameLoop();
 });
-
-window.addEventListener("resize", resizeCanvas);
 
 function skipBoot() {
   if (bootComplete) return;

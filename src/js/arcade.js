@@ -2,6 +2,7 @@
 /* ARCADE.EXE - Win98 Modal Game Logic */
 /* ═════════════════════════════════════════ */
 
+let arcadeMode = "pong";
 let arcadeGameRunning = false;
 let arcadeScore = 0;
 let arcadeHighScore = Number(localStorage.getItem("arcadeHighScore") || 0);
@@ -39,6 +40,24 @@ function closeArcadeApp() {
   const app = document.getElementById("arcadeApp");
   if (app) app.classList.add("hidden");
   arcadeGameRunning = false;
+}
+
+function closeArcade() {
+  closeArcadeApp();
+}
+
+function toggleArcadeMode(mode) {
+  arcadeMode = mode || "pong";
+  arcadeGameRunning = false;
+  arcadeScore = 0;
+  updateArcadeScore();
+  updateArcadeStatus("READY");
+  
+  // Clear canvas
+  if (arcadeCtx) {
+    arcadeCtx.fillStyle = "#000";
+    arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+  }
 }
 
 function minimizeArcadeApp() {
