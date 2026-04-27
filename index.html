@@ -256,7 +256,7 @@
               <div class="project-meta featured-meta">
                 <span>Strong concept in early planning phase</span>
                 <div class="project-actions">
-                  <button class="project-link" onclick="openKenkoViewer()">[ PREVIEW ]</button>
+                  <button class="project-link" onclick="openKenkoApp()">[ LAUNCH ]</button>
                   <a href="projects/kenko-pitch.html" class="project-link">[ FULL DECK ]</a>
                 </div>
               </div>
@@ -395,34 +395,52 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- KENKO DECK VIEWER MODAL - Inline Slide Player -->
+    <!-- KENKO_DECK.EXE - Windows 98 Retro Application Window -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div id="kenkoViewer" class="kenko-viewer hidden">
-      <div class="viewer-window">
-        <!-- TITLEBAR -->
-        <div class="viewer-titlebar">
-          <span class="viewer-title">KENKO_DECK.EXE</span>
-          <div class="titlebar-buttons">
-            <button class="titlebar-btn" onclick="toggleKenkoFullscreen()" title="Fullscreen">⛶</button>
-            <button class="titlebar-btn close-btn" onclick="closeKenkoViewer()" title="Close">✕</button>
+    <div id="kenkoApp" class="win98-app hidden">
+      <!-- WINDOW CONTAINER -->
+      <div class="win98-window" id="kenkoWindow">
+        
+        <!-- TITLE BAR -->
+        <div class="win98-titlebar" id="kenkoTitlebar">
+          <span class="win98-title">KENKO_DECK.EXE</span>
+          <div class="win98-buttons">
+            <button class="win98-btn minimize" onclick="minimizeKenkoApp()" title="Minimize">_</button>
+            <button class="win98-btn close" onclick="closeKenkoApp()" title="Close">✕</button>
           </div>
         </div>
 
-        <!-- SLIDE DISPLAY -->
-        <div class="viewer-content">
-          <img id="kenkoSlide" src="assets/slides/kenko/01.webp" alt="Slide" class="slide-image">
+        <!-- BOOT TERMINAL (Initial, fades after sequence) -->
+        <div class="win98-terminal" id="kenkoTerminal">
+          <div class="terminal-text" id="terminalOutput"></div>
         </div>
 
-        <!-- CONTROLS -->
-        <div class="viewer-controls">
-          <button class="nav-btn" id="prevBtn" onclick="prevKenkoSlide()" title="Previous slide">◀</button>
-          <div class="slide-counter">
-            <span id="slideNumber">1</span> / <span id="totalSlides">21</span>
-          </div>
-          <button class="nav-btn" id="nextBtn" onclick="nextKenkoSlide()" title="Next slide">▶</button>
-          <button class="control-btn" id="autoplayBtn" onclick="toggleKenkoAutoplay()" title="Autoplay">⏯</button>
-          <a href="projects/kenko-pitch.html" class="control-btn" title="Open full viewer">⇗</a>
+        <!-- SLIDE VIEWER AREA (Hidden until boot completes) -->
+        <div class="win98-content" id="kenkoContent">
+          <img id="kenkoSlideImage" src="assets/slides/kenko/01.webp" alt="Slide" class="slide-display">
+          <!-- CRT Overlay -->
+          <div class="crt-scanlines"></div>
+          <div class="crt-glare"></div>
         </div>
+
+        <!-- CONTROL PANEL -->
+        <div class="win98-controls" id="kenkoControls">
+          <button class="win98-btn nav-btn" id="kenkoPrevBtn" onclick="prevKenkoSlide()">◀ PREV</button>
+          <div class="slide-info">
+            <span class="slide-number" id="kenkoSlideNumber">01</span>
+            <span class="slide-separator">/</span>
+            <span class="slide-total" id="kenkoSlideTotal">21</span>
+          </div>
+          <button class="win98-btn nav-btn" id="kenkoNextBtn" onclick="nextKenkoSlide()">NEXT ▶</button>
+          <button class="win98-btn icon-btn" onclick="toggleKenkoFullscreen()" title="Fullscreen">⛶</button>
+        </div>
+
+        <!-- STATUS BAR -->
+        <div class="win98-statusbar" id="kenkoStatusbar">
+          <span class="status-text" id="kenkoStatusText">READY</span>
+          <div class="status-time" id="kenkoStatusTime"></div>
+        </div>
+
       </div>
     </div>
 

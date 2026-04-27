@@ -1040,96 +1040,168 @@ document.querySelectorAll("button").forEach((button) => {
 /* KENKO DECK VIEWER - Inline Slide Player */
 /* ═══════════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* KENKO_DECK.EXE - Windows 98 Application Viewer */
+/* ═══════════════════════════════════════════════════════════════ */
+
 let kenkoCurrentSlide = 1;
 const kenkoTotalSlides = 21;
-let kenkoAutoplay = false;
-let kenkoAutoplayInterval = null;
+let kenkoBootComplete = false;
+let kenkoDragging = false;
+let kenkoDragStartX = 0;
+let kenkoDragStartY = 0;
+let kenkoWindowX = 0;
+let kenkoWindowY = 0;
+let kenkoBootInterval = null;
+let kenkoBootIndex = 0;
 
-function openKenkoViewer() {
-  const viewer = document.getElementById("kenkoViewer");
-  viewer.classList.remove("hidden");
-  showKenkoSlide();
+const kenkoBootMessages = [
+  "> mount project://kenko",
+  "> checking memory...",
+  "> loading nutrition_engine.dll",
+  "> rendering slide_viewer...",
+  "> analyzing patient cohorts...",
+  "> initializing meal database...",
+  "> ready"
+];
+
+// OPEN KENKO APP
+function openKenkoApp() {
+  const app = document.getElementById("kenkoApp");
+  const window = document.getElementById("kenkoWindow");
+  const terminal = document.getElementById("kenkoTerminal");
+  const content = document.getElementById("kenkoContent");
+  const controls = document.getElementById("kenkoControls");
   
-  // Add keyboard listeners
+  app.classList.remove("hidden");
+  app.classList.remove("minimized");
+  kenkoBootComplete = false;
+  kenkoBootIndex = 0;
+  
+  // Hide content during boot
+  content.style.display = "none";
+  controls.style.display = "none";
+  terminal.style.display = "block";
+  
+  // Reset terminal
+  document.getElementById("terminalOutput").textContent = "";
+  
+  // Center window on screen
+  window.style.left = "50%";
+  window.style.top = "50%";
+  window.style.transform = "translate(-50%, -50%)";
+  
+  // Start boot sequence
+  startBootSequence();
+  
+  // Add keyboard listener
   document.addEventListener("keydown", handleKenkoKeyboard);
 }
 
-function closeKenkoViewer() {
-  const viewer = document.getElementById("kenkoViewer");
-  viewer.classList.add("hidden");
+// CLOSE KENKO APP
+function closeKenkoApp() {
+  const app = document.getElementById("kenkoApp");
+  app.classList.add("hidden");
   
-  // Stop autoplay
-  if (kenkoAutoplay) {
-    toggleKenkoAutoplay();
+  if (kenkoBootInterval) {
+    clearInterval(kenkoBootInterval);
   }
   
-  // Remove keyboard listeners
   document.removeEventListener("keydown", handleKenkoKeyboard);
 }
 
+// MINIMIZE KENKO APP
+function minimizeKenkoApp() {
+  const app = document.getElementById("kenkoApp");
+  app.classList.add("minimized");
+}
+
+// BOOT SEQUENCE ANIMATION
+function startBootSequence() {
+  const terminal = document.getElementById("terminalOutput");
+  
+  kenkoBootInterval = setInterval(() => {
+    if (kenkoBootIndex < kenkoBootMessages.length) {
+      const msg = kenkoBootMessages[kenkoBootIndex];
+      terminal.textContent += (terminal.textContent ? "\n" : "") + msg;
+      
+      // Scroll terminal
+      document.getElementById("kenkoTerminal").scrollTop = 
+        document.getElementById("kenkoTerminal").scrollHeight;
+      
+      kenkoBootIndex++;
+    } else {
+      // Boot sequence complete
+      clearInterval(kenkoBootInterval);
+      kenkoBootComplete = true;
+      
+      setTimeout(() => {
+        // Fade out terminal
+        document.getElementById("kenkoTerminal").style.opacity = "0";
+        document.getElementById("kenkoTerminal").style.transition = "opacity 0.5s";
+        
+        setTimeout(() => {
+          document.getElementById("kenkoTerminal").style.display = "none";
+          document.getElementById("kenkoContent").style.display = "flex";
+          document.getElementById("kenkoControls").style.display = "flex";
+          
+          // Show first slide
+          showKenkoSlide();
+          
+          // Play boot sound (optional)
+          playBootSound();
+          
+          // Update status
+          updateKenkoStatus("AHAARA SYSTEM ONLINE");
+        }, 100);
+      }, 800);
+    }
+  }, 300); // 300ms per line
+}
+
+// SHOW SLIDE
 function showKenkoSlide() {
   const slideNum = String(kenkoCurrentSlide).padStart(2, "0");
-  const slide = document.getElementById("kenkoSlide");
-  const counter = document.getElementById("slideNumber");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
+  const slideImg = document.getElementById("kenkoSlideImage");
+  const slideNumEl = document.getElementById("kenkoSlideNumber");
+  const prevBtn = document.getElementById("kenkoPrevBtn");
+  const nextBtn = document.getElementById("kenkoNextBtn");
   
-  slide.src = `assets/slides/kenko/${slideNum}.webp`;
-  slide.onerror = () => {
-    slide.src = `assets/slides/kenko/01.webp`;
-    console.warn(`Slide ${slideNum} not found, showing slide 01`);
+  slideImg.src = `assets/slides/kenko/${slideNum}.webp`;
+  slideImg.onerror = () => {
+    slideImg.src = `assets/slides/kenko/01.webp`;
   };
   
-  counter.textContent = kenkoCurrentSlide;
+  slideNumEl.textContent = slideNum;
   
   // Disable buttons at edges
   prevBtn.disabled = kenkoCurrentSlide <= 1;
   nextBtn.disabled = kenkoCurrentSlide >= kenkoTotalSlides;
+  
+  updateKenkoStatus(`SLIDE ${slideNum} ACTIVE`);
 }
 
+// NEXT SLIDE
 function nextKenkoSlide() {
-  if (kenkoCurrentSlide < kenkoTotalSlides) {
+  if (kenkoCurrentSlide < kenkoTotalSlides && kenkoBootComplete) {
     kenkoCurrentSlide++;
     showKenkoSlide();
+    playClickSound();
   }
 }
 
+// PREV SLIDE
 function prevKenkoSlide() {
-  if (kenkoCurrentSlide > 1) {
+  if (kenkoCurrentSlide > 1 && kenkoBootComplete) {
     kenkoCurrentSlide--;
     showKenkoSlide();
+    playClickSound();
   }
 }
 
-function toggleKenkoAutoplay() {
-  kenkoAutoplay = !kenkoAutoplay;
-  const btn = document.getElementById("autoplayBtn");
-  
-  if (kenkoAutoplay) {
-    btn.style.background = "var(--portfolio-success)";
-    btn.style.borderColor = "var(--portfolio-success)";
-    
-    kenkoAutoplayInterval = setInterval(() => {
-      if (kenkoCurrentSlide < kenkoTotalSlides) {
-        nextKenkoSlide();
-      } else {
-        kenkoCurrentSlide = 1;
-        showKenkoSlide();
-      }
-    }, 4000); // 4-second interval per slide
-  } else {
-    btn.style.background = "var(--portfolio-secondary)";
-    btn.style.borderColor = "var(--portfolio-secondary)";
-    
-    if (kenkoAutoplayInterval) {
-      clearInterval(kenkoAutoplayInterval);
-      kenkoAutoplayInterval = null;
-    }
-  }
-}
-
+// FULLSCREEN
 function toggleKenkoFullscreen() {
-  const window = document.querySelector(".viewer-window");
+  const window = document.querySelector(".win98-window");
   if (!window) return;
   
   if (!document.fullscreenElement) {
@@ -1141,9 +1213,87 @@ function toggleKenkoFullscreen() {
   }
 }
 
+// UPDATE STATUS BAR
+function updateKenkoStatus(message) {
+  document.getElementById("kenkoStatusText").textContent = message;
+}
+
+// DRAG FUNCTIONALITY
+document.addEventListener("mousedown", startKenkoDrag);
+document.addEventListener("mousemove", dragKenkoWindow);
+document.addEventListener("mouseup", stopKenkoDrag);
+document.addEventListener("touchstart", startKenkoDragTouch);
+document.addEventListener("touchmove", dragKenkoWindowTouch);
+document.addEventListener("touchend", stopKenkoDrag);
+
+function startKenkoDrag(e) {
+  const titlebar = e.target.closest(".win98-titlebar");
+  if (!titlebar || titlebar.querySelector("button")) return;
+  
+  kenkoDragging = true;
+  kenkoDragStartX = e.clientX;
+  kenkoDragStartY = e.clientY;
+  
+  const window = document.getElementById("kenkoWindow");
+  const rect = window.getBoundingClientRect();
+  kenkoWindowX = rect.left;
+  kenkoWindowY = rect.top;
+}
+
+function startKenkoDragTouch(e) {
+  const titlebar = e.target.closest(".win98-titlebar");
+  if (!titlebar || titlebar.querySelector("button")) return;
+  
+  kenkoDragging = true;
+  kenkoDragStartX = e.touches[0].clientX;
+  kenkoDragStartY = e.touches[0].clientY;
+  
+  const window = document.getElementById("kenkoWindow");
+  const rect = window.getBoundingClientRect();
+  kenkoWindowX = rect.left;
+  kenkoWindowY = rect.top;
+}
+
+function dragKenkoWindow(e) {
+  if (!kenkoDragging) return;
+  
+  const window = document.getElementById("kenkoWindow");
+  const deltaX = e.clientX - kenkoDragStartX;
+  const deltaY = e.clientY - kenkoDragStartY;
+  
+  const newX = Math.max(0, Math.min(window.clientWidth, kenkoWindowX + deltaX));
+  const newY = Math.max(0, Math.min(window.clientHeight, kenkoWindowY + deltaY));
+  
+  window.style.left = newX + "px";
+  window.style.top = newY + "px";
+  window.style.transform = "none";
+}
+
+function dragKenkoWindowTouch(e) {
+  if (!kenkoDragging) return;
+  
+  const window = document.getElementById("kenkoWindow");
+  const deltaX = e.touches[0].clientX - kenkoDragStartX;
+  const deltaY = e.touches[0].clientY - kenkoDragStartY;
+  
+  const newX = Math.max(0, kenkoWindowX + deltaX);
+  const newY = Math.max(0, kenkoWindowY + deltaY);
+  
+  window.style.left = newX + "px";
+  window.style.top = newY + "px";
+  window.style.transform = "none";
+}
+
+function stopKenkoDrag() {
+  kenkoDragging = false;
+}
+
+// KEYBOARD CONTROLS
 function handleKenkoKeyboard(e) {
-  const viewer = document.getElementById("kenkoViewer");
-  if (viewer.classList.contains("hidden")) return;
+  const app = document.getElementById("kenkoApp");
+  if (app.classList.contains("hidden")) return;
+  
+  if (!kenkoBootComplete) return; // Ignore during boot
   
   switch (e.key) {
     case "ArrowRight":
@@ -1155,11 +1305,6 @@ function handleKenkoKeyboard(e) {
       e.preventDefault();
       prevKenkoSlide();
       break;
-    case "p":
-    case "P":
-      e.preventDefault();
-      toggleKenkoAutoplay();
-      break;
     case "f":
     case "F":
       e.preventDefault();
@@ -1167,7 +1312,53 @@ function handleKenkoKeyboard(e) {
       break;
     case "Escape":
       e.preventDefault();
-      closeKenkoViewer();
+      closeKenkoApp();
       break;
+  }
+}
+
+// OPTIONAL AUDIO FEEDBACK
+function playBootSound() {
+  // Create a simple beep using Web Audio API
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800;
+    oscillator.type = "sine";
+    
+    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  } catch (e) {
+    // Audio API not available, silent
+  }
+}
+
+function playClickSound() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 600;
+    oscillator.type = "sine";
+    
+    gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.05);
+  } catch (e) {
+    // Audio API not available, silent
   }
 }
