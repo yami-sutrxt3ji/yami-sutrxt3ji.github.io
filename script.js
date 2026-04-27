@@ -2,6 +2,13 @@ let unlocked = false;
 let currentSection = "start";
 const historyStack = [];
 
+/* ═════════════════════════════════════════ */
+/* BOOT SEQUENCE STATE */
+/* ═════════════════════════════════════════ */
+let bootComplete = false;
+let biosMenuIndex = 0;
+let bootInProgress = false;
+
 const player = {
   name: "ASHISH",
   level: 2,
@@ -26,6 +33,137 @@ const missionUnlockState = {
   mission02Detail: false,
   mission03Detail: false,
 };
+
+/* ═════════════════════════════════════════ */
+/* BOOT SEQUENCE FUNCTIONS */
+/* ═════════════════════════════════════════ */
+
+function biosMenuUp() {
+  biosMenuIndex = (biosMenuIndex - 1 + 3) % 3;
+  updateBiosMenuDisplay();
+}
+
+function biosMenuDown() {
+  biosMenuIndex = (biosMenuIndex + 1) % 3;
+  updateBiosMenuDisplay();
+}
+
+function biosMenuConfirm() {
+  if (bootInProgress) return;
+  bootInProgress = true;
+  startBootSequence();
+}
+
+function updateBiosMenuDisplay() {
+  const items = document.querySelectorAll(".bios-menu-item");
+  items.forEach((item, index) => {
+    item.classList.toggle("active", index === biosMenuIndex);
+  });
+}
+
+function startBootSequence() {
+  const biosScreen = document.getElementById("bios");
+  const loadingScreen = document.getElementById("disk-loading");
+  
+  if (!biosScreen || !loadingScreen) return;
+  
+  biosScreen.classList.remove("active");
+  loadingScreen.classList.add("active");
+  
+  setTimeout(() => {
+    playDiskLoadingSequence();
+  }, 300);
+}
+
+async function playDiskLoadingSequence() {
+  const logLines = [
+    "> Mounting /dev/self...",
+    "> Reading partition: /dev/ideas1",
+    "> Scanning sectors: building personality traits...",
+    "> Loading passion modules...",
+    "> Compiling core identity..."
+  ];
+  
+  const progressFill = document.querySelector(".progress-fill");
+  const progressText = document.querySelector(".progress-text");
+  const logElements = document.querySelectorAll(".log-line");
+  
+  if (!progressFill) return;
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15 + 5;
+    if (progress > 100) progress = 100;
+    
+    if (progressFill) progressFill.style.width = progress + "%";
+    if (progressText) progressText.textContent = `PROGRESS: ${Math.floor(progress)}%`;
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        playAsciiReveal();
+      }, 500);
+    }
+  }, 200);
+  
+  for (let i = 0; i < logElements.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, 300 + i * 400));
+    if (logElements[i]) {
+      logElements[i].textContent = logLines[i] || "";
+    }
+  }
+}
+
+async function playAsciiReveal() {
+  const loadingScreen = document.getElementById("disk-loading");
+  const bannerScreen = document.getElementById("ascii-banner");
+  const mainStack = document.getElementById("main-ui-stack");
+  
+  if (!loadingScreen || !bannerScreen) return;
+  
+  loadingScreen.classList.remove("active");
+  bannerScreen.classList.add("active");
+  
+  const bannerLines = document.querySelectorAll(".banner-line");
+  const bannerMessages = [
+    "ASHISH.EXE LOADED",
+    "Traits enumerated.",
+    "Ready for interaction.",
+    "> Transitioning to main interface..."
+  ];
+  
+  for (let i = 0; i < bannerLines.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, 600));
+    await typeText(bannerLines[i], bannerMessages[i], 15);
+  }
+  
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  bannerScreen.classList.remove("active");
+  if (mainStack) {
+    mainStack.classList.add("active");
+  }
+  
+  setTimeout(() => {
+    initMainUIAfterBoot();
+  }, 100);
+}
+
+function initMainUIAfterBoot() {
+  bootComplete = true;
+  const startScreen = document.getElementById("start");
+  if (startScreen) {
+    startScreen.classList.add("active");
+  }
+  setActiveNav("start");
+  updateHUD();
+  resizeCanvas();
+  gameLoop();
+}
+
+/* ═════════════════════════════════════════ */
+/* END BOOT SEQUENCE */
+/* ═════════════════════════════════════════ */
 
 function updateHUD() {
   const hudPlayer = document.getElementById("hudPlayer");
@@ -369,7 +507,7 @@ function copyEmail() {
 }
 
 const gameCanvas = document.getElementById("gameCanvas");
-const ctx = gameCanvas.getContext("2d");
+const ctx = gameCanvas ? gameCanvas.getContext("2d") : null;
 const ball = { x: 240, y: 180, dx: 2, dy: 2, r: 6 };
 const paddle = { x: 20, y: 140, w: 12, h: 90 };
 const shooter = {
@@ -380,11 +518,13 @@ const shooter = {
 };
 
 function resizeCanvas() {
+  if (!gameCanvas) return;
   gameCanvas.width = window.innerWidth;
   gameCanvas.height = window.innerHeight;
 }
 
 function drawPong() {
+  if (!gameCanvas || !ctx) return;
   ball.x += ball.dx;
   ball.y += ball.dy;
 
@@ -414,6 +554,7 @@ function drawPong() {
 }
 
 function drawShooter() {
+  if (!gameCanvas || !ctx) return;
   shooter.tick += 1;
   if (shooter.tick % 24 === 0) {
     shooter.bullets.push({ x: shooter.shipX + 12, y: gameCanvas.height - 44 });
@@ -455,6 +596,7 @@ function drawShooter() {
 }
 
 function gameLoop() {
+  if (!bootComplete || !gameCanvas || !ctx) return;
   ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
   scoreTick += 1;
   if (scoreTick % 60 === 0) {
@@ -486,16 +628,39 @@ window.changeAvatar = changeAvatar;
 window.copyEmail = copyEmail;
 window.openMission = openMission;
 window.syncMissionMode = syncMissionMode;
+window.biosMenuUp = biosMenuUp;
+window.biosMenuDown = biosMenuDown;
+window.biosMenuConfirm = biosMenuConfirm;
 
-resizeCanvas();
 loadSavedAvatar();
-checkUnlock();
-updateHUD();
-setActiveNav("start");
-gameLoop();
+
+/* KEYBOARD LISTENERS FOR BIOS NAVIGATION */
+document.addEventListener("keydown", (event) => {
+  if (!bootComplete && !bootInProgress) {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      biosMenuUp();
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      biosMenuDown();
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      biosMenuConfirm();
+    }
+  }
+});
+
+/* INITIAL SETUP */
+resizeCanvas();
+updateBiosMenuDisplay();
+
+/* START BOOT SEQUENCE (will initialize main UI when complete) */
+console.log("Boot sequence starting...");
 
 document.querySelectorAll("button").forEach((button) => {
   button.addEventListener("click", () => {
-    gainXP(1);
+    if (bootComplete) {
+      gainXP(1);
+    }
   });
 });

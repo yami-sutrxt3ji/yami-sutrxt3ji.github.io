@@ -653,3 +653,346 @@ li {
     font-size: 16px;
   }
 }
+
+/* ═════════════════════════════════════════ */
+/* BOOT SEQUENCE SCREENS */
+/* ═════════════════════════════════════════ */
+
+.boot-screen {
+  background: var(--boot-bg, #050505) !important;
+  color: var(--boot-text, #7CFF7C);
+  font-family: "Courier New", monospace;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.boot-screen.active {
+  animation: bootIn 0.24s steps(4, end);
+}
+
+/* BIOS SCREEN */
+#bios {
+  --boot-bg: #050505;
+  --boot-text: #7CFF7C;
+  --boot-accent: #B6FF00;
+  --boot-dim: #334433;
+}
+
+.bios-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--boot-bg);
+  border: 2px solid var(--boot-accent);
+  padding: 20px;
+  box-shadow: 0 0 20px var(--boot-accent), inset 0 0 10px rgba(181, 255, 0, 0.1);
+}
+
+.bios-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bios-title {
+  color: var(--boot-accent);
+  margin: 0 0 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.bios-divider {
+  color: var(--boot-dim);
+  text-align: center;
+  margin: 10px 0;
+  font-size: 12px;
+}
+
+.bios-system-info {
+  margin: 20px 0;
+  border: 1px solid var(--boot-dim);
+  padding: 10px;
+  background: rgba(5, 3, 10, 0.8);
+}
+
+.bios-system-info p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--boot-text);
+}
+
+.bios-system-info p:last-child {
+  margin-bottom: 0;
+}
+
+.bios-label {
+  color: var(--boot-accent);
+  margin: 15px 0 10px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.bios-menu {
+  margin: 10px 0 20px;
+  padding: 10px;
+  border: 1px solid var(--boot-dim);
+  background: rgba(5, 3, 10, 0.8);
+}
+
+.bios-menu-item {
+  padding: 8px;
+  color: var(--boot-text);
+  cursor: pointer;
+  transition: 0.1s;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.bios-menu-item.active {
+  background: var(--boot-accent);
+  color: var(--boot-bg);
+}
+
+.bios-cursor {
+  display: inline-block;
+  width: 20px;
+  min-width: 20px;
+}
+
+.bios-menu-item.active .bios-cursor {
+  animation: bios-blink 0.8s steps(2, end) infinite;
+}
+
+@keyframes bios-blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.bios-footer {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid var(--boot-dim);
+  padding-top: 15px;
+}
+
+.bios-footer p {
+  font-size: 11px;
+  color: var(--boot-dim);
+  margin: 0 0 10px;
+}
+
+.bios-mobile-nav {
+  display: none;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bios-nav-btn {
+  background: var(--boot-bg);
+  color: var(--boot-text);
+  border: 1px solid var(--boot-accent);
+  padding: 6px 10px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.bios-nav-btn:hover {
+  background: var(--boot-accent);
+  color: var(--boot-bg);
+}
+
+/* LOADING SCREEN */
+#disk-loading {
+  --boot-bg: #050505;
+  --boot-text: #7CFF7C;
+  --boot-accent: #B6FF00;
+}
+
+.loading-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--boot-bg);
+  border: 2px solid var(--boot-accent);
+  padding: 20px;
+  box-shadow: 0 0 20px var(--boot-accent), inset 0 0 10px rgba(181, 255, 0, 0.1);
+}
+
+.loading-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.loading-title {
+  color: var(--boot-accent);
+  margin: 0 0 10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.loading-divider {
+  color: #334433;
+  text-align: center;
+  font-size: 12px;
+}
+
+.loading-logs {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #334433;
+  background: rgba(5, 3, 10, 0.8);
+  min-height: 100px;
+}
+
+.log-line {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--boot-text);
+  min-height: 16px;
+  animation: fadeInLog 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInLog {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.log-line:nth-child(1) { animation-delay: 0.2s; }
+.log-line:nth-child(2) { animation-delay: 0.6s; }
+.log-line:nth-child(3) { animation-delay: 1.0s; }
+.log-line:nth-child(4) { animation-delay: 1.4s; }
+.log-line:nth-child(5) { animation-delay: 1.8s; }
+
+.progress-section {
+  margin-top: 20px;
+}
+
+.progress-bar {
+  height: 14px;
+  border: 2px solid var(--boot-accent);
+  background: rgba(5, 3, 10, 0.9);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--boot-accent), var(--boot-text));
+  transition: width 0.1s linear;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: 11px;
+  color: var(--boot-dim);
+  margin: 0;
+}
+
+/* ASCII BANNER SCREEN */
+#ascii-banner {
+  --boot-bg: #050505;
+  --boot-text: #7CFF7C;
+}
+
+.banner-container {
+  text-align: center;
+  animation: bannerFadeOut 1s ease-out forwards;
+  animation-delay: 3s;
+}
+
+@keyframes bannerFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.ascii-art {
+  font-size: 14px;
+  color: var(--boot-accent);
+  margin: 20px 0;
+  line-height: 1.4;
+  white-space: pre;
+  font-family: "Courier New", monospace;
+  letter-spacing: 1px;
+}
+
+.banner-text {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.banner-line {
+  font-size: 12px;
+  color: var(--boot-text);
+  margin: 8px 0;
+  min-height: 16px;
+}
+
+/* MAIN UI FADE-IN */
+#main-ui-stack {
+  animation: mainUIFadeIn 0.8s ease-out forwards;
+  animation-delay: 3.5s;
+  opacity: 0;
+}
+
+@keyframes mainUIFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE RESPONSIVENESS FOR BOOT */
+@media (max-width: 768px) {
+  .boot-screen {
+    padding: 20px 10px;
+  }
+
+  .bios-container,
+  .loading-container {
+    border: 1px solid var(--boot-accent);
+    padding: 15px;
+  }
+
+  .bios-title,
+  .loading-title {
+    font-size: 14px;
+  }
+
+  .bios-mobile-nav {
+    display: flex;
+  }
+
+  .bios-system-info p,
+  .bios-menu-item,
+  .log-line {
+    font-size: 11px;
+  }
+
+  .ascii-art {
+    font-size: 12px;
+  }
+}

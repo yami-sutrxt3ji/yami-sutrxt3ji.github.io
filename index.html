@@ -34,7 +34,83 @@
     </div>
 
     <div class="container app-container">
-      <div class="stack">
+      <!-- BOOT SEQUENCE SCREENS -->
+      <section id="bios" class="screen boot-screen active">
+        <div class="bios-container">
+          <div class="bios-header">
+            <h1 class="bios-title">ASHISH SYSTEM BIOS v2.3</h1>
+            <div class="bios-divider">═════════════════════════════════════════</div>
+          </div>
+          <div class="bios-system-info">
+            <p>CPU: curiosity-core-i7 detected</p>
+            <p>RAM: 16GB (allocation: insufficient but optimistic)</p>
+            <p>Storage: ideas.img [524.9 MB mounted]</p>
+            <p>GPU: creative-rtx enabled</p>
+            <p>&nbsp;</p>
+          </div>
+          <div class="bios-menu-section">
+            <p class="bios-label">Boot Options:</p>
+            <div class="bios-menu">
+              <div class="bios-menu-item active" data-index="0">
+                <span class="bios-cursor">→ </span>Load ashish_profile.efi
+              </div>
+              <div class="bios-menu-item" data-index="1">
+                <span class="bios-cursor">&nbsp;&nbsp;&nbsp;</span>Safe Mode (profile summary only)
+              </div>
+              <div class="bios-menu-item" data-index="2">
+                <span class="bios-cursor">&nbsp;&nbsp;&nbsp;</span>Debug Mode (verbose logs)
+              </div>
+            </div>
+          </div>
+          <div class="bios-footer">
+            <p>[Use ↑↓ Arrows or Tap Buttons, Press Enter to Boot]</p>
+            <div class="bios-mobile-nav">
+              <button class="bios-nav-btn" onclick="biosMenuUp()">[ ↑ ]</button>
+              <button class="bios-nav-btn" onclick="biosMenuDown()">[ ↓ ]</button>
+              <button class="bios-nav-btn" onclick="biosMenuConfirm()">[ ENTER ]</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="disk-loading" class="screen boot-screen">
+        <div class="loading-container">
+          <div class="loading-header">
+            <h1 class="loading-title">SYSTEM INITIALIZATION</h1>
+            <div class="loading-divider">═════════════════════════════════════════</div>
+          </div>
+          <div class="loading-logs">
+            <p class="log-line"></p>
+            <p class="log-line"></p>
+            <p class="log-line"></p>
+            <p class="log-line"></p>
+            <p class="log-line"></p>
+          </div>
+          <div class="progress-section">
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
+            </div>
+            <p class="progress-text">PROGRESS: 0%</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ascii-banner" class="screen boot-screen">
+        <div class="banner-container">
+          <pre class="ascii-art">   ___   _____ __  ________
+  / _ | / ___// / / /  _/ /
+ / __ |_\__ \/ /_/ // // /__
+/_/ |_/____/\____/___/____/</pre>
+          <div class="banner-text">
+            <p class="banner-line"></p>
+            <p class="banner-line"></p>
+            <p class="banner-line"></p>
+            <p class="banner-line"></p>
+          </div>
+        </div>
+      </section>
+
+      <div class="stack" id="main-ui-stack">
         <nav class="top-nav panel" data-title="NAVIGATION">
           <div class="nav-track"></div>
           <div class="nav-buttons navbar">
