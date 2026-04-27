@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* ═════════════════════════════════════════ */
-  /* BOOT SKIP LOGIC - CHECK IF ALREADY BOOTED */
+  /* BOOT INITIALIZATION - ALWAYS SHOW */
   /* ═════════════════════════════════════════ */
   
   // Global tap/click to skip during boot
@@ -95,14 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  if (hasBootedBefore()) {
-    console.log("Returning visitor: skipping boot.");
-    skipBoot();
-  } else {
-    console.log("Boot sequence starting...");
-    console.log("💡 Tip: Press ESC or Tap to skip boot");
-    startBootSequence();
-  }
+  console.log("Boot sequence starting...");
+  console.log("💡 Tip: Press ESC or Tap to skip boot");
+  startBootSequence();
 });
 
 function skipBoot() {

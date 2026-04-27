@@ -136,6 +136,19 @@
 .diag-line .label { color: #ffb000; }
 .diag-line .value { color: #00e5ff; }
 
+/* Blinking Terminal Cursor */
+#boot-log-content::after {
+  content: "_";
+  color: #00ff66;
+  animation: bios-blink 0.8s steps(2, end) infinite;
+  margin-left: 5px;
+}
+
+@keyframes bios-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /* SCREEN 3: BOOTLOADER - BIOS Style Box */
 /* ═══════════════════════════════════════════════════════════════════════════ */

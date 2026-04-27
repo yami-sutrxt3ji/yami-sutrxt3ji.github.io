@@ -2,7 +2,6 @@
 /* BOOT SEQUENCE STATE & PERSISTENCE */
 /* ═════════════════════════════════════════ */
 let bootComplete = false;
-let biosMenuIndex = 0;
 let bootInProgress = false;
 let bootSkipped = false;
 let bootTimeouts = [];
@@ -19,9 +18,7 @@ function showScreen(id) {
   }
 }
 
-function hasBootedBefore() {
-  return localStorage.getItem("bootCompleted") === "true";
-}
+// Removed hasBootedBefore check to ensure boot runs every time
 
 function markBootAsCompleted() {
   localStorage.setItem("bootCompleted", "true");
@@ -29,187 +26,83 @@ function markBootAsCompleted() {
 }
 
 /* ═════════════════════════════════════════ */
-/* BOOT SEQUENCE FUNCTIONS - MULTI-STAGE */
+/* BOOT SEQUENCE FUNCTIONS - NEW FLOW */
 /* ═════════════════════════════════════════ */
-
-function updateBiosMenuDisplay() {
-  const items = document.querySelectorAll(".bios-menu-item");
-  items.forEach((item, index) => {
-    item.classList.toggle("active", index === biosMenuIndex);
-    const cursor = item.querySelector(".bios-cursor");
-    if (cursor) cursor.innerHTML = index === biosMenuIndex ? "→ " : "&nbsp;&nbsp;&nbsp;";
-  });
-}
-
-function biosMenuUp() {
-  biosMenuIndex = (biosMenuIndex - 1 + 3) % 3;
-  updateBiosMenuDisplay();
-  if (window.playBeep) window.playBeep();
-}
-
-function biosMenuDown() {
-  biosMenuIndex = (biosMenuIndex + 1) % 3;
-  updateBiosMenuDisplay();
-  if (window.playBeep) window.playBeep();
-}
-
-function biosMenuConfirm() {
-  if (bootComplete || bootSkipped) return;
-  if (window.playSelect) window.playSelect();
-  transitionToDiskSeek();
-}
 
 async function startBootSequence() {
   if (bootInProgress) return;
   bootInProgress = true;
   
-  console.log("Starting cinematic boot...");
+  console.log("Starting intentional boot sequence...");
 
-  // Hard Fail-safe: If boot takes > 20s, force enter the website
+  // Hard Fail-safe: 8 seconds to main site
   const failSafe = setTimeout(() => {
     if (!bootComplete) {
-      console.warn("Boot timeout: force entering site.");
+      console.warn("Boot timeout: entering site.");
       initMainUIAfterBoot();
     }
-  }, 20000);
+  }, 8000);
   bootTimeouts.push(failSafe);
 
-  // Phase 1: SIGNAL DETECTED (3s with visible timer)
+  // Phase 1: SIGNAL DETECTED
   showScreen("power-on");
   if (window.playBeep) window.playBeep();
   
-  const timerEl = document.getElementById("boot-timer");
-  let timeLeft = 3;
-  if (timerEl) timerEl.textContent = `INITIALIZING IN ${timeLeft}s...`;
-  
-  const timerInterval = setInterval(() => {
-    timeLeft--;
-    if (timerEl) timerEl.textContent = `INITIALIZING IN ${timeLeft}s...`;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-    }
-  }, 1000);
-  bootTimeouts.push(timerInterval);
-
+  // Quick transition to terminal logs
   bootTimeouts.push(setTimeout(() => {
     if (bootSkipped || bootComplete) return;
-    // Phase 2: UEFI INITIALIZATION (3s)
     showScreen("diagnostics");
-    diagnosticsSequence();
-  }, 3500)); // 3.5s to allow for the 3s timer + small transition
-
-  // Phase 3: BOOTLOADER MENU (Auto-confirm after 5s)
-  // We'll calculate the delay based on the diagnostics length
-  // Diagnostics has 5 lines, each 400ms = 2s total. 
-  // So Phase 3 starts around 3.5s + 2s + 0.5s buffer = 6s
-  bootTimeouts.push(setTimeout(() => {
-    if (bootSkipped || bootComplete) return;
-    showScreen("bios");
-    updateBiosMenuDisplay();
-    
-    const autoBootEl = document.getElementById("auto-boot-text");
-    let autoTimeLeft = 5;
-    if (autoBootEl) autoBootEl.textContent = `Auto-boot in ${autoTimeLeft}s...`;
-
-    const autoBootInterval = setInterval(() => {
-      autoTimeLeft--;
-      if (autoBootEl) autoBootEl.textContent = `Auto-boot in ${autoTimeLeft}s...`;
-      if (autoTimeLeft <= 0) {
-        clearInterval(autoBootInterval);
-      }
-    }, 1000);
-    bootTimeouts.push(autoBootInterval);
-
-    bootTimeouts.push(setTimeout(() => {
-      if (!bootComplete && !bootSkipped) {
-        biosMenuConfirm();
-      }
-    }, 5500));
-  }, 7000));
+    runTerminalLogs();
+  }, 1000));
 }
 
-async function diagnosticsSequence() {
-  if (window.playDiskSeek) window.playDiskSeek();
+async function runTerminalLogs() {
   const diagScreen = document.getElementById("diagnostics");
   if (!diagScreen) return;
-  
-  const values = diagScreen.querySelectorAll(".value");
-  values.forEach(v => {
-    if (!v.dataset.original) v.dataset.original = v.textContent;
-    v.textContent = "";
-  });
 
-  for (let i = 0; i < values.length; i++) {
-    await new Promise(resolve => {
-      const t = setTimeout(() => {
-        values[i].textContent = values[i].dataset.original;
-        if (window.playBeep) window.playBeep();
-        resolve();
-      }, 400);
-      bootTimeouts.push(t);
-    });
-  }
-}
-
-function transitionToDiskSeek() {
-  // Phase 4: KERNEL LOADING (Progress Bar)
-  showScreen("disk-loading");
-  bootTimeouts.push(setTimeout(() => {
-    playDiskLoadingSequence();
-  }, 300));
-}
-
-async function playDiskLoadingSequence() {
   const logLines = [
-    "Loading kernel: ashish_profile.efi",
-    "Verifying sectors: [OK]",
-    "Reading system configuration...",
-    "Mounting storage: ideas.img",
-    "Starting interface manager..."
+    "mounting profile.fs...",
+    "starting network manager...",
+    "loading projects.service...",
+    "initializing ui.target...",
+    "launching ashish.desktop...",
+    "system ready"
   ];
-  
-  const progressFill = document.querySelector(".progress-fill");
-  const progressText = document.querySelector(".progress-text");
-  const logContainer = document.querySelector(".loading-log");
-  
-  if (!progressFill) return;
-  
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.random() * 8 + 2;
-    if (progress > 100) progress = 100;
-    
-    if (progress % 15 < 5 && window.playDiskSeek) window.playDiskSeek();
-    
-    progressFill.style.width = progress + "%";
-    progressText.textContent = `BOOTING KERNEL... ${Math.floor(progress)}%`;
-    
-    if (progress >= 100) {
-      clearInterval(interval);
-      if (window.playLoad) window.playLoad();
-      bootTimeouts.push(setTimeout(() => {
-        playAsciiReveal();
-      }, 800));
-    }
-  }, 200);
 
+  const container = diagScreen.querySelector(".diag-container");
+  if (container) {
+    container.innerHTML = '<div class="diag-header">SYSTEM_BOOT_INIT</div><div id="boot-log-content"></div>';
+  }
+  
+  const logContent = document.getElementById("boot-log-content");
+  
   for (let i = 0; i < logLines.length; i++) {
+    if (bootSkipped || bootComplete) break;
+    
     await new Promise(resolve => {
       const t = setTimeout(() => {
         const p = document.createElement("p");
-        p.className = "log-line";
-        p.textContent = logLines[i];
-        if (logContainer) logContainer.appendChild(p);
+        p.className = "diag-line";
+        p.style.textAlign = "left";
+        p.style.opacity = "1";
+        p.innerHTML = `<span class="label">></span> <span class="value">${logLines[i]}</span>`;
+        if (logContent) logContent.appendChild(p);
+        
         if (window.playDiskSeek) window.playDiskSeek();
         resolve();
-      }, 400);
+      }, 600);
       bootTimeouts.push(t);
     });
+  }
+
+  if (!bootSkipped && !bootComplete) {
+    bootTimeouts.push(setTimeout(() => {
+      playAsciiReveal();
+    }, 800));
   }
 }
 
 async function playAsciiReveal() {
-  // Phase 5: ASCII BANNER (1.5s)
   showScreen("ascii-banner");
   if (window.playSuccess) window.playSuccess();
   
@@ -222,6 +115,7 @@ async function playAsciiReveal() {
   ];
   
   for (let i = 0; i < bannerLines.length; i++) {
+    if (bootSkipped || bootComplete) break;
     await new Promise(resolve => {
       const t = setTimeout(async () => {
         if (window.typeText) {
@@ -237,7 +131,7 @@ async function playAsciiReveal() {
   
   bootTimeouts.push(setTimeout(() => {
     initMainUIAfterBoot();
-  }, 1500));
+  }, 1000));
 }
 
 function initMainUIAfterBoot() {
@@ -252,19 +146,24 @@ function initMainUIAfterBoot() {
   const bootOverlay = document.getElementById("boot-overlay");
   if (bootOverlay) {
     bootOverlay.style.opacity = "0";
-    bootOverlay.style.transition = "opacity 0.8s ease-out";
+    bootOverlay.style.transition = "opacity 1s ease-in-out"; // Smooth fade
     setTimeout(() => {
       bootOverlay.style.display = "none";
       bootOverlay.classList.remove("active");
-    }, 800);
+    }, 1000);
   }
   
   const mainPortfolio = document.getElementById("main-portfolio");
   if (mainPortfolio) {
     mainPortfolio.classList.add("active");
-    // Trigger any entry animations
     document.body.classList.add("portfolio-ready");
   }
   
   if (window.updateSoundToggle) window.updateSoundToggle();
 }
+
+// Added back for main.js compatibility
+function biosMenuUp() {}
+function biosMenuDown() {}
+function biosMenuConfirm() {}
+function updateBiosMenuDisplay() {}
