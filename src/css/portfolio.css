@@ -309,6 +309,28 @@
   border-color: var(--portfolio-accent);
 }
 
+.featured-project {
+  grid-column: 1 / -1;
+  border: 2px solid var(--portfolio-accent);
+  background: linear-gradient(135deg, rgba(255, 75, 129, 0.05) 0%, rgba(0, 229, 255, 0.05) 100%);
+  box-shadow: 0 0 20px rgba(255, 75, 129, 0.2);
+  padding: 2rem;
+}
+
+.featured-project:hover {
+  box-shadow: 0 0 30px rgba(255, 75, 129, 0.3);
+}
+
+.idea-card {
+  border-color: var(--portfolio-secondary);
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.05) 0%, rgba(0, 229, 255, 0.02) 100%);
+}
+
+.idea-card:hover {
+  border-color: var(--portfolio-border);
+  box-shadow: 0 0 20px rgba(123, 97, 255, 0.2);
+}
+
 .project-header {
   margin-bottom: 1rem;
 }
@@ -324,6 +346,18 @@
   border: 1px solid var(--portfolio-border);
 }
 
+.featured-tag {
+  background: rgba(255, 75, 129, 0.2);
+  color: var(--portfolio-accent);
+  border-color: var(--portfolio-accent);
+}
+
+.idea-tag {
+  background: rgba(123, 97, 255, 0.2);
+  color: var(--portfolio-secondary);
+  border-color: var(--portfolio-secondary);
+}
+
 .project-title {
   font-family: "Silkscreen", monospace;
   font-size: 1.25rem;
@@ -332,10 +366,84 @@
   letter-spacing: 1px;
 }
 
+.featured-project .project-title {
+  color: var(--portfolio-accent);
+  font-size: 1.5rem;
+}
+
+.project-status-badge {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid var(--portfolio-border);
+  border-radius: 2px;
+  font-size: 0.85rem;
+}
+
+.status-level {
+  color: var(--portfolio-accent);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.status-text {
+  color: var(--portfolio-text-bright);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.featured-project .project-status-badge {
+  background: rgba(255, 75, 129, 0.1);
+  border-color: var(--portfolio-accent);
+}
+
+.idea-card .project-status-badge {
+  background: rgba(123, 97, 255, 0.1);
+  border-color: var(--portfolio-secondary);
+}
+
+.idea-card .status-level {
+  color: var(--portfolio-secondary);
+}
+
+.project-progress {
+  margin-bottom: 1.5rem;
+}
+
+.progress-bar-thin {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill-thin {
+  height: 100%;
+  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-border));
+  box-shadow: 0 0 8px rgba(255, 75, 129, 0.5);
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: var(--portfolio-secondary);
+  letter-spacing: 0.5px;
+}
+
 .project-description {
   color: var(--portfolio-text);
   line-height: 1.6;
   margin: 1rem 0;
+}
+
+.featured-project .project-description {
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .project-meta {
@@ -346,9 +454,30 @@
   border-top: 1px solid rgba(0, 229, 255, 0.2);
 }
 
+.featured-meta {
+  border-top: 1px solid rgba(255, 75, 129, 0.2);
+}
+
 .project-status {
   color: var(--portfolio-secondary);
   font-size: 0.9rem;
+}
+
+.project-link {
+  color: var(--portfolio-accent);
+  text-decoration: none;
+  border: 1px solid var(--portfolio-accent);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.project-link:hover {
+  background: rgba(255, 75, 129, 0.2);
+  box-shadow: 0 0 10px rgba(255, 75, 129, 0.3);
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -586,6 +715,10 @@
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .featured-project {
+    grid-column: 1;
   }
 
   .skills-grid {
