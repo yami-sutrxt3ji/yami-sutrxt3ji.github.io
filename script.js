@@ -645,7 +645,7 @@ function copyEmail() {
     });
 }
 
-const gameCanvas = document.getElementById("gameCanvas");
+const gameCanvas = document.getElementById("arcadeCanvas");
 const ctx = gameCanvas ? gameCanvas.getContext("2d") : null;
 const ball = { x: 240, y: 180, dx: 2, dy: 2, r: 6 };
 const paddle = { x: 20, y: 140, w: 12, h: 90 };
@@ -750,6 +750,8 @@ function gameLoop() {
 }
 
 document.addEventListener("mousemove", (event) => {
+  if (!gameCanvas) return; // Safe guard: canvas may not exist yet
+  
   paddle.y = event.clientY - paddle.h / 2;
   paddle.y = Math.max(0, Math.min(gameCanvas.height - paddle.h, paddle.y));
   shooter.shipX = Math.max(0, Math.min(gameCanvas.width - 24, event.clientX - 12));
