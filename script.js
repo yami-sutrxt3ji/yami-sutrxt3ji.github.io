@@ -791,8 +791,163 @@ window.biosMenuConfirm = biosMenuConfirm;
 window.scrollToSection = scrollToSection;
 window.toggleSound = toggleSound;
 window.updateSoundToggle = updateSoundToggle;
+window.startArcadeGame = startArcadeGame;
+window.toggleArcadeMode = toggleArcadeMode;
+window.closeArcade = closeArcade;
 
 loadSavedAvatar();
+
+/* ═════════════════════════════════════════ */
+/* ARCADE.EXE GAME WINDOW LOGIC */
+/* ═════════════════════════════════════════ */
+
+let arcadeMode = "pong";
+let arcadeGameRunning = false;
+let arcadeScore = 0;
+let arcadeHighScore = Number(localStorage.getItem("arcadeHighScore") || 0);
+
+const arcadeCanvas = document.getElementById("arcadeCanvas");
+const arcadeCtx = arcadeCanvas ? arcadeCanvas.getContext("2d") : null;
+
+// Arcade Pong Game State
+const arcadePaddle = { y: arcadeCanvas ? arcadeCanvas.height / 2 - 45 : 155, h: 90, w: 8, speed: 6 };
+const arcadeBall = { x: 300, y: 200, dx: 3, dy: 3, r: 5, maxSpeed: 7 };
+const arcadeGame = { width: 600, height: 400 };
+
+function startArcadeGame() {
+  if (!arcadeCanvas) return;
+  arcadeGameRunning = true;
+  arcadeBall.x = arcadeCanvas.width / 2;
+  arcadeBall.y = arcadeCanvas.height / 2;
+  arcadeBall.dx = (Math.random() > 0.5 ? 1 : -1) * 3;
+  arcadeBall.dy = (Math.random() * 4 - 2);
+  updateArcadeStatus("PLAYING");
+  arcadeGameLoop();
+}
+
+function arcadeGameLoop() {
+  if (!arcadeGameRunning || !arcadeCtx) return;
+
+  // Clear canvas
+  arcadeCtx.fillStyle = "#000";
+  arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+
+  // Draw border
+  arcadeCtx.strokeStyle = "#00e5ff";
+  arcadeCtx.lineWidth = 2;
+  arcadeCtx.strokeRect(1, 1, arcadeCanvas.width - 2, arcadeCanvas.height - 2);
+
+  // Draw center line
+  arcadeCtx.strokeStyle = "rgba(0, 229, 255, 0.3)";
+  arcadeCtx.setLineDash([5, 5]);
+  arcadeCtx.beginPath();
+  arcadeCtx.moveTo(arcadeCanvas.width / 2, 0);
+  arcadeCtx.lineTo(arcadeCanvas.width / 2, arcadeCanvas.height);
+  arcadeCtx.stroke();
+  arcadeCtx.setLineDash([]);
+
+  // Draw paddle (player)
+  arcadeCtx.fillStyle = "#00e5ff";
+  arcadeCtx.fillRect(arcadeCanvas.width - 20, arcadePaddle.y, arcadePaddle.w, arcadePaddle.h);
+
+  // Draw ball
+  arcadeCtx.fillStyle = "#ff4b81";
+  arcadeCtx.beginPath();
+  arcadeCtx.arc(arcadeBall.x, arcadeBall.y, arcadeBall.r, 0, Math.PI * 2);
+  arcadeCtx.fill();
+
+  // Update ball position
+  arcadeBall.x += arcadeBall.dx;
+  arcadeBall.y += arcadeBall.dy;
+
+  // Ball collision with top/bottom
+  if (arcadeBall.y - arcadeBall.r < 0 || arcadeBall.y + arcadeBall.r > arcadeCanvas.height) {
+    arcadeBall.dy *= -1;
+    arcadeBall.y = Math.max(arcadeBall.r, Math.min(arcadeCanvas.height - arcadeBall.r, arcadeBall.y));
+  }
+
+  // Ball collision with paddle
+  if (arcadeBall.x + arcadeBall.r > arcadeCanvas.width - 20 &&
+      arcadeBall.x + arcadeBall.r < arcadeCanvas.width &&
+      arcadeBall.y > arcadePaddle.y &&
+      arcadeBall.y < arcadePaddle.y + arcadePaddle.h) {
+    arcadeBall.dx = -Math.abs(arcadeBall.dx);
+    arcadeScore += 10;
+    updateArcadeScore();
+    // Increase difficulty
+    arcadeBall.dx *= 1.02;
+    arcadeBall.dy *= 1.02;
+  }
+
+  // Ball out of bounds (lose)
+  if (arcadeBall.x < 0 || arcadeBall.x > arcadeCanvas.width) {
+    arcadeGameRunning = false;
+    if (arcadeScore > arcadeHighScore) {
+      arcadeHighScore = arcadeScore;
+      localStorage.setItem("arcadeHighScore", arcadeHighScore);
+      updateArcadeHighScore();
+      updateArcadeStatus("🏆 NEW HIGH!");
+    } else {
+      updateArcadeStatus("GAME OVER");
+    }
+    return;
+  }
+
+  requestAnimationFrame(arcadeGameLoop);
+}
+
+function updateArcadeScore() {
+  const scoreEl = document.getElementById("arcadeScore");
+  if (scoreEl) scoreEl.textContent = arcadeScore;
+}
+
+function updateArcadeHighScore() {
+  const highEl = document.getElementById("arcadeHigh");
+  if (highEl) highEl.textContent = arcadeHighScore;
+}
+
+function updateArcadeStatus(text) {
+  const statusEl = document.getElementById("arcadeStatus");
+  if (statusEl) statusEl.textContent = text;
+}
+
+function toggleArcadeMode(mode) {
+  arcadeMode = mode || "pong";
+  arcadeGameRunning = false;
+  arcadeScore = 0;
+  updateArcadeScore();
+  updateArcadeStatus("READY");
+  
+  // Clear canvas
+  if (arcadeCtx) {
+    arcadeCtx.fillStyle = "#000";
+    arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+  }
+}
+
+function closeArcade() {
+  arcadeGameRunning = false;
+  updateArcadeStatus("CLOSED");
+}
+
+// Mouse movement for paddle control
+document.addEventListener("mousemove", (event) => {
+  if (!arcadeGameRunning || !arcadeCanvas) return;
+  const rect = arcadeCanvas.getBoundingClientRect();
+  const mouseY = event.clientY - rect.top;
+  arcadePaddle.y = Math.max(0, Math.min(arcadeCanvas.height - arcadePaddle.h, mouseY - arcadePaddle.h / 2));
+});
+
+// Touch support for mobile
+arcadeCanvas?.addEventListener("touchmove", (event) => {
+  if (!arcadeGameRunning) return;
+  const rect = arcadeCanvas.getBoundingClientRect();
+  const touchY = event.touches[0].clientY - rect.top;
+  arcadePaddle.y = Math.max(0, Math.min(arcadeCanvas.height - arcadePaddle.h, touchY - arcadePaddle.h / 2));
+});
+
+// Initialize arcade high score display
+updateArcadeHighScore();
 
 /* ═════════════════════════════════════════ */
 /* BOOT SKIP LOGIC - CHECK IF ALREADY BOOTED */
