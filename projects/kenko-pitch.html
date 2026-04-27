@@ -153,51 +153,308 @@
       color: var(--portfolio-secondary);
     }
 
-    /* PDF/PPT VIEWER */
-    .file-viewer {
-      background: #000;
-      border: 2px solid var(--portfolio-border);
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* SLIDE VIEWER - Retro Windowed UI */
+    /* ═══════════════════════════════════════════════════════════════ */
+
+    .slide-viewer-container {
       margin: 2rem 0;
-      min-height: 500px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .slide-window {
+      width: 100%;
+      max-width: 900px;
+      background: var(--portfolio-panel);
+      border: 2px solid var(--portfolio-border);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: windowAppear 0.3s ease-out;
+    }
+
+    @keyframes windowAppear {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* WINDOW TITLEBAR */
+    .window-titlebar {
+      background: linear-gradient(90deg, var(--portfolio-border), var(--portfolio-secondary));
+      color: #000;
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Silkscreen", monospace;
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    .window-title {
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .window-btn {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      color: #000;
+      padding: 0.2rem 0.5rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+
+    .window-btn:hover {
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .close-btn:hover {
+      background: #ff4b81;
+      color: #fff;
+    }
+
+    /* WINDOW CONTENT */
+    .window-content {
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    /* SLIDE DISPLAY AREA */
+    .slide-display {
+      flex: 1;
+      background: #000;
+      border: 1px solid var(--portfolio-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 2rem;
+      min-height: 400px;
       position: relative;
-      padding: 2rem;
+      overflow: hidden;
+      user-select: none;
+      touch-action: pan-y;
     }
 
-    .file-viewer.empty {
-      color: var(--portfolio-secondary);
+    .slide-display img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .slide-placeholder {
       text-align: center;
-      padding: 3rem 2rem;
+      color: var(--portfolio-secondary);
+      opacity: 0.6;
     }
 
-    .file-viewer.empty p {
-      margin: 0;
-      font-size: 1.1rem;
+    /* CONTROLS BAR */
+    .slide-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid var(--portfolio-border);
+      border-radius: 0;
+    }
+
+    .slide-info {
+      color: var(--portfolio-text);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
       letter-spacing: 1px;
+      white-space: nowrap;
     }
 
-    .close-viewer-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: 2px solid var(--portfolio-accent);
+    #slideCounter {
       color: var(--portfolio-accent);
+      font-weight: bold;
+    }
+
+    .slide-nav {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .slide-btn {
+      background: none;
+      border: 2px solid var(--portfolio-border);
+      color: var(--portfolio-border);
       padding: 0.4rem 0.8rem;
       font-family: "IBM Plex Mono", monospace;
-      font-size: 1rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      z-index: 10;
+      letter-spacing: 1px;
       transition: all 0.3s;
+      text-transform: uppercase;
     }
 
-    .close-viewer-btn:hover {
-      background: rgba(255, 75, 129, 0.2);
-      box-shadow: 0 0 10px rgba(255, 75, 129, 0.3);
+    .slide-btn:hover {
+      background: rgba(0, 229, 255, 0.2);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+    }
+
+    .slide-btn:active {
+      transform: scale(0.95);
+    }
+
+    .slide-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .info-btn {
+      border-color: var(--portfolio-secondary);
+      color: var(--portfolio-secondary);
+    }
+
+    .info-btn:hover {
+      background: rgba(123, 97, 255, 0.2);
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.3);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════ */
+    /* MOBILE RESPONSIVE */
+    /* ═══════════════════════════════════════════════════════════════ */
+
+    @media (max-width: 768px) {
+      .slide-window {
+        max-width: 100%;
+        border-width: 2px;
+        margin: 0 -1.5rem;
+        border-radius: 0;
+      }
+
+      .window-content {
+        padding: 0.75rem;
+        gap: 0.75rem;
+      }
+
+      .slide-display {
+        min-height: 300px;
+      }
+
+      .slide-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .slide-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .slide-info {
+        font-size: 0.8rem;
+      }
+
+      .slide-btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.8rem;
+      }
+
+      .window-btn {
+        padding: 0.15rem 0.4rem;
+        font-size: 0.7rem;
+      }
+
+      .window-titlebar {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-window {
+        border-left: none;
+        border-right: none;
+        margin: 0 -1rem;
+      }
+
+      .window-titlebar {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      .window-controls {
+        gap: 0.1rem;
+      }
+
+      .window-btn {
+        padding: 0.1rem 0.3rem;
+        font-size: 0.6rem;
+      }
+
+      .window-content {
+        padding: 0.5rem;
+        gap: 0.5rem;
+      }
+
+      .slide-display {
+        min-height: 250px;
+        border-width: 1px;
+      }
+
+      .slide-controls {
+        padding: 0.5rem;
+        gap: 0.3rem;
+      }
+
+      .slide-nav {
+        gap: 0.25rem;
+      }
+
+      .slide-btn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
+      }
+
+      .slide-info {
+        font-size: 0.7rem;
+        min-width: 100px;
+        order: 1;
+      }
+
+      #slideCounter {
+        min-width: auto;
+      }
     }
 
     /* VIEWER OPTIONS */
@@ -512,10 +769,10 @@
       <!-- PITCH DECK ACCESS SECTION -->
       <div class="pitch-section">
         <h2>FULL PITCH DECK</h2>
-        <p>Access the complete Kenko Aahara pitch deck using your preferred method:</p>
+        <p>Experience the Kenko Aahara pitch deck as an interactive presentation:</p>
         
-        <!-- VIEWER OPTIONS -->
-        <div class="viewer-options">
+        <!-- LEGACY: Viewer Options (for when slides aren't ready) -->
+        <div class="viewer-options" id="legacyViewers" style="display: none;">
           
           <!-- OPTION 1: GOOGLE DRIVE (Recommended) -->
           <div class="viewer-option">
@@ -588,18 +845,56 @@
 
         </div>
 
-        <!-- ACTIVE VIEWER -->
-        <div class="file-viewer" id="activeViewer" style="display: none; margin-top: 3rem;">
-          <button class="close-viewer-btn" onclick="closeViewer()">[ × CLOSE ]</button>
-          <div id="viewerContent"></div>
+        <!-- MAIN: Web Slide Viewer (DECK.EXE) -->
+        <div class="slide-viewer-container">
+          <div class="slide-window">
+            <!-- WINDOW HEADER -->
+            <div class="window-titlebar">
+              <span class="window-title">KENKO_DECK.EXE</span>
+              <div class="window-controls">
+                <button class="window-btn" onclick="toggleFullscreen()">[ ⛶ ]</button>
+                <button class="window-btn close-btn" onclick="closeSlideViewer()">[ × ]</button>
+              </div>
+            </div>
+
+            <!-- WINDOW CONTENT -->
+            <div class="window-content">
+              <!-- SLIDE DISPLAY -->
+              <div class="slide-display" id="slideDisplay">
+                <div class="slide-placeholder">
+                  <p style="margin: 0; font-size: 1.2rem; letter-spacing: 2px;">📊 KENKO_DECK.EXE</p>
+                  <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.7;">Waiting for slides to load...</p>
+                </div>
+              </div>
+
+              <!-- CONTROLS BAR -->
+              <div class="slide-controls">
+                <div class="slide-info">
+                  <span id="slideCounter">Slide 1 / 8</span>
+                </div>
+                <div class="slide-nav">
+                  <button class="slide-btn" id="prevBtn" onclick="previousSlide()" title="← Previous">[ ← ]</button>
+                  <button class="slide-btn" id="playBtn" onclick="toggleAutoPlay()" title="Play/Pause">[ ▶ ]</button>
+                  <button class="slide-btn" id="nextBtn" onclick="nextSlide()" title="Next →">[ → ]</button>
+                </div>
+                <div class="slide-info">
+                  <button class="slide-btn info-btn" onclick="showSlideInfo()" title="Info">[ ? ]</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- STATUS: NOT YET UPLOADED -->
-        <div class="status-box" id="statusBox">
+        <!-- STATUS / INSTRUCTIONS -->
+        <div class="status-box" id="deckStatus" style="margin-top: 2rem;">
           <p style="margin: 0; font-size: 0.95rem;">
-            📋 <strong>Status:</strong> Pitch deck link not yet configured. 
+            📋 <strong>Status:</strong> Slide deck ready for web view.
             <br>
-            <span style="font-size: 0.85rem; opacity: 0.8;">Paste a Google Drive, Office, or PDF link above to enable viewing.</span>
+            <span style="font-size: 0.85rem; opacity: 0.8;">
+              ⌨️ Keyboard: Arrow keys to navigate | ESC to close
+              <br>
+              📱 Touch: Swipe left/right for slides
+            </span>
           </p>
         </div>
 
@@ -630,10 +925,181 @@
 
   <script>
     // ═══════════════════════════════════════════════════════════════
-    // PITCH DECK VIEWER - Smart Hosting Options
+    // WEB SLIDE VIEWER - Desktop Window Style Presentation
     // ═══════════════════════════════════════════════════════════════
 
-    // GOOGLE DRIVE VIEWER
+    const slideViewer = {
+      currentSlide: 1,
+      totalSlides: 8, // Update this when you have slides
+      isAutoPlay: false,
+      autoPlayInterval: null,
+      slideDir: 'assets/slides/kenko/', // Path to slide images
+      slideExt: '.webp', // Or .png, .jpg
+      touchStartX: 0,
+      touchEndX: 0,
+
+      init() {
+        this.attachKeyboardControls();
+        this.attachTouchControls();
+        this.updateDisplay();
+        console.log('Slide viewer initialized. Ready for slides!');
+      },
+
+      // NAVIGATION
+      nextSlide() {
+        if (this.currentSlide < this.totalSlides) {
+          this.currentSlide++;
+          this.updateDisplay();
+        }
+      },
+
+      previousSlide() {
+        if (this.currentSlide > 1) {
+          this.currentSlide--;
+          this.updateDisplay();
+        }
+      },
+
+      goToSlide(n) {
+        if (n >= 1 && n <= this.totalSlides) {
+          this.currentSlide = n;
+          this.updateDisplay();
+        }
+      },
+
+      // AUTOPLAY
+      toggleAutoPlay() {
+        this.isAutoPlay = !this.isAutoPlay;
+        const btn = document.getElementById('playBtn');
+        
+        if (this.isAutoPlay) {
+          btn.textContent = '[ ⏸ ]';
+          btn.style.background = 'rgba(255, 75, 129, 0.2)';
+          this.autoPlayInterval = setInterval(() => {
+            if (this.currentSlide < this.totalSlides) {
+              this.nextSlide();
+            } else {
+              this.toggleAutoPlay(); // Stop at end
+            }
+          }, 4000); // 4 seconds per slide
+        } else {
+          btn.textContent = '[ ▶ ]';
+          btn.style.background = 'none';
+          clearInterval(this.autoPlayInterval);
+        }
+      },
+
+      // UPDATE DISPLAY
+      updateDisplay() {
+        const display = document.getElementById('slideDisplay');
+        const counter = document.getElementById('slideCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Build slide path
+        const slideNum = String(this.currentSlide).padStart(2, '0');
+        const slidePath = `${this.slideDir}${slideNum}${this.slideExt}`;
+
+        // Check if slides exist yet
+        if (this.currentSlide === 1) {
+          display.innerHTML = `
+            <div class="slide-placeholder">
+              <p style="margin: 0; font-size: 1.2rem; letter-spacing: 2px;">📊 KENKO_DECK.EXE</p>
+              <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.7;">Web slide viewer ready</p>
+              <p style="margin: 1.5rem 0 0 0; font-size: 0.85rem; opacity: 0.6;">
+                To add your slides:<br>
+                1. Export PPT as WebP images<br>
+                2. Place in assets/slides/kenko/01.webp, 02.webp, etc.<br>
+                3. Update totalSlides count
+              </p>
+            </div>
+          `;
+        } else {
+          // Display actual slide
+          display.innerHTML = `<img src="${slidePath}" alt="Slide ${this.currentSlide}" onerror="slideViewer.handleSlideError()">`;
+        }
+
+        // Update counter
+        counter.textContent = `Slide ${this.currentSlide} / ${this.totalSlides}`;
+
+        // Update button states
+        prevBtn.disabled = this.currentSlide === 1;
+        nextBtn.disabled = this.currentSlide === this.totalSlides;
+      },
+
+      handleSlideError() {
+        console.warn(`Slide ${this.currentSlide} not found`);
+      },
+
+      // KEYBOARD CONTROLS
+      attachKeyboardControls() {
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            this.nextSlide();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            this.previousSlide();
+          } else if (e.key === 'Escape') {
+            this.closeViewer();
+          } else if (e.key === 'Enter' || e.key === 'p') {
+            this.toggleAutoPlay();
+          } else if (e.key === 'f') {
+            this.toggleFullscreen();
+          }
+        });
+      },
+
+      // TOUCH CONTROLS
+      attachTouchControls() {
+        const display = document.getElementById('slideDisplay');
+        
+        display.addEventListener('touchstart', (e) => {
+          this.touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        display.addEventListener('touchend', (e) => {
+          this.touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe();
+        }, false);
+      },
+
+      handleSwipe() {
+        const threshold = 50;
+        const diff = this.touchStartX - this.touchEndX;
+
+        if (Math.abs(diff) > threshold) {
+          if (diff > 0) {
+            this.nextSlide(); // Swipe left = next
+          } else {
+            this.previousSlide(); // Swipe right = prev
+          }
+        }
+      },
+
+      // UTILITIES
+      closeViewer() {
+        if (this.isAutoPlay) {
+          this.toggleAutoPlay();
+        }
+        console.log('Viewer closed');
+      },
+
+      showSlideInfo() {
+        alert(
+          `KENKO_DECK.EXE\n\n` +
+          `Slide ${this.currentSlide} of ${this.totalSlides}\n\n` +
+          `Controls:\n` +
+          `⌨️ Arrow Keys: Navigate\n` +
+          `📱 Swipe: Left/Right\n` +
+          `SPACE/ENTER: Play\n` +
+          `F: Fullscreen\n` +
+          `ESC: Close`
+        );
+      }
+    };
+
+    // LEGACY FUNCTIONS (Google Drive, etc.)
     function openGoogleDrive() {
       const link = document.getElementById('googleDriveLink').value.trim();
       
@@ -642,7 +1108,6 @@
         return;
       }
 
-      // Convert Google Drive link to preview URL
       let fileId = '';
       if (link.includes('/d/')) {
         fileId = link.split('/d/')[1].split('/')[0];
@@ -651,101 +1116,71 @@
       }
 
       if (fileId) {
-        const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-        showViewer('google', previewUrl);
-        updateStatus('Google Drive', '✅ Opened');
+        window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank');
       } else {
-        alert('⚠️ Invalid Google Drive link format.\n\nMake sure you paste the full share link.');
+        alert('⚠️ Invalid Google Drive link format.');
       }
     }
 
-    // MICROSOFT OFFICE ONLINE VIEWER
     function openOfficeViewer() {
       const link = document.getElementById('officePPTLink').value.trim();
       
       if (!link) {
-        alert('⚠️ Paste a .pptx file URL first!\n\nRequirements:\n• Must be a public .pptx file\n• Must be directly accessible (not behind auth)\n• Example: GitHub raw URL, Dropbox direct link');
-        return;
-      }
-
-      if (!link.includes('.pptx') && !link.includes('.ppt')) {
-        alert('⚠️ URL must point to a .pptx or .ppt file');
+        alert('⚠️ Paste a .pptx file URL first!');
         return;
       }
 
       const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link)}`;
-      showViewer('office', viewerUrl);
-      updateStatus('Microsoft Office Online', '✅ Opened');
+      window.open(viewerUrl, '_blank');
     }
 
-    // PDF VIEWER
     function openPDFViewer() {
       const link = document.getElementById('pdfLink').value.trim();
       
       if (!link) {
-        alert('⚠️ Paste a PDF file URL first!\n\nOptions:\n• Upload to GitHub and use raw URL\n• Use Google Drive PDF link\n• Use Dropbox public link');
+        alert('⚠️ Paste a PDF file URL first!');
         return;
       }
 
-      if (!link.includes('.pdf')) {
-        alert('⚠️ URL must point to a .pdf file');
-        return;
+      window.open(link, '_blank');
+    }
+
+    function closeSlideViewer() {
+      slideViewer.closeViewer();
+    }
+
+    function toggleFullscreen() {
+      const elem = document.querySelector('.slide-window');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+          console.log('Fullscreen request failed:', err);
+        });
+      } else {
+        document.exitFullscreen();
       }
-
-      showViewer('pdf', link);
-      updateStatus('PDF Viewer', '✅ Opened');
     }
 
-    // SHOW VIEWER
-    function showViewer(type, url) {
-      const viewer = document.getElementById('activeViewer');
-      const content = document.getElementById('viewerContent');
-      const statusBox = document.getElementById('statusBox');
-
-      // Hide status box
-      statusBox.style.display = 'none';
-
-      // Create appropriate iframe
-      let iframe = `<iframe src="${url}" title="Pitch Deck Viewer"></iframe>`;
-      content.innerHTML = iframe;
-      viewer.style.display = 'flex';
-
-      // Smooth scroll to viewer
-      viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Alias for window control
+    function toggleAutoPlay() {
+      slideViewer.toggleAutoPlay();
     }
 
-    // CLOSE VIEWER
-    function closeViewer() {
-      document.getElementById('activeViewer').style.display = 'none';
-      document.getElementById('statusBox').style.display = 'block';
-      document.getElementById('viewerContent').innerHTML = '';
+    function nextSlide() {
+      slideViewer.nextSlide();
     }
 
-    // UPDATE STATUS
-    function updateStatus(source, message) {
-      const statusBox = document.getElementById('statusBox');
-      statusBox.innerHTML = `<p style="margin: 0; font-size: 0.95rem;">📋 <strong>${source}:</strong> ${message}</p>`;
-      statusBox.style.display = 'block';
+    function previousSlide() {
+      slideViewer.previousSlide();
     }
 
-    // KEYBOARD SHORTCUT: ESC to close
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        const viewer = document.getElementById('activeViewer');
-        if (viewer.style.display === 'flex') {
-          closeViewer();
-        }
-      }
+    function showSlideInfo() {
+      slideViewer.showSlideInfo();
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      slideViewer.init();
     });
-
-    // LOCAL STORAGE: Remember last used option
-    function saveOption(option) {
-      localStorage.setItem('lastPitchDeckOption', option);
-    }
-
-    function loadOption() {
-      return localStorage.getItem('lastPitchDeckOption') || 'google';
-    }
   </script>
 </body>
 </html>
