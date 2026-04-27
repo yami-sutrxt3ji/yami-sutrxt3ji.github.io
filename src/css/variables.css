@@ -1,0 +1,142 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* DESIGN SYSTEM: CSS VARIABLES */
+/* Professional Retro-Tech Aesthetic */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+:root {
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* TYPOGRAPHY */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --font-display: "Silkscreen", monospace;
+  --font-body: "IBM Plex Mono", monospace;
+  
+  /* Fallbacks */
+  --font-display-fallback: "Courier New", monospace;
+  --font-body-fallback: "Courier New", monospace;
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* PALETTE 1: BOOT / BIOS / GRUB (Green Phosphor CRT) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --boot-bg: #050505;           /* Almost black - CRT cutoff */
+  --boot-text: #73ff73;         /* Classic phosphor green */
+  --boot-text-dim: #3ea83e;     /* Muted green - inactive */
+  --boot-accent: #ffb000;       /* Amber - warnings/highlights */
+  --boot-error: #ff4d4d;        /* Red - critical alerts */
+  --boot-border: #3ea83e;       /* Green glow borders */
+  --boot-glow: rgba(115, 255, 115, 0.3);  /* Soft green glow */
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* PALETTE 2: MAIN UI (Future-Retro Neon) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --bg-main: #070711;           /* Page background - deep blue-black */
+  --bg-secondary: #0f1020;      /* Panel background - slightly lighter */
+  
+  --cyan: #00e5ff;              /* Primary UI - cyan */
+  --magenta: #ff4b81;           /* Active/highlight - magenta */
+  --violet: #7b61ff;            /* Depth accents - violet */
+  --green: #8cff98;             /* Success text - bright green */
+  --amber: #ffbf47;             /* Warning - amber */
+  --red: #ff6b6b;               /* Error - red */
+  
+  --text-muted: #9aa7b8;        /* Steel gray - muted text */
+  --text-dim: #5f6670;          /* Darker gray - disabled */
+  
+  /* Glows */
+  --glow-cyan: rgba(0, 229, 255, 0.3);
+  --glow-magenta: rgba(255, 75, 129, 0.5);
+  --glow-green: rgba(140, 255, 152, 0.3);
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* PALETTE 3: HARDWARE / LOW-LEVEL (Motherboard BIOS) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --hw-bg: #0a0a0a;             /* Deep black */
+  --hw-steel: #5f6670;          /* Steel gray */
+  --hw-blue: #4da6ff;           /* Blue LED */
+  --hw-amber: #ffbf47;          /* Amber indicator */
+  --hw-white: #d9e2ec;          /* White phosphor */
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* SPACING GRID */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* TYPOGRAPHY SCALE (Responsive with clamp) */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --fs-xs: clamp(11px, 1.5vw, 13px);
+  --fs-sm: clamp(12px, 1.8vw, 14px);
+  --fs-base: clamp(14px, 2vw, 16px);
+  --fs-md: clamp(16px, 2.5vw, 18px);
+  --fs-lg: clamp(18px, 3vw, 22px);
+  --fs-xl: clamp(22px, 4vw, 28px);
+  --fs-2xl: clamp(28px, 5vw, 42px);
+  --fs-3xl: clamp(32px, 6vw, 48px);
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* BORDERS & SHADOWS */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --border-width: 2px;
+  --border-width-active: 3px;
+  --border-radius: 0px;         /* Sharp corners - industrial */
+  
+  --shadow-glow-cyan: 0 0 8px var(--glow-cyan);
+  --shadow-glow-magenta: 0 0 16px var(--glow-magenta);
+  --shadow-glow-green: 0 0 8px var(--glow-green);
+  --shadow-box: 0 4px 0 rgba(0, 0, 0, 0.3);
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* TRANSITIONS & ANIMATIONS */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --transition-fast: 0.1s ease-out;
+  --transition-normal: 0.24s ease-out;
+  --transition-slow: 0.5s ease-out;
+  
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  /* BREAKPOINTS */
+  /* ═══════════════════════════════════════════════════════════════════════ */
+  
+  --bp-mobile: 640px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+  --bp-wide: 1280px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* LIGHT MODE (if needed in future) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Optional: Keep boot green, lighten main UI */
+    /* For now, keeping dark mode only */
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* LEGACY COMPATIBILITY (old variable names) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Old palette (kept for backwards compatibility during migration) */
+  --cyan-legacy: var(--cyan);
+  --pink-legacy: var(--magenta);
+  --purple-legacy: var(--violet);
+  --yellow-legacy: var(--amber);
+  --green-legacy: var(--green);
+}

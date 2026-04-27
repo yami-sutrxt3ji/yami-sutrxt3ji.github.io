@@ -1,0 +1,296 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* RESPONSIVE DESIGN */
+/* Mobile, Tablet, Desktop Breakpoints */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* TABLET & LARGE MOBILE (768px - 1024px) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 980px) {
+  .hud-panel {
+    max-width: 100%;
+  }
+
+  .char-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .status-strip {
+    flex-direction: column;
+  }
+
+  p {
+    font-size: var(--fs-sm);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* TABLET (768px) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .container,
+  .app-container {
+    padding: var(--spacing-md);
+  }
+
+  .navbar {
+    justify-content: center;
+  }
+
+  .mission-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  /* Boot screens responsive */
+  .boot-screen {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .bios-container,
+  .loading-container {
+    border: 1px solid var(--boot-border);
+    padding: var(--spacing-md);
+  }
+
+  .bios-title,
+  .loading-title {
+    font-size: var(--fs-md);
+  }
+
+  .bios-mobile-nav {
+    display: flex;
+  }
+
+  .bios-system-info p,
+  .bios-menu-item,
+  .log-line {
+    font-size: var(--fs-xs);
+  }
+
+  .ascii-art {
+    font-size: var(--fs-md);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* MOBILE (640px) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .nav-btn {
+    min-width: auto;
+    flex: 1 1 calc(50% - var(--spacing-sm));
+  }
+
+  h1,
+  h2 {
+    font-size: var(--fs-lg);
+  }
+
+  .mission-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .viewport {
+    border: 1px solid var(--violet);
+    box-shadow: 0 0 0 1px var(--bg-main), 0 0 0 2px var(--cyan);
+  }
+
+  body::after {
+    opacity: 0.1;
+  }
+
+  .abstract-art {
+    opacity: 0.2;
+  }
+
+  .bg-watermark {
+    opacity: 0.04;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* SMALL MOBILE (480px) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .container,
+  .app-container {
+    padding: var(--spacing-sm);
+  }
+
+  h1,
+  h2 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  p {
+    font-size: var(--fs-sm);
+  }
+
+  .row {
+    gap: var(--spacing-sm);
+  }
+
+  .button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--fs-xs);
+  }
+
+  .panel {
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .panel::before {
+    font-size: 9px;
+  }
+
+  ul {
+    padding-left: var(--spacing-md);
+  }
+
+  li {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .mission-node {
+    padding: var(--spacing-sm);
+  }
+
+  .mission-meta {
+    font-size: var(--fs-xs);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .terminal-box {
+    padding: var(--spacing-sm);
+  }
+
+  .terminal-box p {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--fs-xs);
+  }
+
+  .ascii-art {
+    font-size: 10px;
+    margin: var(--spacing-md) 0;
+  }
+
+  .wm-line {
+    margin: 12px 0;
+    font-size: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* LANDSCAPE ORIENTATION (All sizes) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .viewport {
+    min-height: auto;
+  }
+
+  .stack {
+    gap: var(--spacing-md);
+  }
+
+  .panel {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  h1,
+  h2 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  p {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* HIGH DPI / RETINA DISPLAYS */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-resolution: 2dppx) {
+  .panel {
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3), 4px 4px 0 var(--violet);
+  }
+
+  .mission-node:hover {
+    box-shadow: 0 0 16px var(--cyan);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* REDUCED MOTION (Accessibility) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .wm-line {
+    animation: none;
+  }
+
+  .art-block {
+    animation: none;
+  }
+
+  .nav-track::after {
+    animation: none;
+  }
+
+  body::after {
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* DARK MODE (System Preference) */
+/* Currently always dark, but available for future light mode */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  /* Colors already set for dark mode by default */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* PRINT STYLES (If printed) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  body::after {
+    display: none;
+  }
+
+  .abstract-art,
+  .bg-watermark {
+    display: none;
+  }
+
+  .viewport {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+
+  .button {
+    border: 1px solid #000;
+  }
+}

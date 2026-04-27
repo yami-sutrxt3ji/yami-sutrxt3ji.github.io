@@ -1,0 +1,383 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* BOOT SEQUENCE STYLES */
+/* Green Phosphor CRT Aesthetic (Professional Retro-Tech) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.boot-screen {
+  background: var(--boot-bg) !important;
+  color: var(--boot-text);
+  font-family: var(--font-body), var(--font-body-fallback);
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.boot-screen.active {
+  animation: bootIn 0.24s steps(4, end);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* BIOS SCREEN */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#bios {
+  background: var(--boot-bg) !important;
+  color: var(--boot-text);
+}
+
+.bios-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--boot-bg);
+  border: var(--border-width) solid var(--boot-border);
+  padding: var(--spacing-lg);
+  box-shadow: 0 0 20px var(--boot-glow), inset 0 0 10px rgba(62, 168, 62, 0.1);
+}
+
+.bios-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.bios-title {
+  color: var(--boot-accent);
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--fs-lg);
+  letter-spacing: 2px;
+  font-family: var(--font-display), var(--font-display-fallback);
+  font-weight: 700;
+}
+
+.bios-divider {
+  color: var(--boot-text-dim);
+  text-align: center;
+  margin: var(--spacing-md) 0;
+  font-size: var(--fs-xs);
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+.bios-system-info {
+  margin: var(--spacing-lg) 0;
+  border: 1px solid var(--boot-border);
+  padding: var(--spacing-md);
+  background: rgba(5, 3, 10, 0.8);
+}
+
+.bios-system-info p {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--fs-sm);
+  color: var(--boot-text);
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+.bios-system-info p:last-child {
+  margin-bottom: 0;
+}
+
+.bios-label {
+  color: var(--boot-accent);
+  margin: var(--spacing-lg) 0 var(--spacing-md);
+  font-weight: bold;
+  font-size: var(--fs-sm);
+  font-family: var(--font-display), var(--font-display-fallback);
+}
+
+.bios-menu {
+  margin: var(--spacing-md) 0 var(--spacing-lg);
+  padding: var(--spacing-md);
+  border: 1px solid var(--boot-border);
+  background: rgba(5, 3, 10, 0.8);
+}
+
+.bios-menu-item {
+  padding: var(--spacing-md);
+  color: var(--boot-text);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+.bios-menu-item.active {
+  background: var(--boot-accent);
+  color: var(--boot-bg);
+}
+
+.bios-cursor {
+  display: inline-block;
+  width: 20px;
+  min-width: 20px;
+}
+
+.bios-menu-item.active .bios-cursor {
+  animation: bios-blink 0.8s steps(2, end) infinite;
+}
+
+@keyframes bios-blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.bios-footer {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  border-top: 1px solid var(--boot-border);
+  padding-top: var(--spacing-lg);
+}
+
+.bios-footer p {
+  font-size: var(--fs-xs);
+  color: var(--boot-text-dim);
+  margin: 0 0 var(--spacing-md);
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+.bios-mobile-nav {
+  display: none;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bios-nav-btn {
+  background: var(--boot-bg);
+  color: var(--boot-text);
+  border: 1px solid var(--boot-border);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-display), var(--font-display-fallback);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.bios-nav-btn:hover {
+  background: var(--boot-accent);
+  color: var(--boot-bg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* DISK LOADING SCREEN */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#disk-loading {
+  background: var(--boot-bg) !important;
+  color: var(--boot-text);
+}
+
+.loading-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--boot-bg);
+  border: var(--border-width) solid var(--boot-border);
+  padding: var(--spacing-lg);
+  box-shadow: 0 0 20px var(--boot-glow), inset 0 0 10px rgba(62, 168, 62, 0.1);
+}
+
+.loading-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.loading-title {
+  color: var(--boot-accent);
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--fs-lg);
+  letter-spacing: 2px;
+  font-family: var(--font-display), var(--font-display-fallback);
+  font-weight: 700;
+}
+
+.loading-divider {
+  color: var(--boot-text-dim);
+  text-align: center;
+  font-size: var(--fs-xs);
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+.loading-logs {
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md);
+  border: 1px solid var(--boot-border);
+  background: rgba(5, 3, 10, 0.8);
+  min-height: 100px;
+}
+
+.log-line {
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--fs-sm);
+  color: var(--boot-text);
+  min-height: 16px;
+  animation: fadeInLog 0.5s ease-out forwards;
+  opacity: 0;
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+@keyframes fadeInLog {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.log-line:nth-child(1) { animation-delay: 0.2s; }
+.log-line:nth-child(2) { animation-delay: 0.6s; }
+.log-line:nth-child(3) { animation-delay: 1.0s; }
+.log-line:nth-child(4) { animation-delay: 1.4s; }
+.log-line:nth-child(5) { animation-delay: 1.8s; }
+
+.progress-section {
+  margin-top: var(--spacing-lg);
+}
+
+.progress-bar {
+  height: 14px;
+  border: var(--border-width) solid var(--boot-border);
+  background: rgba(5, 3, 10, 0.9);
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--boot-accent), var(--boot-text));
+  transition: width 0.1s linear;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: var(--fs-xs);
+  color: var(--boot-text-dim);
+  margin: 0;
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ASCII BANNER SCREEN */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#ascii-banner {
+  background: var(--boot-bg) !important;
+  color: var(--boot-text);
+}
+
+.banner-container {
+  text-align: center;
+  animation: bannerFadeOut 1s ease-out forwards;
+  animation-delay: 3s;
+}
+
+@keyframes bannerFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.ascii-art {
+  font-size: var(--fs-lg);
+  color: var(--boot-accent);
+  margin: var(--spacing-lg) 0;
+  line-height: 1.4;
+  white-space: pre;
+  font-family: var(--font-body), var(--font-body-fallback);
+  letter-spacing: 1px;
+}
+
+.banner-text {
+  margin-top: var(--spacing-lg);
+  text-align: center;
+}
+
+.banner-line {
+  font-size: var(--fs-sm);
+  color: var(--boot-text);
+  margin: var(--spacing-md) 0;
+  min-height: 16px;
+  font-family: var(--font-body), var(--font-body-fallback);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* MAIN UI FADE-IN (Transition to Neon UI) */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+#main-ui-stack {
+  animation: mainUIFadeIn 0.8s ease-out forwards;
+  animation-delay: 3.5s;
+  opacity: 0;
+}
+
+@keyframes mainUIFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* BOOT ANIMATION */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes bootIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* MOBILE RESPONSIVENESS FOR BOOT */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .boot-screen {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .bios-container,
+  .loading-container {
+    border: 1px solid var(--boot-border);
+    padding: var(--spacing-md);
+  }
+
+  .bios-title,
+  .loading-title {
+    font-size: var(--fs-md);
+  }
+
+  .bios-mobile-nav {
+    display: flex;
+  }
+
+  .bios-system-info p,
+  .bios-menu-item,
+  .log-line {
+    font-size: var(--fs-xs);
+  }
+
+  .ascii-art {
+    font-size: var(--fs-md);
+  }
+}
