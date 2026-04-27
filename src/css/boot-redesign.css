@@ -3,6 +3,22 @@
 /* Cinematic boot experience with color & motion drama */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
+.boot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 10000;
+  display: none;
+  overflow: hidden;
+}
+
+.boot-overlay.active {
+  display: block;
+}
+
 /* CRT Scanlines Overlay (Global) */
 .boot-screen::before {
   content: '';
@@ -37,11 +53,6 @@
   background: var(--stage1-bg) !important;
   color: var(--stage1-text);
   font-family: var(--font-boot), var(--font-boot-fallback);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
   padding: var(--spacing-xl);
   overflow: hidden;
   animation: powerOnFlash 1s ease-in-out forwards;
@@ -79,10 +90,6 @@
   color: var(--stage2-text);
   font-family: var(--font-boot), var(--font-boot-fallback);
   padding: var(--spacing-xl);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -344,11 +351,6 @@
   background: var(--stage5-bg) !important;
   color: var(--stage5-text);
   font-family: var(--font-boot), var(--font-boot-fallback);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
   padding: var(--spacing-xl);
   overflow: hidden;
 }
@@ -395,15 +397,28 @@
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 .boot-screen {
-  animation: fadeOut 0.5s ease-out forwards;
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .boot-screen.active {
-  animation: fadeIn 0.3s ease-out !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  pointer-events: auto;
+  animation: fadeIn 0.4s ease-out forwards !important;
 }
 
 .boot-screen.exit {
-  animation: fadeOut 0.5s ease-out forwards;
+  animation: fadeOut 0.4s ease-out forwards !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
