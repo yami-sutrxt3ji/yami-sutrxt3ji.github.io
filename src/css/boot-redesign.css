@@ -47,6 +47,13 @@
   animation: powerOnFlash 1s ease-in-out forwards;
 }
 
+@media (max-width: 768px) {
+  #power-on {
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
+}
+
 #power-on .power-text {
   font-size: var(--fs-lg);
   letter-spacing: 4px;
@@ -77,6 +84,13 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  #diagnostics {
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
 }
 
 .diag-container {
@@ -339,6 +353,13 @@
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  #ascii-banner {
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
+}
+
 .banner-container {
   text-align: center;
   width: 100%;
@@ -415,6 +436,7 @@
   .loading-container {
     max-width: 90vw;
     padding: var(--spacing-md);
+    margin: 0 auto;
   }
   
   .bios-title,
@@ -428,6 +450,15 @@
   
   .bios-menu-item {
     padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--fs-xs);
+  }
+
+  .bios-system-info {
+    font-size: var(--fs-xs);
+    padding: var(--spacing-sm);
+  }
+
+  .diag-line {
     font-size: var(--fs-xs);
   }
 }

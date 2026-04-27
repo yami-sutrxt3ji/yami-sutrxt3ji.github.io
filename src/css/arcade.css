@@ -23,6 +23,18 @@
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  .arcade-section {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-section {
+    padding: 1.5rem 0.5rem;
+  }
+}
+
 .arcade-window {
   width: 100%;
   max-width: 700px;
