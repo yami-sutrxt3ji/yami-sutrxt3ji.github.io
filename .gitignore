@@ -1,0 +1,51 @@
+# Ignore all markdown files except README.md
+*.md
+!README.md
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Dependencies (if needed in future)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+dist/
+build/
+*.log
+
+# IDE
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.env.local
+.env.*.local
+
+# Backup files
+*.bak
+*.backup
+~*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Cache
+.cache/
+*.cache
+
+# Session files
+.session
+
+# Keep tracked files
+!README.md
+!.gitignore
