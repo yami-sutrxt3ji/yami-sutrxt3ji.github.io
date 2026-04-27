@@ -8,11 +8,15 @@ let bootSkipped = false;
 let bootTimeouts = [];
 
 function showScreen(id) {
+  // Hard clean all boot screens
   document.querySelectorAll(".boot-screen").forEach(screen => {
     screen.classList.remove("active");
   });
   const next = document.getElementById(id);
-  if (next) next.classList.add("active");
+  if (next) {
+    next.classList.add("active");
+    console.log(`[BOOT] Screen active: ${id}`);
+  }
 }
 
 function hasBootedBefore() {
@@ -22,11 +26,6 @@ function hasBootedBefore() {
 function markBootAsCompleted() {
   localStorage.setItem("bootCompleted", "true");
   localStorage.setItem("lastBootTime", new Date().toISOString());
-}
-
-function resetBootState() {
-  localStorage.removeItem("bootCompleted");
-  localStorage.removeItem("lastBootTime");
 }
 
 /* ═════════════════════════════════════════ */
@@ -45,18 +44,18 @@ function updateBiosMenuDisplay() {
 function biosMenuUp() {
   biosMenuIndex = (biosMenuIndex - 1 + 3) % 3;
   updateBiosMenuDisplay();
-  playBeep();
+  if (window.playBeep) window.playBeep();
 }
 
 function biosMenuDown() {
   biosMenuIndex = (biosMenuIndex + 1) % 3;
   updateBiosMenuDisplay();
-  playBeep();
+  if (window.playBeep) window.playBeep();
 }
 
 function biosMenuConfirm() {
   if (bootComplete || bootSkipped) return;
-  playSelect();
+  if (window.playSelect) window.playSelect();
   transitionToDiskSeek();
 }
 
@@ -66,59 +65,33 @@ async function startBootSequence() {
   
   console.log("Starting cinematic boot...");
 
-  // Hard Fail-safe: 20 seconds
-  const failSafe = setTimeout(() => {
-    if (!bootComplete) {
-      console.warn("Boot timeout: force entering site.");
-      initMainUIAfterBoot();
-    }
-  }, 20000);
-  bootTimeouts.push(failSafe);
-
-  // Phase 1: Power On - 0s
+  // Phase 1: SIGNAL DETECTED (1.5s)
   showScreen("power-on");
-  await powerOnSequence();
-
-  // Phase 2: BIOS Diagnostics - 2.5s
-  bootTimeouts.push(setTimeout(async () => {
+  if (window.playBeep) window.playBeep();
+  
+  bootTimeouts.push(setTimeout(() => {
     if (bootSkipped) return;
+    // Phase 2: UEFI INITIALIZATION (3s)
     showScreen("diagnostics");
-    await diagnosticsSequence();
-  }, 2500));
+    diagnosticsSequence();
+  }, 1500));
 
-  // Phase 3: BIOS Menu (Auto-confirm) - 5.5s
+  // Phase 3: BOOTLOADER MENU (Auto-confirm after 4s)
   bootTimeouts.push(setTimeout(() => {
     if (bootSkipped) return;
     showScreen("bios");
     updateBiosMenuDisplay();
-    // Auto-confirm after 1.5s
+    
     bootTimeouts.push(setTimeout(() => {
       if (!bootComplete && !bootSkipped) {
         biosMenuConfirm();
       }
-    }, 1500));
-  }, 5500));
-}
-
-async function powerOnSequence() {
-  playBeep(); 
-  const powerText = document.querySelector("#power-on .power-text");
-  if (!powerText) return;
-
-  // Power LED blink simulation
-  let blinks = 0;
-  const interval = setInterval(() => {
-    powerText.style.opacity = powerText.style.opacity === "0" ? "1" : "0";
-    blinks++;
-    if (blinks >= 6) {
-      clearInterval(interval);
-      powerText.style.opacity = "1";
-    }
-  }, 150);
+    }, 4000));
+  }, 4500));
 }
 
 async function diagnosticsSequence() {
-  playDiskSeek();
+  if (window.playDiskSeek) window.playDiskSeek();
   const diagScreen = document.getElementById("diagnostics");
   if (!diagScreen) return;
   
@@ -132,15 +105,16 @@ async function diagnosticsSequence() {
     await new Promise(resolve => {
       const t = setTimeout(() => {
         values[i].textContent = values[i].dataset.original;
-        playBeep();
+        if (window.playBeep) window.playBeep();
         resolve();
-      }, 200);
+      }, 400);
       bootTimeouts.push(t);
     });
   }
 }
 
 function transitionToDiskSeek() {
+  // Phase 4: KERNEL LOADING (Progress Bar)
   showScreen("disk-loading");
   bootTimeouts.push(setTimeout(() => {
     playDiskLoadingSequence();
@@ -158,59 +132,65 @@ async function playDiskLoadingSequence() {
   
   const progressFill = document.querySelector(".progress-fill");
   const progressText = document.querySelector(".progress-text");
-  const logElements = document.querySelectorAll("#disk-loading .log-line");
+  const logContainer = document.querySelector(".loading-log");
   
   if (!progressFill) return;
   
   let progress = 0;
   const interval = setInterval(() => {
-    progress += Math.random() * 12 + 3;
+    progress += Math.random() * 8 + 2;
     if (progress > 100) progress = 100;
     
-    if (progress % 20 < 5) playDiskSeek();
+    if (progress % 15 < 5 && window.playDiskSeek) window.playDiskSeek();
     
     progressFill.style.width = progress + "%";
-    progressText.textContent = `PROGRESS: ${Math.floor(progress)}%`;
+    progressText.textContent = `BOOTING KERNEL... ${Math.floor(progress)}%`;
     
     if (progress >= 100) {
       clearInterval(interval);
-      playLoad();
+      if (window.playLoad) window.playLoad();
       bootTimeouts.push(setTimeout(() => {
         playAsciiReveal();
-      }, 500));
+      }, 800));
     }
-  }, 180);
+  }, 200);
 
-  for (let i = 0; i < logElements.length; i++) {
+  for (let i = 0; i < logLines.length; i++) {
     await new Promise(resolve => {
       const t = setTimeout(() => {
-        if (logElements[i]) {
-          logElements[i].textContent = logLines[i] || "";
-          playDiskSeek();
-        }
+        const p = document.createElement("p");
+        p.className = "log-line";
+        p.textContent = logLines[i];
+        if (logContainer) logContainer.appendChild(p);
+        if (window.playDiskSeek) window.playDiskSeek();
         resolve();
-      }, 300);
+      }, 400);
       bootTimeouts.push(t);
     });
   }
 }
 
 async function playAsciiReveal() {
+  // Phase 5: ASCII BANNER (1.5s)
   showScreen("ascii-banner");
-  playSuccess();
+  if (window.playSuccess) window.playSuccess();
   
   const bannerLines = document.querySelectorAll(".banner-line");
   const bannerMessages = [
     "ASHISH.EXE LOADED",
     "System integrity verified.",
     "Ready for interaction.",
-    "> Entering Shell..."
+    "> Entering Portfolio UI..."
   ];
   
   for (let i = 0; i < bannerLines.length; i++) {
     await new Promise(resolve => {
       const t = setTimeout(async () => {
-        await typeText(bannerLines[i], bannerMessages[i], 10);
+        if (window.typeText) {
+          await window.typeText(bannerLines[i], bannerMessages[i], 10);
+        } else {
+          bannerLines[i].textContent = bannerMessages[i];
+        }
         resolve();
       }, 200);
       bootTimeouts.push(t);
@@ -219,7 +199,7 @@ async function playAsciiReveal() {
   
   bootTimeouts.push(setTimeout(() => {
     initMainUIAfterBoot();
-  }, 1000));
+  }, 1500));
 }
 
 function initMainUIAfterBoot() {
@@ -237,13 +217,16 @@ function initMainUIAfterBoot() {
     bootOverlay.style.transition = "opacity 0.8s ease-out";
     setTimeout(() => {
       bootOverlay.style.display = "none";
+      bootOverlay.classList.remove("active");
     }, 800);
   }
   
   const mainPortfolio = document.getElementById("main-portfolio");
   if (mainPortfolio) {
     mainPortfolio.classList.add("active");
+    // Trigger any entry animations
+    document.body.classList.add("portfolio-ready");
   }
   
-  updateSoundToggle();
+  if (window.updateSoundToggle) window.updateSoundToggle();
 }

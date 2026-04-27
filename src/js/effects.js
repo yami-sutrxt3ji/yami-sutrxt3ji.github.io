@@ -144,13 +144,14 @@ function activateKonamiMode() {
   }, 3000);
 }
 
-function rotateQuote() {
-  const quoteEl = document.getElementById('rotatingQuote');
-  if (!quoteEl) return;
-  currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-  quoteEl.textContent = quotes[currentQuoteIndex];
-  quoteEl.style.animation = 'none';
-  setTimeout(() => {
-    quoteEl.style.animation = 'fadeInQuote 0.8s ease-out';
-  }, 10);
-}
+// Expose to window
+window.playBeep = playBeep;
+window.playSelect = playSelect;
+window.playDiskSeek = playDiskSeek;
+window.playLoad = playLoad;
+window.playSuccess = playSuccess;
+window.playBootSound = playBootSound;
+window.playClickSound = playClickSound;
+window.typeText = typeText;
+window.rotateQuote = rotateQuote;
+window.soundEnabled = soundEnabled;

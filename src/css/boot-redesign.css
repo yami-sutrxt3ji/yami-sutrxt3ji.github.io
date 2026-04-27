@@ -1,602 +1,257 @@
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* BOOT SEQUENCE REDESIGN - MULTI-STAGE VISUAL PROGRESSION */
-/* Cinematic boot experience with color & motion drama */
+/* BOOT SEQUENCE REDESIGN - MODULAR SCREEN SYSTEM */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 .boot-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   background: #000;
   z-index: 10000;
-  display: none;
   overflow: hidden;
+  display: none;
 }
 
 .boot-overlay.active {
   display: block;
 }
 
-/* CRT Scanlines Overlay (Global) */
-.boot-screen::before {
-  content: '';
+.boot-skip-hint {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 2rem;
+  right: 2rem;
+  color: #555;
+  font-family: var(--font-boot), monospace;
+  font-size: 0.8rem;
+  z-index: 10010;
+  opacity: 0;
   pointer-events: none;
+  animation: fadeIn 0.5s ease-out 5s forwards;
+}
+
+/* Base Screen Style - All boot stages inherit this */
+.boot-screen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001 !important;
+  background: #000 !important;
+  padding: var(--spacing-xl);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* The ONLY way to show a screen */
+.boot-screen.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* CRT Overlay Effect */
+.boot-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.08) 0px,
-    rgba(0, 0, 0, 0.08) 1px,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
     transparent 1px,
     transparent 2px
   );
-  z-index: 999;
+  pointer-events: none;
+  z-index: 10005;
   opacity: 0.5;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .boot-screen::before {
-    display: none;
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* STAGE 1: POWER ON - Black screen + Electric Green flash */
+/* SCREEN 1: SIGNAL - Minimal centered text */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #power-on {
-  background: var(--stage1-bg) !important;
-  color: var(--stage1-text);
-  font-family: var(--font-boot), var(--font-boot-fallback);
-  padding: var(--spacing-xl);
-  overflow: hidden;
-  animation: powerOnFlash 1s ease-in-out forwards;
-}
-
-@media (max-width: 768px) {
-  #power-on {
-    min-height: auto;
-    padding: var(--spacing-lg);
-  }
+  background: #000 !important;
+  color: #00ff66;
+  font-family: var(--font-boot), monospace;
 }
 
 #power-on .power-text {
-  font-size: var(--fs-lg);
+  font-size: 1.5rem;
   letter-spacing: 4px;
   text-align: center;
-  animation: fadeIn 0.6s ease-out 0.4s forwards;
-  opacity: 0;
 }
 
 #power-on .power-subtext {
-  font-size: var(--fs-sm);
-  margin-top: var(--spacing-md);
-  opacity: 0.7;
-  animation: fadeIn 0.8s ease-out 0.8s forwards;
-  opacity: 0;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  opacity: 0.6;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* STAGE 2: DIAGNOSTICS - Hardware checks with scrolling effect */
+/* SCREEN 2: UEFI - Full terminal logs */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #diagnostics {
-  background: var(--stage2-bg) !important;
-  color: var(--stage2-text);
-  font-family: var(--font-boot), var(--font-boot-fallback);
-  padding: var(--spacing-xl);
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  #diagnostics {
-    min-height: auto;
-    padding: var(--spacing-lg);
-  }
+  background: #050505 !important;
+  color: #00ff66;
+  font-family: var(--font-boot), monospace;
+  justify-content: center;
 }
 
 .diag-container {
   width: 100%;
   max-width: 600px;
-  text-align: center;
 }
 
 .diag-header {
-  font-size: var(--fs-md);
-  letter-spacing: 3px;
-  margin-bottom: var(--spacing-lg);
-  color: var(--stage2-accent);
-  font-weight: 700;
+  font-size: 1.2rem;
+  color: #ffb000;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ffb000;
+  padding-bottom: 0.5rem;
 }
 
 .diag-line {
-  font-size: var(--fs-sm);
-  margin: var(--spacing-md) 0;
-  letter-spacing: 1px;
-  animation: diagnosticsScroll 0.5s ease-out forwards;
-  opacity: 0;
-  min-height: 1.5em;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-.diag-line:nth-child(2) { animation-delay: 0.2s; }
-.diag-line:nth-child(3) { animation-delay: 0.4s; color: var(--stage2-accent); }
-.diag-line:nth-child(4) { animation-delay: 0.6s; }
-.diag-line:nth-child(5) { animation-delay: 0.8s; color: var(--stage2-tertiary); }
-
-.diag-line .label {
-  color: var(--stage2-accent);
-  font-weight: 700;
-  margin-right: 0.5em;
-}
-
-.diag-line .value {
-  color: var(--stage2-tertiary);
-}
+.diag-line .label { color: #ffb000; }
+.diag-line .value { color: #00e5ff; }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* STAGE 3: BOOTLOADER MENU - Navy background + interactive selection */
+/* SCREEN 3: BOOTLOADER - BIOS Style Box */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #bios {
-  background: var(--stage3-bg) !important;
-  color: var(--stage3-text);
-  font-family: var(--font-boot), var(--font-boot-fallback);
+  background: #0a0a1a !important;
+  color: #00ff66;
 }
 
 .bios-container {
-  width: 100%;
-  max-width: 700px;
-  background: rgba(10, 10, 26, 0.8);
-  border: 2px solid var(--stage3-hover);
-  padding: var(--spacing-xl);
-  box-shadow: 0 0 24px var(--stage3-glow), inset 0 0 16px rgba(0, 229, 255, 0.1);
-  animation: fadeIn 0.3s ease-out;
-}
-
-.bios-header {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
+  width: 90%;
+  max-width: 650px;
+  border: 2px solid #00e5ff;
+  padding: 2rem;
+  background: rgba(10, 10, 30, 0.9);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
 }
 
 .bios-title {
-  color: var(--stage3-text);
-  margin: 0 0 var(--spacing-md);
-  font-size: var(--fs-lg);
-  letter-spacing: 3px;
-  font-family: var(--font-boot), var(--font-boot-fallback);
-  font-weight: 700;
-}
-
-.bios-divider {
-  color: var(--stage3-text);
   text-align: center;
-  margin: var(--spacing-md) 0;
-  font-size: var(--fs-xs);
-  opacity: 0.6;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px double #00e5ff;
+  padding-bottom: 0.5rem;
 }
 
 .bios-system-info {
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 2px solid var(--stage3-hover);
-  padding: var(--spacing-md);
-  margin: var(--spacing-lg) 0;
-  font-size: var(--fs-xs);
-  line-height: 1.8;
-}
-
-.bios-system-info p {
-  margin: 0.5em 0;
-  color: var(--stage3-text);
-}
-
-.bios-menu-section {
-  margin: var(--spacing-lg) 0;
-}
-
-.bios-menu-label {
-  color: var(--stage3-text);
-  font-size: var(--fs-sm);
-  margin-bottom: var(--spacing-md);
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.5);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid #00e5ff;
 }
 
 .bios-menu-item {
-  padding: var(--spacing-md) var(--spacing-lg);
-  margin: var(--spacing-sm) 0;
+  padding: 0.8rem;
+  margin: 0.4rem 0;
   cursor: pointer;
-  color: var(--stage3-text);
-  border-left: 3px solid transparent;
-  transition: all var(--transition-fast);
-  font-size: var(--fs-sm);
-  letter-spacing: 1px;
+  border: 1px solid transparent;
 }
 
 .bios-menu-item.active {
   background: rgba(0, 229, 255, 0.1);
-  border-left-color: var(--stage3-hover);
-  color: var(--stage3-hover);
-  box-shadow: 0 0 16px var(--stage3-glow);
-  animation: glowPulse 0.6s ease-in-out infinite;
-}
-
-.bios-footer {
-  text-align: center;
-  margin-top: var(--spacing-lg);
-  font-size: var(--fs-xs);
-  color: var(--stage3-text);
-  opacity: 0.7;
+  border-color: #00e5ff;
+  color: #00e5ff;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* STAGE 4: DISK SEEK - Navy + Cyan with animated beam & progress */
+/* SCREEN 4: DISK SEEK - Loading & Progress */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #disk-loading {
-  background: var(--stage4-bg) !important;
-  color: var(--stage4-text);
-  font-family: var(--font-boot), var(--font-boot-fallback);
+  background: #0d0d20 !important;
 }
 
 .loading-container {
-  width: 100%;
-  max-width: 700px;
-  background: rgba(13, 13, 32, 0.9);
-  border: 2px solid var(--stage4-text);
-  padding: var(--spacing-xl);
-  box-shadow: 0 0 32px var(--stage4-glow), inset 0 0 20px rgba(0, 229, 255, 0.08);
-}
-
-.loading-header {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-}
-
-.loading-title {
-  color: var(--stage4-text);
-  font-size: var(--fs-md);
-  letter-spacing: 3px;
-  font-weight: 700;
-  margin: 0 0 var(--spacing-md);
+  width: 90%;
+  max-width: 500px;
 }
 
 .loading-log {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--stage4-text);
-  border-left: 3px solid var(--stage4-progress);
-  padding: var(--spacing-md);
-  margin: var(--spacing-md) 0;
-  font-size: var(--fs-xs);
-  line-height: 1.8;
-  min-height: 120px;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.log-line {
-  color: var(--stage4-text);
-  margin: 0.6em 0;
-  animation: fadeIn 0.4s ease-out;
-  min-height: 1.2em;
-}
-
-.log-line.highlight {
-  color: var(--stage4-progress);
-  font-weight: 700;
-}
-
-/* Disk Seek Beam Animation */
-.seek-beam {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, var(--stage4-text), transparent);
-  box-shadow: 0 0 16px var(--stage4-progress);
-  animation: diskSeekBeam 0.8s linear infinite;
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* Progress Bar */
-.progress-section {
-  margin: var(--spacing-lg) 0;
-}
-
-.progress-label {
-  color: var(--stage4-muted);
-  font-size: var(--fs-xs);
-  margin-bottom: var(--spacing-sm);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  height: 150px;
+  overflow: hidden;
+  background: #000;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid #00e5ff;
+  font-size: 0.8rem;
 }
 
 .progress-bar {
   width: 100%;
-  height: 24px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--stage4-text);
-  border-radius: 2px;
-  overflow: hidden;
+  height: 30px;
+  border: 1px solid #00e5ff;
   position: relative;
+  background: #000;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--stage4-progress), var(--stage4-text));
+  background: #ff4b81;
   width: 0%;
-  transition: width 0.1s linear;
-  box-shadow: 0 0 12px var(--stage4-progress);
-  animation: progressPulse 0.5s ease-in-out infinite;
+  box-shadow: 0 0 15px #ff4b81;
 }
 
 .progress-text {
-  color: var(--stage4-muted);
-  font-size: var(--fs-xs);
-  margin-top: var(--spacing-sm);
-  text-align: right;
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #ff4b81;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* STAGE 5: ASCII BANNER - Black-Violet + typeout effect */
+/* SCREEN 5: ASCII BANNER */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 #ascii-banner {
-  background: var(--stage5-bg) !important;
-  color: var(--stage5-text);
-  font-family: var(--font-boot), var(--font-boot-fallback);
-  padding: var(--spacing-xl);
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  #ascii-banner {
-    min-height: auto;
-    padding: var(--spacing-lg);
-  }
-}
-
-.banner-container {
-  text-align: center;
-  width: 100%;
-  max-width: 800px;
+  background: #000 !important;
 }
 
 .ascii-art {
-  font-size: var(--fs-sm);
-  line-height: 1.2;
-  letter-spacing: 0.5px;
-  margin: var(--spacing-lg) 0;
-  color: var(--stage5-text);
-  text-shadow: 0 0 16px var(--stage5-glow);
-}
-
-.banner-line {
-  font-size: var(--fs-sm);
-  margin: var(--spacing-md) 0;
-  color: var(--stage5-text);
-  text-shadow: 0 0 12px var(--stage5-glow);
-  min-height: 1.5em;
-  animation: fadeIn 0.4s ease-out;
-}
-
-.banner-highlight {
-  color: var(--stage5-accent);
-  font-weight: 700;
-  animation: glowPulse 1s ease-in-out infinite;
+  font-size: 12px;
+  line-height: 1.1;
+  color: #00ff66;
+  text-shadow: 0 0 10px #00ff66;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-/* TRANSITIONS BETWEEN STAGES */
+/* KEYFRAMES */
 /* ═══════════════════════════════════════════════════════════════════════════ */
-
-.boot-screen {
-  display: none;
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10001;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.boot-screen.active {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  pointer-events: auto;
-  animation: fadeIn 0.4s ease-out forwards !important;
-}
-
-.boot-screen.exit {
-  animation: fadeOut 0.4s ease-out forwards !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* ACCESSIBILITY */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-  
-  #power-on .power-text,
-  #power-on .power-subtext,
-  .diag-line,
-  .bios-container,
-  .loading-container,
-  #ascii-banner {
-    animation: none;
-    opacity: 1;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* MOBILE RESPONSIVE */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-
-@media (max-width: 768px) {
-  .bios-container,
-  .loading-container {
-    max-width: 90vw;
-    padding: var(--spacing-md);
-    margin: 0 auto;
-  }
-  
-  .bios-title,
-  .loading-title {
-    font-size: var(--fs-md);
-  }
-  
-  .ascii-art {
-    font-size: 10px;
-  }
-  
-  .bios-menu-item {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--fs-xs);
-  }
-
-  .bios-system-info {
-    font-size: var(--fs-xs);
-    padding: var(--spacing-sm);
-  }
-
-  .diag-line {
-    font-size: var(--fs-xs);
-  }
-}
-
-@media (max-width: 640px) {
-  #power-on .power-text {
-    font-size: var(--fs-md);
-  }
-  
-  .bios-title,
-  .loading-title {
-    font-size: var(--fs-sm);
-    letter-spacing: 2px;
-  }
-  
-  .ascii-art {
-    font-size: 8px;
-  }
-  
-  .loading-log {
-    font-size: 10px;
-    min-height: 80px;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* KEYFRAME ANIMATIONS - Boot Sequence Effects */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes powerOnFlash {
-  0% {
-    opacity: 0;
-    background: #00ff00;
-  }
-  30% {
-    background: #00ff00;
-  }
-  100% {
-    opacity: 1;
-    background: var(--stage1-bg);
-  }
-}
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.02); }
 }
 
-@keyframes diagnosticsScroll {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes diskSeekBeam {
-  0% {
-    transform: scaleX(0);
-    opacity: 1;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: scaleX(1);
-    opacity: 0;
-  }
-}
-
-@keyframes progressPulse {
-  0% {
-    width: 0%;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    opacity: 0.8;
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(0, 255, 0, 1);
-    opacity: 1;
-  }
-}
-
-@keyframes typeWriter {
-  0% {
-    width: 0;
-    opacity: 0;
-  }
-  1% {
-    opacity: 1;
-  }
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .ascii-art { font-size: 6px; }
+  .bios-container, .loading-container { width: 95%; padding: 1rem; }
+  .diag-container { width: 90%; }
 }
