@@ -164,6 +164,8 @@
       justify-content: center;
       flex-direction: column;
       gap: 2rem;
+      position: relative;
+      padding: 2rem;
     }
 
     .file-viewer.empty {
@@ -178,26 +180,156 @@
       letter-spacing: 1px;
     }
 
-    .file-upload-btn {
+    .close-viewer-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
       background: none;
       border: 2px solid var(--portfolio-accent);
       color: var(--portfolio-accent);
-      padding: 0.75rem 1.5rem;
-      font-family: "Silkscreen", monospace;
+      padding: 0.4rem 0.8rem;
+      font-family: "IBM Plex Mono", monospace;
       font-size: 1rem;
       cursor: pointer;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      z-index: 10;
       transition: all 0.3s;
     }
 
-    .file-upload-btn:hover {
+    .close-viewer-btn:hover {
       background: rgba(255, 75, 129, 0.2);
-      box-shadow: 0 0 15px rgba(255, 75, 129, 0.3);
+      box-shadow: 0 0 10px rgba(255, 75, 129, 0.3);
     }
 
-    .file-upload-btn input {
-      display: none;
+    /* VIEWER OPTIONS */
+    .viewer-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .viewer-option {
+      background: rgba(0, 229, 255, 0.05);
+      border: 2px solid var(--portfolio-secondary);
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .viewer-option:hover {
+      border-color: var(--portfolio-border);
+      background: rgba(123, 97, 255, 0.08);
+      box-shadow: 0 0 15px rgba(123, 97, 255, 0.2);
+    }
+
+    .option-header {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .option-header h3 {
+      margin: 0;
+      font-family: "Silkscreen", monospace;
+      color: var(--portfolio-border);
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .option-badge {
+      display: inline-block;
+      background: rgba(123, 97, 255, 0.3);
+      color: var(--portfolio-secondary);
+      padding: 0.25rem 0.6rem;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      border: 1px solid var(--portfolio-secondary);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .option-badge.recommended {
+      background: rgba(255, 75, 129, 0.3);
+      color: var(--portfolio-accent);
+      border-color: var(--portfolio-accent);
+    }
+
+    .option-desc {
+      font-size: 0.9rem;
+      color: var(--portfolio-text);
+      margin: 0 0 1rem 0;
+      line-height: 1.5;
+    }
+
+    .option-btn {
+      background: none;
+      border: 2px solid var(--portfolio-secondary);
+      color: var(--portfolio-secondary);
+      padding: 0.6rem 1rem;
+      font-family: "Silkscreen", monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      width: 100%;
+      transition: all 0.3s;
+      margin-bottom: 1rem;
+    }
+
+    .option-btn:hover {
+      background: rgba(123, 97, 255, 0.2);
+      border-color: var(--portfolio-border);
+      color: var(--portfolio-border);
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.3);
+    }
+
+    .viewer-input {
+      width: 100%;
+      padding: 0.6rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--portfolio-secondary);
+      color: var(--portfolio-text);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
+      box-sizing: border-box;
+      margin-top: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .viewer-input:focus {
+      outline: none;
+      border-color: var(--portfolio-border);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+      background: rgba(0, 229, 255, 0.05);
+    }
+
+    .viewer-input::placeholder {
+      color: rgba(168, 179, 199, 0.5);
+    }
+
+    /* STATUS BOX */
+    .status-box {
+      background: rgba(255, 75, 129, 0.1);
+      border: 1px solid rgba(255, 75, 129, 0.3);
+      padding: 1rem;
+      border-left: 3px solid var(--portfolio-accent);
+      margin: 2rem 0;
+      color: var(--portfolio-text);
+    }
+
+    #viewerContent {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #viewerContent iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+      border: none;
     }
 
     /* FOOTER */
@@ -236,6 +368,23 @@
       .pitch-nav-links a {
         font-size: 0.8rem;
       }
+
+      .viewer-options {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .option-header {
+        flex-wrap: wrap;
+      }
+
+      .file-viewer {
+        min-height: 400px;
+      }
+
+      #viewerContent iframe {
+        min-height: 400px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -265,6 +414,26 @@
 
       .file-viewer {
         min-height: 300px;
+        padding: 1rem;
+      }
+
+      #viewerContent iframe {
+        min-height: 300px;
+      }
+
+      .option-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+      }
+
+      .viewer-input {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+      }
+
+      .close-viewer-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -340,23 +509,101 @@
         </ul>
       </div>
 
-      <!-- PDF VIEWER SECTION -->
+      <!-- PITCH DECK ACCESS SECTION -->
       <div class="pitch-section">
         <h2>FULL PITCH DECK</h2>
-        <p>Upload or view the complete Kenko Aahara pitch deck below:</p>
+        <p>Access the complete Kenko Aahara pitch deck using your preferred method:</p>
         
-        <div class="file-viewer empty" id="pdfViewer">
-          <p>📄 PPT/PDF VIEWER</p>
-          <label class="file-upload-btn">
-            [ UPLOAD DECK ]
-            <input type="file" id="fileInput" accept=".pdf,.ppt,.pptx" onchange="handleFileUpload(event)">
-          </label>
-          <p style="font-size: 0.9rem; opacity: 0.7;">
-            Supported: PDF, PPT, PPTX
+        <!-- VIEWER OPTIONS -->
+        <div class="viewer-options">
+          
+          <!-- OPTION 1: GOOGLE DRIVE (Recommended) -->
+          <div class="viewer-option">
+            <div class="option-header">
+              <span class="option-badge recommended">RECOMMENDED</span>
+              <h3>Google Drive Viewer</h3>
+            </div>
+            <p class="option-desc">
+              Best mobile experience. Built-in slide navigation, comments, and fast loading.
+            </p>
+            <button class="option-btn" onclick="openGoogleDrive()">
+              [ OPEN ON GOOGLE DRIVE ]
+            </button>
+            <p style="font-size: 0.85rem; color: var(--portfolio-secondary); margin-top: 1rem;">
+              💡 Tip: Paste your Google Drive share link below
+            </p>
+            <input 
+              type="text" 
+              id="googleDriveLink" 
+              class="viewer-input" 
+              placeholder="Paste Google Drive share link here..."
+            >
+          </div>
+
+          <!-- OPTION 2: MICROSOFT OFFICE ONLINE -->
+          <div class="viewer-option">
+            <div class="option-header">
+              <span class="option-badge">OFFICE ONLINE</span>
+              <h3>Microsoft Office Viewer</h3>
+            </div>
+            <p class="option-desc">
+              Native PowerPoint rendering. Works with .pptx files on public URLs.
+            </p>
+            <button class="option-btn" onclick="openOfficeViewer()">
+              [ OPEN IN OFFICE VIEWER ]
+            </button>
+            <p style="font-size: 0.85rem; color: var(--portfolio-secondary); margin-top: 1rem;">
+              💡 Requires: Publicly accessible .pptx file URL
+            </p>
+            <input 
+              type="text" 
+              id="officePPTLink" 
+              class="viewer-input" 
+              placeholder="Paste .pptx file URL here..."
+            >
+          </div>
+
+          <!-- OPTION 3: PDF VIEWER -->
+          <div class="viewer-option">
+            <div class="option-header">
+              <span class="option-badge">PDF</span>
+              <h3>PDF Version</h3>
+            </div>
+            <p class="option-desc">
+              Universal format. Best for offline viewing and printing.
+            </p>
+            <button class="option-btn" onclick="openPDFViewer()">
+              [ OPEN PDF VIEWER ]
+            </button>
+            <p style="font-size: 0.85rem; color: var(--portfolio-secondary); margin-top: 1rem;">
+              💡 Tip: Export your PPT as PDF for best results
+            </p>
+            <input 
+              type="text" 
+              id="pdfLink" 
+              class="viewer-input" 
+              placeholder="Paste PDF file URL here..."
+            >
+          </div>
+
+        </div>
+
+        <!-- ACTIVE VIEWER -->
+        <div class="file-viewer" id="activeViewer" style="display: none; margin-top: 3rem;">
+          <button class="close-viewer-btn" onclick="closeViewer()">[ × CLOSE ]</button>
+          <div id="viewerContent"></div>
+        </div>
+
+        <!-- STATUS: NOT YET UPLOADED -->
+        <div class="status-box" id="statusBox">
+          <p style="margin: 0; font-size: 0.95rem;">
+            📋 <strong>Status:</strong> Pitch deck link not yet configured. 
+            <br>
+            <span style="font-size: 0.85rem; opacity: 0.8;">Paste a Google Drive, Office, or PDF link above to enable viewing.</span>
           </p>
         </div>
 
-        <p style="font-size: 0.9rem; color: var(--portfolio-secondary); text-align: center;">
+        <p style="font-size: 0.9rem; color: var(--portfolio-secondary); text-align: center; margin-top: 2rem;">
           📧 Have questions about Kenko? <a href="../index.html#contact" style="color: inherit; text-decoration: underline;">Get in touch!</a>
         </p>
       </div>
@@ -382,53 +629,123 @@
   </div>
 
   <script>
-    // Simple file upload and viewer
-    function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    // ═══════════════════════════════════════════════════════════════
+    // PITCH DECK VIEWER - Smart Hosting Options
+    // ═══════════════════════════════════════════════════════════════
 
-      const viewer = document.getElementById('pdfViewer');
-      const fileName = file.name;
-      const fileType = file.type;
+    // GOOGLE DRIVE VIEWER
+    function openGoogleDrive() {
+      const link = document.getElementById('googleDriveLink').value.trim();
+      
+      if (!link) {
+        alert('⚠️ Paste a Google Drive share link first!\n\nHow to get it:\n1. Right-click file in Google Drive\n2. Click "Share"\n3. Copy the share link\n4. Paste it above');
+        return;
+      }
 
-      // For PDF files, show embed viewer
-      if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
-        const fileURL = URL.createObjectURL(file);
-        viewer.innerHTML = `
-          <iframe 
-            src="${fileURL}" 
-            style="width: 100%; height: 600px; border: none;"
-            title="PDF Viewer">
-          </iframe>
-        `;
-      } 
-      // For PPT/PPTX, show helpful message
-      else if (fileName.endsWith('.ppt') || fileName.endsWith('.pptx')) {
-        viewer.innerHTML = `
-          <div style="text-align: center; padding: 2rem;">
-            <p style="font-size: 1.2rem; margin-bottom: 1rem;">
-              📊 PowerPoint File Uploaded: <strong>${fileName}</strong>
-            </p>
-            <p style="color: var(--portfolio-secondary); margin-bottom: 1rem;">
-              For best viewing experience, PPT files should be converted to PDF.
-            </p>
-            <p>
-              💡 Recommendation: Export your PPT as PDF for universal browser support
-            </p>
-            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 1rem;">
-              You can convert PPT to PDF using: LibreOffice, Google Slides, or Microsoft Office
-            </p>
-          </div>
-        `;
+      // Convert Google Drive link to preview URL
+      let fileId = '';
+      if (link.includes('/d/')) {
+        fileId = link.split('/d/')[1].split('/')[0];
+      } else if (link.includes('?id=')) {
+        fileId = link.split('?id=')[1].split('&')[0];
+      }
+
+      if (fileId) {
+        const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+        showViewer('google', previewUrl);
+        updateStatus('Google Drive', '✅ Opened');
+      } else {
+        alert('⚠️ Invalid Google Drive link format.\n\nMake sure you paste the full share link.');
       }
     }
 
-    // Store file reference if needed
-    document.getElementById('fileInput').addEventListener('change', function() {
-      if (this.files[0]) {
-        console.log('File ready:', this.files[0].name);
+    // MICROSOFT OFFICE ONLINE VIEWER
+    function openOfficeViewer() {
+      const link = document.getElementById('officePPTLink').value.trim();
+      
+      if (!link) {
+        alert('⚠️ Paste a .pptx file URL first!\n\nRequirements:\n• Must be a public .pptx file\n• Must be directly accessible (not behind auth)\n• Example: GitHub raw URL, Dropbox direct link');
+        return;
+      }
+
+      if (!link.includes('.pptx') && !link.includes('.ppt')) {
+        alert('⚠️ URL must point to a .pptx or .ppt file');
+        return;
+      }
+
+      const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(link)}`;
+      showViewer('office', viewerUrl);
+      updateStatus('Microsoft Office Online', '✅ Opened');
+    }
+
+    // PDF VIEWER
+    function openPDFViewer() {
+      const link = document.getElementById('pdfLink').value.trim();
+      
+      if (!link) {
+        alert('⚠️ Paste a PDF file URL first!\n\nOptions:\n• Upload to GitHub and use raw URL\n• Use Google Drive PDF link\n• Use Dropbox public link');
+        return;
+      }
+
+      if (!link.includes('.pdf')) {
+        alert('⚠️ URL must point to a .pdf file');
+        return;
+      }
+
+      showViewer('pdf', link);
+      updateStatus('PDF Viewer', '✅ Opened');
+    }
+
+    // SHOW VIEWER
+    function showViewer(type, url) {
+      const viewer = document.getElementById('activeViewer');
+      const content = document.getElementById('viewerContent');
+      const statusBox = document.getElementById('statusBox');
+
+      // Hide status box
+      statusBox.style.display = 'none';
+
+      // Create appropriate iframe
+      let iframe = `<iframe src="${url}" title="Pitch Deck Viewer"></iframe>`;
+      content.innerHTML = iframe;
+      viewer.style.display = 'flex';
+
+      // Smooth scroll to viewer
+      viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // CLOSE VIEWER
+    function closeViewer() {
+      document.getElementById('activeViewer').style.display = 'none';
+      document.getElementById('statusBox').style.display = 'block';
+      document.getElementById('viewerContent').innerHTML = '';
+    }
+
+    // UPDATE STATUS
+    function updateStatus(source, message) {
+      const statusBox = document.getElementById('statusBox');
+      statusBox.innerHTML = `<p style="margin: 0; font-size: 0.95rem;">📋 <strong>${source}:</strong> ${message}</p>`;
+      statusBox.style.display = 'block';
+    }
+
+    // KEYBOARD SHORTCUT: ESC to close
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const viewer = document.getElementById('activeViewer');
+        if (viewer.style.display === 'flex') {
+          closeViewer();
+        }
       }
     });
+
+    // LOCAL STORAGE: Remember last used option
+    function saveOption(option) {
+      localStorage.setItem('lastPitchDeckOption', option);
+    }
+
+    function loadOption() {
+      return localStorage.getItem('lastPitchDeckOption') || 'google';
+    }
   </script>
 </body>
 </html>
