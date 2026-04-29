@@ -33,29 +33,29 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
         clearInterval(interval);
         setTimeout(() => {
           setIsFinishing(true);
-          setTimeout(onComplete, 1000);
+          setTimeout(onComplete, 1200);
         }, 800);
       }
-    }, 150);
+    }, 100);
 
     return () => clearInterval(interval);
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-black z-[1000] flex flex-col p-8 font-mono text-sm sm:text-base leading-relaxed overflow-hidden">
+    <div className="fixed inset-0 bg-[#070711] z-[1000] flex flex-col p-8 font-mono text-sm sm:text-lg leading-relaxed overflow-hidden">
       <AnimatePresence>
         {!isFinishing && (
           <motion.div 
-            exit={{ opacity: 0, scale: 1.1 }}
-            className="text-portfolio-success"
+            exit={{ opacity: 0, scale: 1.2, filter: 'blur(10px)' }}
+            className="text-portfolio-accent"
           >
             {logs.map((log, i) => (
               <div key={i} className="mb-1">
-                <span className="opacity-50 mr-4">[{ (i * 0.124).toFixed(6) }]</span>
+                <span className="text-portfolio-secondary mr-4">[{ (i * 0.124).toFixed(6) }]</span>
                 {log}
               </div>
             ))}
-            <div className="animate-pulse inline-block w-2 h-4 bg-portfolio-success ml-1" />
+            <div className="animate-pulse inline-block w-3 h-5 bg-portfolio-accent ml-1" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -64,16 +64,16 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center bg-portfolio-bg"
         >
           <div className="text-center">
-            <h1 className="font-display text-4xl text-white mb-2 tracking-widest">ASHISH_OS</h1>
-            <div className="w-48 h-1 bg-white/20 mx-auto overflow-hidden">
+            <h1 className="font-display text-5xl md:text-7xl text-portfolio-accent mb-4 tracking-tighter italic" style={{ textShadow: '4px 4px 0 #3366cc' }}>SYSTEM_READY</h1>
+            <div className="w-64 h-4 bg-portfolio-panel border-2 border-portfolio-border mx-auto overflow-hidden">
               <motion.div 
                 initial={{ x: '-100%' }}
                 animate={{ x: '100%' }}
-                transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                className="w-1/2 h-full bg-portfolio-border"
+                transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
+                className="w-1/2 h-full bg-portfolio-accent shadow-[0_0_15px_#ff00ff]"
               />
             </div>
           </div>

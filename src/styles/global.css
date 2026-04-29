@@ -1,45 +1,69 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Silkscreen", monospace;
-  --font-body: "IBM Plex Mono", monospace;
+  --font-display: "Silkscreen", "Press Start 2P", monospace;
+  --font-body: "VT323", "IBM Plex Mono", monospace;
   --font-boot: "VT323", monospace;
 
-  --color-portfolio-bg: #070711;
-  --color-portfolio-panel: #0f1020;
-  --color-portfolio-border: #00e5ff;
-  --color-portfolio-accent: #ff4b81;
-  --color-portfolio-secondary: #7b61ff;
-  --color-portfolio-success: #8cff98;
-  --color-portfolio-text: #a8b3c7;
-  --color-portfolio-text-bright: #d9e2ec;
+  --color-portfolio-bg: #1a1a40; /* Deep RPG Navy */
+  --color-portfolio-panel: #2a2a60;
+  --color-portfolio-border: #3366cc; /* Bright Blue */
+  --color-portfolio-accent: #ff00ff; /* Neon Magenta */
+  --color-portfolio-secondary: #ffd700; /* Gold */
+  --color-portfolio-success: #00ff00; /* Lime */
+  --color-portfolio-text: #c0c0c0; /* Classic Gray */
+  --color-portfolio-text-bright: #ffffff;
   --color-portfolio-warning: #ffbf47;
-  --color-portfolio-error: #ff4d4d;
+  --color-portfolio-error: #ff0000;
 }
 
 @layer base {
   :root {
-    --portfolio-bg: #070711;
-    --portfolio-panel: #0f1020;
-    --portfolio-border: #00e5ff;
-    --portfolio-accent: #ff4b81;
-    --portfolio-secondary: #7b61ff;
-    --portfolio-success: #8cff98;
-    --portfolio-text: #a8b3c7;
-    --portfolio-text-bright: #d9e2ec;
+    --portfolio-bg: #1a1a40;
+    --portfolio-panel: #2a2a60;
+    --portfolio-border: #3366cc;
+    --portfolio-accent: #ff00ff;
+    --portfolio-secondary: #ffd700;
+    --portfolio-success: #00ff00;
+    --portfolio-text: #c0c0c0;
+    --portfolio-text-bright: #ffffff;
     --portfolio-warning: #ffbf47;
-    --portfolio-error: #ff4d4d;
+    --portfolio-error: #ff0000;
   }
 
   body {
     background-color: var(--portfolio-bg);
     color: var(--portfolio-text);
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "VT323", monospace;
     overflow-x: hidden;
+    image-rendering: pixelated;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Silkscreen", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 }
 
-/* CRT Scanline Effect */
+/* Classic RPG/95 3D Border */
+.retro-border-outset {
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
+
+.retro-border-inset {
+  border: 2px solid;
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* CRT Scanline Effect - More aggressive */
 .crt-overlay {
   position: fixed;
   top: 0;
@@ -48,17 +72,18 @@
   height: 100vh;
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.1) 50%
+    rgba(0, 0, 0, 0.2) 50%
   ),
   linear-gradient(
     90deg,
-    rgba(255, 0, 0, 0.03),
-    rgba(0, 255, 0, 0.01),
-    rgba(0, 0, 255, 0.03)
+    rgba(255, 0, 0, 0.05),
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 0, 255, 0.05)
   );
-  background-size: 100% 4px, 3px 100%;
+  background-size: 100% 3px, 3px 100%;
   pointer-events: none;
   z-index: 9999;
+  opacity: 0.8;
 }
 
 .crt-overlay::before {

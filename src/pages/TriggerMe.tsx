@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-// import { io } from 'socket.io-client'; // Future backend integration
 
 const TRIGGER_ACTIONS = [
   { id: 'annoy', label: 'ANNOY_TERMINAL', icon: '📟', cost: 10, description: 'Causes fake glitches in the developer terminal.' },
@@ -26,7 +25,6 @@ const TriggerMe = () => {
     setLogs(prev => [`[COMMAND] Executing ${label}...`, ...prev]);
     setStatus(`EXECUTING_${actionId.toUpperCase()}`);
 
-    // Mock success
     setTimeout(() => {
       setStatus('AGENT_READY');
       setLogs(prev => [`[SUCCESS] ${label} received by laptop agent.`, ...prev]);
@@ -34,43 +32,49 @@ const TriggerMe = () => {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-6">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="min-h-screen pt-24 pb-12 px-6 bg-[#070711] font-body relative overflow-hidden">
+      {/* Aggressive Grid Background */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ 
+        backgroundImage: 'linear-gradient(#ff00ff 1px, transparent 1px), linear-gradient(90deg, #ff00ff 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        transform: 'perspective(500px) rotateX(45deg)',
+        transformOrigin: 'top'
+      }} />
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
         
         {/* Control Panel */}
         <div className="lg:col-span-2 space-y-8">
-          <header className="border-b-2 border-portfolio-accent pb-4">
-            <h1 className="font-display text-3xl md:text-5xl text-portfolio-text-bright flex items-center gap-4">
-              <span className="text-portfolio-accent animate-pulse">●</span>
+          <header className="border-b-4 border-portfolio-accent pb-4">
+            <h1 className="font-display text-4xl md:text-6xl text-white italic tracking-tighter" style={{ textShadow: '4px 4px 0 #3366cc' }}>
               TRIGGER_ASHISH.EXE
             </h1>
-            <p className="text-portfolio-secondary mt-2 tracking-widest font-mono text-sm">
-              REMOTE CHAOS CONTROL INTERFACE // v1.0.4-BETA
+            <p className="text-portfolio-secondary mt-2 tracking-[0.3em] font-display text-xs font-bold">
+              REMOTE CHAOS CONTROL INTERFACE // V3.0.4-REVELATION
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {TRIGGER_ACTIONS.map((action) => (
               <motion.button
                 key={action.id}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05, x: 5 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => handleTrigger(action.id, action.label, action.cost)}
-                className="bg-portfolio-panel border-2 border-portfolio-border/30 hover:border-portfolio-accent p-6 text-left group transition-all relative overflow-hidden"
+                className="bg-portfolio-panel border-4 border-portfolio-accent hover:border-portfolio-secondary p-6 text-left group transition-all relative overflow-hidden shadow-[8px_8px_0px_#000]"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-3xl">{action.icon}</span>
-                  <span className="font-mono text-xs text-portfolio-accent font-bold">COST: {action.cost}P</span>
+                  <span className="text-4xl drop-shadow-[0_0_8px_rgba(255,0,255,0.5)]">{action.icon}</span>
+                  <span className="font-display text-[10px] text-portfolio-secondary font-bold bg-black px-2 py-1">COST: {action.cost}P</span>
                 </div>
-                <h3 className="font-display text-lg text-portfolio-text-bright mb-2 group-hover:text-portfolio-accent transition-colors">
+                <h3 className="font-display text-xl text-white mb-2 group-hover:text-portfolio-accent transition-colors italic tracking-tight">
                   {action.label}
                 </h3>
-                <p className="text-xs text-portfolio-text/60 font-mono">
+                <p className="text-[11px] text-portfolio-text font-bold uppercase tracking-wider">
                   {action.description}
                 </p>
                 
-                {/* Progress bar background on hover */}
-                <div className="absolute bottom-0 left-0 h-1 bg-portfolio-accent w-0 group-hover:w-full transition-all duration-500"></div>
+                <div className="absolute bottom-0 left-0 h-1 bg-portfolio-secondary w-0 group-hover:w-full transition-all duration-500 shadow-[0_0_10px_#ffd700]"></div>
               </motion.button>
             ))}
           </div>
@@ -78,40 +82,40 @@ const TriggerMe = () => {
 
         {/* Sidebar Status */}
         <div className="space-y-6">
-          <div className="bg-portfolio-panel border-2 border-portfolio-border p-6 shadow-[8px_8px_0px_rgba(0,229,255,0.1)]">
-            <h3 className="font-display text-portfolio-border mb-6 text-sm">📡 REMOTE_STATUS</h3>
+          <div className="bg-[#000080] border-4 border-portfolio-secondary p-6 shadow-[10px_10px_0px_#000]">
+            <h3 className="font-display text-portfolio-secondary mb-6 text-xs italic tracking-widest border-b-2 border-portfolio-secondary/30 pb-2">📡 REMOTE_LINK_STATUS</h3>
             
-            <div className="space-y-4 font-mono">
+            <div className="space-y-6 font-display">
               <div>
-                <div className="text-[10px] text-portfolio-text/50 mb-1 uppercase">Points Available</div>
-                <div className="text-3xl text-portfolio-accent font-bold tracking-tighter">
-                  {points.toLocaleString()} <span className="text-xs">PTS</span>
+                <div className="text-[10px] text-white/50 mb-1 uppercase tracking-widest">Available Energy</div>
+                <div className="text-4xl text-portfolio-accent font-bold tracking-tighter italic" style={{ textShadow: '2px 2px 0 #000' }}>
+                  {points.toLocaleString()} <span className="text-xs italic text-portfolio-secondary">PTS</span>
                 </div>
               </div>
 
               <div>
-                <div className="text-[10px] text-portfolio-text/50 mb-1 uppercase">Agent Status</div>
-                <div className={`text-sm font-bold ${status === 'AGENT_IDLE' ? 'text-portfolio-success' : 'text-portfolio-warning'} animate-pulse`}>
-                  {status}
+                <div className="text-[10px] text-white/50 mb-1 uppercase tracking-widest">Agent Link</div>
+                <div className={`text-sm font-bold ${status === 'AGENT_IDLE' ? 'text-portfolio-success' : 'text-portfolio-warning'} animate-pulse tracking-widest`}>
+                  >> {status}
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-portfolio-border/20">
-                <div className="text-[10px] text-portfolio-text/50 mb-2 uppercase">Command Logs</div>
-                <div className="bg-black/50 p-3 h-48 overflow-y-auto text-[10px] space-y-1 text-portfolio-success">
+              <div className="pt-4 border-t-2 border-portfolio-accent/30">
+                <div className="text-[10px] text-white/50 mb-2 uppercase tracking-widest">Command_Buffer</div>
+                <div className="bg-black/80 p-3 h-56 overflow-y-auto text-[10px] space-y-2 font-mono text-portfolio-success border-inset">
                   {logs.map((log, i) => (
-                    <div key={i}>{log}</div>
+                    <div key={i} className="border-l-2 border-portfolio-success/30 pl-2">{log}</div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-portfolio-accent/10 border-2 border-portfolio-accent/30 p-6">
-            <h4 className="font-display text-portfolio-accent text-xs mb-4">SECURITY_NOTICE</h4>
-            <p className="text-[10px] leading-relaxed font-mono opacity-80">
+          <div className="bg-portfolio-accent border-4 border-white p-6 text-white shadow-[10px_10px_0px_#000]">
+            <h4 className="font-display text-black text-xs mb-4 bg-white px-2 py-1 inline-block">SECURITY_PROTOCOL_v3</h4>
+            <p className="text-[10px] leading-relaxed font-bold uppercase tracking-wider italic">
               All triggers are sandboxed. The laptop agent only executes whitelisted commands. 
-              No raw shell access is granted to visitors. Emergency stop is active on Ashish's physical machine.
+              No raw shell access is granted. Emergency stop active on host machine.
             </p>
           </div>
         </div>

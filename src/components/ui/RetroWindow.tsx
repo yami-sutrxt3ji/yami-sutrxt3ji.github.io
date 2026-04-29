@@ -8,6 +8,7 @@ interface RetroWindowProps {
   children: ReactNode;
   footer?: ReactNode;
   width?: string;
+  isModal?: boolean;
 }
 
 const RetroWindow = ({ 
@@ -16,57 +17,67 @@ const RetroWindow = ({
   title, 
   children, 
   footer,
-  width = 'max-w-4xl' 
+  width = 'max-w-4xl',
+  isModal = false
 }: RetroWindowProps) => {
+  const windowContent = (
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0, y: 20 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      exit={{ scale: 0.9, opacity: 0, y: 20 }}
+      drag={!isModal}
+      dragMomentum={false}
+      className={`bg-portfolio-panel border-4 border-portfolio-accent shadow-[8px_8px_0px_#000000] w-full ${width} overflow-hidden font-body`}
+    >
+      {/* Title Bar (Aggressive RPG Style) */}
+      <div className="bg-gradient-to-r from-[#000080] to-portfolio-accent text-white px-3 py-2 flex justify-between items-center cursor-move select-none border-b-2 border-portfolio-secondary">
+        <div className="flex items-center gap-3 text-xs font-display italic tracking-tighter">
+          <span className="w-5 h-5 bg-white text-black flex items-center justify-center text-[10px] font-bold">R</span>
+          {title}
+        </div>
+        <div className="flex gap-2">
+          <button 
+            onClick={onClose}
+            className="bg-portfolio-secondary text-black border-2 border-white w-6 h-6 flex items-center justify-center text-xs font-bold leading-none hover:bg-white hover:scale-110 transition-all"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation / Links Bar */}
+      <div className="flex gap-6 px-4 py-1.5 bg-[#000040] text-[10px] font-display text-portfolio-secondary border-b-2 border-portfolio-accent/30 uppercase">
+        <span className="hover:text-white cursor-pointer">[FILE]</span>
+        <span className="hover:text-white cursor-pointer">[ACTION]</span>
+        <span className="hover:text-white cursor-pointer">[LOGS]</span>
+        <div className="flex-1" />
+        <span className="text-white opacity-50">v3.0.4</span>
+      </div>
+
+      {/* Content Area */}
+      <div className="bg-[#070711] text-portfolio-text-bright relative overflow-hidden border-inset">
+        {children}
+      </div>
+
+      {/* Footer */}
+      {footer && (
+        <div className="bg-portfolio-panel p-4 border-t-2 border-portfolio-accent">
+          {footer}
+        </div>
+      )}
+    </motion.div>
+  );
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            drag
-            dragMomentum={false}
-            className={`bg-[#c0c0c0] border-2 border-t-white border-l-white border-r-[#808080] border-b-[#808080] shadow-[4px_4px_0px_#000] w-full ${width} overflow-hidden`}
-          >
-            {/* Title Bar */}
-            <div className="bg-[#000080] text-white px-2 py-1 flex justify-between items-center cursor-move select-none">
-              <div className="flex items-center gap-2 text-sm font-bold tracking-tight">
-                <span className="w-4 h-4 bg-white/20 flex items-center justify-center text-[10px]">OS</span>
-                {title}
-              </div>
-              <div className="flex gap-1">
-                <button 
-                  onClick={onClose}
-                  className="bg-[#c0c0c0] text-black border border-t-white border-l-white border-r-black border-b-black w-5 h-5 flex items-center justify-center text-xs font-bold leading-none hover:bg-red-500 hover:text-white transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-
-            {/* Menu Bar (Optional) */}
-            <div className="flex gap-4 px-2 py-1 border-b border-[#808080] text-xs text-black">
-              <span className="cursor-default"><span className="underline">F</span>ile</span>
-              <span className="cursor-default"><span className="underline">E</span>dit</span>
-              <span className="cursor-default"><span className="underline">V</span>iew</span>
-              <span className="cursor-default"><span className="underline">H</span>elp</span>
-            </div>
-
-            {/* Content Area */}
-            <div className="bg-black text-white relative overflow-hidden">
-              {children}
-            </div>
-
-            {/* Footer */}
-            {footer && (
-              <div className="bg-[#c0c0c0] p-4 border-t border-white">
-                {footer}
-              </div>
-            )}
-          </motion.div>
-        </div>
+        isModal ? (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            {windowContent}
+          </div>
+        ) : (
+          windowContent
+        )
       )}
     </AnimatePresence>
   );

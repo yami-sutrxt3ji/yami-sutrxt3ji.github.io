@@ -54,219 +54,246 @@ const Home = ({ onShutdown }: HomeProps) => {
   ];
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-[#008080] flex flex-col">
-      {/* Desktop Background (Classic Pattern + Subtle Gradient) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#008080] via-[#006060] to-[#004040]" />
-      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ 
-        backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
-        backgroundSize: '24px 24px'
+    <div className="relative h-screen w-screen overflow-hidden bg-[#1a1a40] flex flex-col font-body">
+      {/* Aggressive Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a40] via-[#2a2a60] to-[#070711]" />
+      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ 
+        backgroundImage: 'linear-gradient(#3366cc 1px, transparent 1px), linear-gradient(90deg, #3366cc 1px, transparent 1px)',
+        backgroundSize: '32px 32px'
       }} />
 
-      {/* Icon Grid */}
-      <div className="grid grid-flow-col grid-rows-[repeat(auto-fill,100px)] gap-4 auto-cols-[100px] relative z-10 h-[calc(100vh-80px)] p-4 pt-8">
-        <DesktopIcon 
-          label="System.sys" 
-          icon="🖥️" 
-          onClick={() => toggleWindow('about')} 
-        />
-        <DesktopIcon 
-          label="Avatar.png" 
-          icon="🖼️" 
-          onClick={() => toggleWindow('avatar')} 
-        />
-        <DesktopIcon 
-          label="Education.doc" 
-          icon="📂" 
-          onClick={() => toggleWindow('education')} 
-          color="text-yellow-400"
-        />
-        <DesktopIcon 
-          label="Skills.bin" 
-          icon="💾" 
-          onClick={() => toggleWindow('skills')} 
-          color="text-portfolio-secondary"
-        />
-        <DesktopIcon 
-          label="Kenko.exe" 
-          icon="⚙️" 
-          onClick={() => toggleWindow('kenko')} 
-          color="text-portfolio-accent"
-        />
-        <DesktopIcon 
-          label="GoalHunter.exe" 
-          icon="🎮" 
-          onClick={() => toggleWindow('arcade')} 
-          color="text-portfolio-border"
-        />
+      {/* Top Banner (RPG Revelation Style) */}
+      <header className="relative z-[100] bg-[#000080] border-b-4 border-portfolio-accent shadow-[0_4px_15px_rgba(0,0,0,0.8)]">
+        <div className="flex justify-between items-center px-4 md:px-8 py-3">
+          <div className="flex items-center gap-8">
+            <h1 className="text-2xl md:text-4xl font-display text-white italic tracking-tighter" style={{ textShadow: '3px 3px 0 #ff00ff' }}>
+              ASHISH_REVELATION
+            </h1>
+            <nav className="hidden lg:flex gap-6 text-[10px] font-display text-portfolio-text">
+              <button onClick={() => toggleWindow('about')} className="hover:text-portfolio-accent transition-colors">[ABOUT_ME]</button>
+              <button onClick={() => toggleWindow('skills')} className="hover:text-portfolio-accent transition-colors">[CORE_SKILLS]</button>
+              <button onClick={() => toggleWindow('education')} className="hover:text-portfolio-accent transition-colors">[ACADEMICS]</button>
+              <button onClick={() => toggleWindow('arcade')} className="hover:text-portfolio-accent transition-colors">[ARCADE_SYS]</button>
+            </nav>
+          </div>
+          <div className="text-[10px] font-mono text-portfolio-secondary font-bold flex gap-4">
+            <span className="hidden sm:inline">ADM: ASHISH_V3</span>
+            <span className="animate-pulse">● ONLINE</span>
+          </div>
+        </div>
+        <div className="bg-gradient-to-r from-transparent via-portfolio-accent to-transparent h-1 w-full" />
+      </header>
+
+      {/* Main Desktop Area */}
+      <div className="flex-1 relative overflow-hidden">
+        {/* Icon Grid */}
+        <div className="grid grid-flow-col grid-rows-[repeat(auto-fill,110px)] gap-6 auto-cols-[110px] relative z-10 h-full p-6 pt-10">
+          <DesktopIcon 
+            label="SYS_PROPS" 
+            icon="🖥️" 
+            onClick={() => toggleWindow('about')} 
+          />
+          <DesktopIcon 
+            label="AVATAR_01" 
+            icon="🖼️" 
+            onClick={() => toggleWindow('avatar')} 
+          />
+          <DesktopIcon 
+            label="EDUCATION" 
+            icon="📂" 
+            onClick={() => toggleWindow('education')} 
+            color="text-portfolio-secondary"
+          />
+          <DesktopIcon 
+            label="BIN_SKILLS" 
+            icon="💾" 
+            onClick={() => toggleWindow('skills')} 
+            color="text-portfolio-accent"
+          />
+          <DesktopIcon 
+            label="KENKO_APP" 
+            icon="⚙️" 
+            onClick={() => toggleWindow('kenko')} 
+            color="text-portfolio-border"
+          />
+          <DesktopIcon 
+            label="ARCADE_RUN" 
+            icon="🎮" 
+            onClick={() => toggleWindow('arcade')} 
+            color="text-portfolio-success"
+          />
+        </div>
+
+        {/* Windows */}
+        
+        {/* 1. About Me */}
+        <div 
+          className={windows.about.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.about.zIndex, position: 'absolute', top: '5%', left: '5%' }} 
+          onMouseDown={() => focusWindow('about')}
+        >
+          <RetroWindow 
+            isOpen={windows.about.isOpen} 
+            onClose={() => toggleWindow('about')} 
+            title="SYSTEM_CORE_INFO" 
+            width="max-w-md"
+          >
+            <div className="p-6 bg-portfolio-panel border-inset font-mono space-y-6">
+              <div className="flex gap-4 items-center border-b-2 border-portfolio-accent pb-4">
+                <div className="text-5xl text-portfolio-accent drop-shadow-[0_0_8px_#ff00ff]">🖥️</div>
+                <div>
+                  <h3 className="text-portfolio-text-bright text-xl font-display italic">ASHISH_CORE</h3>
+                  <p className="text-[10px] text-portfolio-secondary uppercase tracking-widest font-bold">High-Performance Developer Unit</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h4 className="text-xs text-portfolio-border uppercase font-display mb-2">Hardware_Stats</h4>
+                {stats.map((stat) => (
+                  <div key={stat.label} className="space-y-1">
+                    <div className="flex justify-between text-[10px] uppercase font-bold text-portfolio-text">
+                      <span>{stat.label}</span>
+                      <span className="text-portfolio-accent">{stat.value}%</span>
+                    </div>
+                    <div className="h-3 bg-black border border-portfolio-border p-[1px]">
+                      <div className={`h-full ${stat.color} shadow-[0_0_10px_rgba(255,255,255,0.2)]`} style={{ width: `${stat.value}%` }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] leading-relaxed italic text-portfolio-text-bright border-t border-portfolio-border/30 pt-4 bg-black/40 p-2">
+                "I FIND BEAUTY IN THE INVISIBLE LAYERS. SYSTEMS OVER SURFACES."
+              </p>
+            </div>
+          </RetroWindow>
+        </div>
+
+        {/* 2. Avatar Viewer */}
+        <div 
+          className={windows.avatar.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.avatar.zIndex, position: 'absolute', top: '15%', left: '40%' }} 
+          onMouseDown={() => focusWindow('avatar')}
+        >
+          <RetroWindow 
+            isOpen={windows.avatar.isOpen} 
+            onClose={() => toggleWindow('avatar')} 
+            title="AVATAR_VIEWER_0.1" 
+            width="max-w-xs"
+          >
+            <div className="p-4 bg-black flex flex-col items-center">
+              <div className="relative group overflow-hidden border-4 border-portfolio-accent mb-4">
+                <img src="/assets/avatar.png" alt="Ashish" className="w-full grayscale group-hover:grayscale-0 transition-all duration-700 contrast-125" />
+                <div className="absolute inset-0 bg-gradient-to-t from-portfolio-accent/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                  <span className="text-[10px] text-white font-display">ID: ASHISH_REVELATION</span>
+                </div>
+              </div>
+              <div className="flex gap-2 w-full">
+                <div className="flex-1 text-[10px] bg-portfolio-success/20 text-portfolio-success border-2 border-portfolio-success p-1 text-center font-bold animate-pulse uppercase">[ONLINE]</div>
+                <div className="flex-1 text-[10px] bg-portfolio-accent/20 text-portfolio-accent border-2 border-portfolio-accent p-1 text-center font-bold uppercase">[ACTIVE]</div>
+              </div>
+            </div>
+          </RetroWindow>
+        </div>
+
+        {/* 3. Education Document */}
+        <div 
+          className={windows.education.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.education.zIndex, position: 'absolute', top: '10%', right: '5%' }} 
+          onMouseDown={() => focusWindow('education')}
+        >
+          <RetroWindow 
+            isOpen={windows.education.isOpen} 
+            onClose={() => toggleWindow('education')} 
+            title="ACADEMIC_RECORDS.PDF" 
+          >
+            <div className="p-8 bg-white text-black font-serif leading-relaxed min-h-[400px] shadow-inner border-4 border-portfolio-accent">
+              <h2 className="text-3xl border-b-4 border-black mb-6 pb-2 font-display italic tracking-tighter text-portfolio-accent">GRAD_RECORDS</h2>
+              <div className="space-y-8">
+                <section>
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-bold text-xl leading-tight text-[#000080]">COMPUTER_SCIENCE_ENG</h3>
+                    <span className="text-xs font-mono bg-portfolio-accent text-white px-2 py-1">GPA: 8.5+</span>
+                  </div>
+                  <p className="text-sm italic text-gray-700 font-bold">2021 - PRESENT</p>
+                  <ul className="mt-4 list-disc list-inside text-sm space-y-2 text-gray-900 font-semibold">
+                    <li>SPECIALIZING IN SYSTEM INTERNALS</li>
+                    <li>DEEP DIVE: OS KERNELS & MEMORY MGMT</li>
+                    <li>CYBERSECURITY LAB ACTIVE MEMBER</li>
+                  </ul>
+                </section>
+                <section className="bg-portfolio-accent/10 p-4 border-l-8 border-portfolio-accent">
+                  <h3 className="font-display text-sm mb-2">RESEARCH_FOCUS</h3>
+                  <p className="text-xs text-black leading-normal font-bold">
+                    ARM/X86 ASSEMBLY, REAL-TIME OS (RTOS), 
+                    HARDWARE-SOFTWARE CO-DESIGN. BUILDING CUSTOM FIRMWARE.
+                  </p>
+                </section>
+              </div>
+              <div className="mt-12 text-[10px] border-t-2 border-black pt-4 opacity-80 text-center font-display uppercase tracking-widest text-[#000080]">
+                AUTHENTIC_DATA_SYSTEM_REVELATION
+              </div>
+            </div>
+          </RetroWindow>
+        </div>
+
+        {/* 4. Skills Terminal */}
+        <div 
+          className={windows.skills.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.skills.zIndex, position: 'absolute', bottom: '15%', left: '20%' }} 
+          onMouseDown={() => focusWindow('skills')}
+        >
+          <RetroWindow 
+            isOpen={windows.skills.isOpen} 
+            onClose={() => toggleWindow('skills')} 
+            title="SKILL_LOADER_V1" 
+          >
+            <div className="p-6 bg-[#070711] font-mono text-sm text-portfolio-success shadow-inner border-2 border-portfolio-accent min-w-[360px]">
+              <p className="mb-4 text-portfolio-secondary font-bold font-display text-xs">$ BINARY_FETCH --TECH</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-3">
+                  <h4 className="text-portfolio-accent border-b-2 border-portfolio-accent pb-1 mb-2 font-display tracking-widest text-[10px]">LANGS</h4>
+                  <div className="space-y-2">
+                    <p className="flex justify-between">PYTHON <span className="text-portfolio-secondary">90%</span></p>
+                    <div className="h-2 bg-white/10 w-full"><div className="h-full bg-portfolio-accent" style={{width: '90%'}}></div></div>
+                    <p className="flex justify-between">C/C++ <span className="text-portfolio-secondary">80%</span></p>
+                    <div className="h-2 bg-white/10 w-full"><div className="h-full bg-portfolio-accent" style={{width: '80%'}}></div></div>
+                    <p className="flex justify-between">TS/JS <span className="text-portfolio-secondary">80%</span></p>
+                    <div className="h-2 bg-white/10 w-full"><div className="h-full bg-portfolio-accent" style={{width: '80%'}}></div></div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="text-portfolio-accent border-b-2 border-portfolio-accent pb-1 mb-2 font-display tracking-widest text-[10px]">CORE_ENG</h4>
+                  <div className="space-y-2 text-xs">
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> FIRMWARE_DEV</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> EMBEDDED_SYS</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> 3D_FABRICATION</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> KERNEL_ADMIN</p>
+                  </div>
+                </div>
+              </div>
+              <p className="mt-8 text-portfolio-accent animate-pulse font-bold">$ RUNNING_...</p>
+            </div>
+          </RetroWindow>
+        </div>
+
+        {/* Modals */}
+        <div 
+          className={windows.kenko.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.kenko.zIndex, position: 'absolute', top: '20%', left: '30%' }} 
+          onMouseDown={() => focusWindow('kenko')}
+        >
+          <KenkoModal isOpen={windows.kenko.isOpen} onClose={() => toggleWindow('kenko')} />
+        </div>
+        <div 
+          className={windows.arcade.isOpen ? 'block' : 'hidden'}
+          style={{ zIndex: windows.arcade.zIndex, position: 'absolute', top: '15%', right: '15%' }} 
+          onMouseDown={() => focusWindow('arcade')}
+        >
+          <ArcadeModal isOpen={windows.arcade.isOpen} onClose={() => toggleWindow('arcade')} />
+        </div>
       </div>
 
       {/* Taskbar */}
       <Taskbar onShutdown={onShutdown} />
-
-      {/* Windows */}
-      
-      {/* 1. About Me (System Properties) */}
-      <div 
-        className={windows.about.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.about.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('about')}
-      >
-        <RetroWindow 
-          isOpen={windows.about.isOpen} 
-          onClose={() => toggleWindow('about')} 
-          title="SYSTEM_PROPERTIES" 
-          width="max-w-md"
-        >
-          <div className="p-6 bg-black font-mono space-y-6">
-            <div className="flex gap-4 items-center border-b border-white/20 pb-4">
-              <div className="text-4xl text-portfolio-success">🖥️</div>
-              <div>
-                <h3 className="text-portfolio-success text-lg font-bold">ASHISH_CORE_v3</h3>
-                <p className="text-[10px] text-white/60 uppercase tracking-widest">General Purpose Engineering Model</p>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-xs text-portfolio-border uppercase border-l-2 border-portfolio-border pl-2 font-bold">Hardware_Specs</h4>
-              {stats.map((stat) => (
-                <div key={stat.label} className="space-y-1">
-                  <div className="flex justify-between text-[10px] uppercase font-bold">
-                    <span>{stat.label}</span>
-                    <span>{stat.value}%</span>
-                  </div>
-                  <div className="h-2 bg-white/10 border border-white/20">
-                    <div className={`h-full ${stat.color} shadow-[0_0_8px_rgba(255,255,255,0.3)]`} style={{ width: `${stat.value}%` }}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="text-[10px] leading-relaxed italic text-white/80 border-t border-white/10 pt-4">
-              "I like systems more than surfaces. I find beauty in the invisible layers."
-            </p>
-          </div>
-        </RetroWindow>
-      </div>
-
-      {/* 2. Avatar Viewer */}
-      <div 
-        className={windows.avatar.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.avatar.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('avatar')}
-      >
-        <RetroWindow 
-          isOpen={windows.avatar.isOpen} 
-          onClose={() => toggleWindow('avatar')} 
-          title="AVATAR_VIEWER" 
-          width="max-w-xs"
-        >
-          <div className="p-4 bg-black flex flex-col items-center">
-            <div className="relative group overflow-hidden border-2 border-portfolio-border mb-4">
-              <img src="/assets/avatar.png" alt="Ashish" className="w-full grayscale group-hover:grayscale-0 transition-all duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                <span className="text-[8px] text-white font-mono">IMAGE_ID: ASHISH_01</span>
-              </div>
-            </div>
-            <div className="flex gap-2 w-full">
-              <div className="flex-1 text-[10px] bg-portfolio-success/20 text-portfolio-success border border-portfolio-success/40 p-1 text-center font-bold animate-pulse uppercase">[Online]</div>
-              <div className="flex-1 text-[10px] bg-portfolio-accent/20 text-portfolio-accent border border-portfolio-accent/40 p-1 text-center font-bold uppercase">[Building]</div>
-            </div>
-          </div>
-        </RetroWindow>
-      </div>
-
-      {/* 3. Education Document */}
-      <div 
-        className={windows.education.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.education.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('education')}
-      >
-        <RetroWindow 
-          isOpen={windows.education.isOpen} 
-          onClose={() => toggleWindow('education')} 
-          title="EDUCATION.DOC" 
-        >
-          <div className="p-8 bg-white text-black font-serif leading-relaxed min-h-[400px] shadow-inner">
-            <h2 className="text-2xl border-b-2 border-black mb-6 pb-2 font-bold uppercase tracking-tighter">Academic_Records</h2>
-            <div className="space-y-8">
-              <section>
-                <div className="flex justify-between items-start">
-                  <h3 className="font-bold text-lg leading-tight text-blue-900">Computer Science Engineering</h3>
-                  <span className="text-xs font-mono bg-blue-100 px-2">GPA: 8.5+</span>
-                </div>
-                <p className="text-sm italic text-gray-600">2021 - Present</p>
-                <ul className="mt-4 list-disc list-inside text-sm space-y-2 text-gray-800">
-                  <li>Specializing in System Internals & Low-level Architectures</li>
-                  <li>In-depth study of OS kernels, memory management, and file systems</li>
-                  <li>Active member of the Cybersecurity & Systems Research Lab</li>
-                </ul>
-              </section>
-              <section className="bg-gray-50 p-4 border-l-4 border-blue-900">
-                <h3 className="font-bold text-md mb-2">Technical Research Focus</h3>
-                <p className="text-xs text-gray-700 leading-normal">
-                  Independent deep-dives into ARM/x86 assembly, real-time operating systems (RTOS), 
-                  and hardware-software co-design. Actively building custom firmware for IoT prototypes.
-                </p>
-              </section>
-            </div>
-            <div className="mt-12 text-[9px] border-t border-gray-200 pt-4 opacity-60 text-center uppercase tracking-widest">
-              Digital Authenticity Guaranteed - Ashish.OS Security Server
-            </div>
-          </div>
-        </RetroWindow>
-      </div>
-
-      {/* 4. Skills Terminal */}
-      <div 
-        className={windows.skills.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.skills.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('skills')}
-      >
-        <RetroWindow 
-          isOpen={windows.skills.isOpen} 
-          onClose={() => toggleWindow('skills')} 
-          title="SKILLS_SHELL" 
-        >
-          <div className="p-6 bg-black font-mono text-xs text-portfolio-success shadow-inner min-w-[320px]">
-            <p className="mb-4 text-white font-bold">$ fetch --technical-inventory</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <h4 className="text-portfolio-border border-b border-portfolio-border/30 pb-1 mb-2 font-bold uppercase tracking-widest text-[10px]">Languages</h4>
-                <div className="space-y-1">
-                  <p>Python [▓▓▓▓▓▓▓▓▓░] 90%</p>
-                  <p>C/C++  [▓▓▓▓▓▓▓▓░░] 80%</p>
-                  <p>JS/TS  [▓▓▓▓▓▓▓▓░░] 80%</p>
-                  <p>Rust   [▓▓▓▓░░░░░░] 40%</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <h4 className="text-portfolio-border border-b border-portfolio-border/30 pb-1 mb-2 font-bold uppercase tracking-widest text-[10px]">Systems_&_HW</h4>
-                <div className="space-y-1">
-                  <p className="flex items-center gap-2"><span className="text-white">●</span> Firmware Development</p>
-                  <p className="flex items-center gap-2"><span className="text-white">●</span> Embedded C/C++</p>
-                  <p className="flex items-center gap-2"><span className="text-white">●</span> 3D Fabrication/CAD</p>
-                  <p className="flex items-center gap-2"><span className="text-white">●</span> Linux Kernel/Admin</p>
-                </div>
-              </div>
-            </div>
-            <p className="mt-8 text-white animate-pulse">$ _</p>
-          </div>
-        </RetroWindow>
-      </div>
-
-      {/* Modals */}
-      <div 
-        className={windows.kenko.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.kenko.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('kenko')}
-      >
-        <KenkoModal isOpen={windows.kenko.isOpen} onClose={() => toggleWindow('kenko')} />
-      </div>
-      <div 
-        className={windows.arcade.isOpen ? 'block' : 'hidden'}
-        style={{ zIndex: windows.arcade.zIndex, position: 'absolute' }} 
-        onMouseDown={() => focusWindow('arcade')}
-      >
-        <ArcadeModal isOpen={windows.arcade.isOpen} onClose={() => toggleWindow('arcade')} />
-      </div>
     </div>
   );
 };
