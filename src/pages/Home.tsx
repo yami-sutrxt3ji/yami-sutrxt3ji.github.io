@@ -263,10 +263,10 @@ const Home = ({ onShutdown }: HomeProps) => {
                 <div className="space-y-3">
                   <h4 className="text-portfolio-accent border-b-2 border-portfolio-accent pb-1 mb-2 font-display tracking-widest text-[10px]">CORE_ENG</h4>
                   <div className="space-y-2 text-xs">
-                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> FIRMWARE_DEV</p>
-                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> EMBEDDED_SYS</p>
-                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> 3D_FABRICATION</p>
-                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">>></span> KERNEL_ADMIN</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">{'>>'}</span> FIRMWARE_DEV</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">{'>>'}</span> EMBEDDED_SYS</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">{'>>'}</span> 3D_FABRICATION</p>
+                    <p className="flex items-center gap-2 text-portfolio-text-bright"><span className="text-portfolio-accent">{'>>'}</span> KERNEL_ADMIN</p>
                   </div>
                 </div>
               </div>

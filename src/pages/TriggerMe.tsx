@@ -96,7 +96,7 @@ const TriggerMe = () => {
               <div>
                 <div className="text-[10px] text-white/50 mb-1 uppercase tracking-widest">Agent Link</div>
                 <div className={`text-sm font-bold ${status === 'AGENT_IDLE' ? 'text-portfolio-success' : 'text-portfolio-warning'} animate-pulse tracking-widest`}>
-                  >> {status}
+                  {'>>'} {status}
                 </div>
               </div>
 
