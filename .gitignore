@@ -1,51 +1,24 @@
-# Ignore all markdown files except README.md
-*.md
-!README.md
-
-# System files
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-.vscode/
-.idea/
-
-# Dependencies (if needed in future)
-node_modules/
-package-lock.json
-yarn.lock
-
-# Build artifacts
-dist/
-build/
+# Logs
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# IDE
-*.sublime-project
-*.sublime-workspace
+node_modules
+dist
+dist-ssr
+*.local
 
-# OS
-.env.local
-.env.*.local
-
-# Backup files
-*.bak
-*.backup
-~*
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# Cache
-.cache/
-*.cache
-
-# Session files
-.session
-
-# Keep tracked files
-!README.md
-!.gitignore
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

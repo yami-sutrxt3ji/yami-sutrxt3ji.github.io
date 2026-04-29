@@ -1,47 +1,73 @@
-# ASHISH.EXE
+# React + TypeScript + Vite
 
-Retro interactive portfolio website inspired by BIOS boot screens, Windows 98 UI, CRT monitors, and hacker terminals.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-🔗 **Live Site:** [https://t3jiyami.page](https://t3jiyami.page)
+Currently, two official plugins are available:
 
-## Preview
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-A playful personal portfolio with:
-- **Animated Boot Sequence** - Retro BIOS & system diagnostics startup
-- **Windows 98 OS Theme** - Draggable windows and classic UI elements
-- **Project Showcase** - Interactive display of engineering projects
-- **Kenko Aahara Deck** - Integrated Win98-style slide viewer
-- **Arcade Mini-Game** - Hidden Pong/Shooter arcade popup
-- **Responsive Design** - Mobile-optimized retro experience
+## React Compiler
 
-## Tech Stack
-- **Languages:** HTML5, Vanilla CSS3, JavaScript (ES6+)
-- **Audio:** Web Audio API for retro sound effects
-- **Persistence:** LocalStorage for game high scores
-- **Deployment:** GitHub Pages
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Featured Project: Kenko Aahara
-A concept focused on helping people with chronic illness receive curated meals based on diagnosis, culture, and dietary needs. Transforming medical constraints into delicious possibilities.
+## Expanding the ESLint configuration
 
-## Run Locally
-```bash
-# Clone the repository
-git clone https://github.com/yami-sutrxt3ji/yami-sutrxt3ji.github.io.git
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-# Navigate to directory
-cd yami-sutrxt3ji.github.io
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-# Start a local server (example using Python)
-python3 -m http.server
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-Open [http://localhost:8000](http://localhost:8000) in your browser.
 
-## About Me
-2nd year CS student at GITAM Hyderabad.
-Interested in: **Firmware, Embedded Systems, Cybersecurity, OS Internals, Game Dev, 3D Printing, Open Source.**
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Contact
-Visit: [https://t3jiyami.page/connect](https://t3jiyami.page/connect)
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
----
-*Built with curiosity and code.*
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

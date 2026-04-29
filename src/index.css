@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Silkscreen", monospace;
+  --font-body: "IBM Plex Mono", monospace;
+  --font-boot: "VT323", monospace;
+
+  --color-portfolio-bg: #070711;
+  --color-portfolio-panel: #0f1020;
+  --color-portfolio-border: #00e5ff;
+  --color-portfolio-accent: #ff4b81;
+  --color-portfolio-secondary: #7b61ff;
+  --color-portfolio-success: #8cff98;
+  --color-portfolio-text: #a8b3c7;
+  --color-portfolio-text-bright: #d9e2ec;
+  --color-portfolio-warning: #ffbf47;
+  --color-portfolio-error: #ff4d4d;
+}
+
+@layer base {
+  :root {
+    --portfolio-bg: #070711;
+    --portfolio-panel: #0f1020;
+    --portfolio-border: #00e5ff;
+    --portfolio-accent: #ff4b81;
+    --portfolio-secondary: #7b61ff;
+    --portfolio-success: #8cff98;
+    --portfolio-text: #a8b3c7;
+    --portfolio-text-bright: #d9e2ec;
+    --portfolio-warning: #ffbf47;
+    --portfolio-error: #ff4d4d;
+  }
+
+  body {
+    background-color: var(--portfolio-bg);
+    color: var(--portfolio-text);
+    font-family: "IBM Plex Mono", monospace;
+    overflow-x: hidden;
+  }
+}
+
+/* CRT Scanline Effect */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.crt-overlay::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 0%, rgba(18, 16, 16, 0.1) 50%, rgba(18, 16, 16, 0) 100%);
+  background-size: 100% 2px;
+  z-index: 2;
+  pointer-events: none;
+  animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
