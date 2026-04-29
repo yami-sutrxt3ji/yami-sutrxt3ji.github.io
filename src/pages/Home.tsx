@@ -1,3 +1,4 @@
+import RetroButton from "../components/ui/RetroButton";
 import { useState } from 'react';
 import KenkoModal from "../components/modals/KenkoModal";
 
@@ -25,36 +26,35 @@ const Home = () => {
               low-level hardware integration.
             </p>
             <div className="flex gap-4">
-              <button 
+              <RetroButton 
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-portfolio-accent text-white px-6 py-3 font-bold hover:bg-opacity-80 transition-all uppercase tracking-widest shadow-[4px_4px_0px_#000]"
               >
                 VIEW_PROJECTS
-              </button>
-              <button className="border-2 border-portfolio-secondary text-portfolio-secondary px-6 py-3 font-bold hover:bg-portfolio-secondary hover:text-white transition-all uppercase tracking-widest shadow-[4px_4px_0px_#000]">
+              </RetroButton>
+              <RetroButton variant="outline">
                 READ_DOCS
-              </button>
+              </RetroButton>
             </div>
           </div>
           
           <div className="bg-portfolio-panel border-2 border-portfolio-border p-6 shadow-[8px_8px_0px_rgba(0,229,255,0.2)]">
-            <h3 className="font-display text-portfolio-border mb-4 tracking-tighter">📟 SYSTEM_METRICS.EXE</h3>
+            <h3 className="font-display text-portfolio-border mb-4 tracking-tighter text-sm uppercase">📟 SYSTEM_METRICS.EXE</h3>
             <div className="space-y-2 font-mono text-sm">
               <div className="flex justify-between border-b border-portfolio-border/20 pb-1">
-                <span className="text-portfolio-text-bright">UPTIME:</span>
-                <span className="text-portfolio-success">CHAOTIC-ISH</span>
+                <span className="text-portfolio-text-bright uppercase">Uptime:</span>
+                <span className="text-portfolio-success uppercase">Chaotic-ish</span>
               </div>
               <div className="flex justify-between border-b border-portfolio-border/20 pb-1">
-                <span className="text-portfolio-text-bright">STATUS:</span>
-                <span className="text-portfolio-success">ONLINE</span>
+                <span className="text-portfolio-text-bright uppercase">Status:</span>
+                <span className="text-portfolio-success uppercase">Online</span>
               </div>
               <div className="flex justify-between border-b border-portfolio-border/20 pb-1">
-                <span className="text-portfolio-text-bright">COFFEE:</span>
-                <span className="text-portfolio-warning">CRITICAL_LEVEL</span>
+                <span className="text-portfolio-text-bright uppercase">Coffee:</span>
+                <span className="text-portfolio-warning uppercase">Critical_Level</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-portfolio-text-bright">LOCATION:</span>
-                <span>BENGALURU, IN</span>
+                <span className="text-portfolio-text-bright uppercase">Location:</span>
+                <span className="uppercase">Bengaluru, IN</span>
               </div>
             </div>
           </div>
@@ -78,17 +78,17 @@ const Home = () => {
             <div className="text-xs text-portfolio-accent font-bold mb-2 tracking-widest uppercase">
               FLAGSHIP // CASE_STUDY
             </div>
-            <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-accent transition-colors">
-              KENKO_AHAARA
+            <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-accent transition-colors uppercase">
+              Kenko_Ahaara
             </h3>
             <p className="text-sm mb-6 text-portfolio-text/80">
               A Windows 98-inspired presentation deck for a healthcare nutrition startup. Features interactive slide navigation and terminal-style boot sequence.
             </p>
             <div className="flex gap-2">
-              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20">
-                REACTION
+              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold">
+                REACT
               </span>
-              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20">
+              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold">
                 FRAMER_MOTION
               </span>
             </div>
@@ -100,18 +100,18 @@ const Home = () => {
               <div className="text-xs text-portfolio-secondary font-bold mb-2 tracking-widest uppercase">
                 LEVEL {i} // COMPONENT
               </div>
-              <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-border transition-colors">
-                PROJECT_BETA_{i}
+              <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-border transition-colors uppercase">
+                Project_Beta_{i}
               </h3>
               <p className="text-sm mb-6 text-portfolio-text/80">
                 Detailed description of the architectural decisions and technology stack used in this specific system.
               </p>
               <div className="flex gap-2">
-                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20">
-                  RUST
+                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20 font-bold uppercase">
+                  Rust
                 </span>
-                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20">
-                  WASM
+                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20 font-bold uppercase">
+                  Wasm
                 </span>
               </div>
             </div>
