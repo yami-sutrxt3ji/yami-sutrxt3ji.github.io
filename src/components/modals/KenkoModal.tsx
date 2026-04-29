@@ -19,25 +19,22 @@ const BOOT_MESSAGES = [
 const TOTAL_SLIDES = 21;
 
 const KenkoModal = ({ isOpen, onClose }: KenkoModalProps) => {
-  const [bootStatus, setBootStatus] = useState<number>(0);
   const [isBooted, setIsBooted] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(1);
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
   useEffect(() => {
     if (isOpen && !isBooted) {
-      setBootStatus(0);
       setTerminalOutput([]);
+      let step = 0;
       const interval = setInterval(() => {
-        setBootStatus((prev) => {
-          if (prev < BOOT_MESSAGES.length) {
-            setTerminalOutput((prevLog) => [...prevLog, BOOT_MESSAGES[prev]]);
-            return prev + 1;
-          }
+        if (step < BOOT_MESSAGES.length) {
+          setTerminalOutput((prevLog) => [...prevLog, BOOT_MESSAGES[step]]);
+          step++;
+        } else {
           clearInterval(interval);
           setTimeout(() => setIsBooted(true), 800);
-          return prev;
-        });
+        }
       }, 300);
       return () => clearInterval(interval);
     }
