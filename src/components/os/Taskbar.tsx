@@ -39,7 +39,7 @@ const Taskbar = ({ onShutdown }: TaskbarProps) => {
             }`}
         >
           <span className="text-blue-800 text-sm">田</span>
-          <span className="text-black">Start</span>
+          <span className="text-black uppercase">Start</span>
         </button>
 
         {/* Start Menu */}
@@ -106,13 +106,8 @@ const Taskbar = ({ onShutdown }: TaskbarProps) => {
         </AnimatePresence>
       </div>
 
-      {/* Divider */}
       <div className="w-px h-6 bg-[#808080] border-r border-white mx-2" />
-
-      {/* App Tabs placeholder */}
-      <div className="flex-1 flex items-center gap-1 overflow-hidden">
-        {/* We could map open windows here in the future */}
-      </div>
+      <div className="flex-1 flex items-center gap-1 overflow-hidden" />
 
       {/* System Tray */}
       <div className="bg-[#c0c0c0] border-2 border-b-white border-r-white border-l-[#808080] border-t-[#808080] px-3 py-1 flex items-center gap-4 text-black font-mono text-xs shadow-inner">
