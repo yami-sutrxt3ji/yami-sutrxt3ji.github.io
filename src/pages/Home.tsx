@@ -1,17 +1,19 @@
-import RetroButton from "../components/ui/RetroButton";
 import { useState } from 'react';
 import KenkoModal from "../components/modals/KenkoModal";
+import ArcadeModal from "../components/modals/ArcadeModal";
+import RetroButton from "../components/ui/RetroButton";
 
 const Home = () => {
   const [isKenkoOpen, setIsKenkoOpen] = useState(false);
+  const [isArcadeOpen, setIsArcadeOpen] = useState(false);
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-12">
       {/* Hero Section */}
       <section className="mb-20">
         <div className="border-l-4 border-portfolio-accent pl-6 py-4 mb-8">
-          <h1 className="font-display text-4xl md:text-6xl text-portfolio-text-bright mb-2">
-            SYSTEM_ASHISH
+          <h1 className="font-display text-4xl md:text-6xl text-portfolio-text-bright mb-2 uppercase">
+            System_Ashish
           </h1>
           <p className="text-portfolio-secondary font-bold tracking-widest uppercase">
             Full Stack Architect // Hardware Hacker // Tinkerer
@@ -31,8 +33,8 @@ const Home = () => {
               >
                 VIEW_PROJECTS
               </RetroButton>
-              <RetroButton variant="outline">
-                READ_DOCS
+              <RetroButton variant="outline" onClick={() => setIsArcadeOpen(true)}>
+                [ PLAY_ARCADE ]
               </RetroButton>
             </div>
           </div>
@@ -85,41 +87,43 @@ const Home = () => {
               A Windows 98-inspired presentation deck for a healthcare nutrition startup. Features interactive slide navigation and terminal-style boot sequence.
             </p>
             <div className="flex gap-2">
-              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold">
-                REACT
+              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold uppercase">
+                React
               </span>
-              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold">
-                FRAMER_MOTION
+              <span className="text-[10px] px-2 py-1 bg-portfolio-accent/10 text-portfolio-accent border border-portfolio-accent/20 font-bold uppercase">
+                Framer_Motion
               </span>
             </div>
           </div>
 
-          {/* Project Card Placeholder */}
-          {[1, 2].map((i) => (
-            <div key={i} className="bg-portfolio-panel border-2 border-portfolio-border/30 hover:border-portfolio-border transition-colors p-6 group">
-              <div className="text-xs text-portfolio-secondary font-bold mb-2 tracking-widest uppercase">
-                LEVEL {i} // COMPONENT
-              </div>
-              <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-border transition-colors uppercase">
-                Project_Beta_{i}
-              </h3>
-              <p className="text-sm mb-6 text-portfolio-text/80">
-                Detailed description of the architectural decisions and technology stack used in this specific system.
-              </p>
-              <div className="flex gap-2">
-                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20 font-bold uppercase">
-                  Rust
-                </span>
-                <span className="text-[10px] px-2 py-1 bg-portfolio-border/10 text-portfolio-border border border-portfolio-border/20 font-bold uppercase">
-                  Wasm
-                </span>
-              </div>
+          {/* Arcade Project Card */}
+          <div 
+            onClick={() => setIsArcadeOpen(true)}
+            className="bg-portfolio-panel border-2 border-portfolio-border/30 hover:border-portfolio-secondary transition-all p-6 group cursor-pointer hover:-translate-y-1 shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:shadow-[8px_8px_0px_rgba(123,97,255,0.2)]"
+          >
+            <div className="text-xs text-portfolio-secondary font-bold mb-2 tracking-widest uppercase">
+              EXPERIMENT // ARCADE
             </div>
-          ))}
+            <h3 className="font-display text-xl text-portfolio-text-bright mb-4 group-hover:text-portfolio-secondary transition-colors uppercase">
+              Goal_Hunter_98
+            </h3>
+            <p className="text-sm mb-6 text-portfolio-text/80">
+              A retro side-scroller shooter where your interests act as projectiles to capture your professional goals. Built with Canvas API and React.
+            </p>
+            <div className="flex gap-2">
+              <span className="text-[10px] px-2 py-1 bg-portfolio-secondary/10 text-portfolio-secondary border border-portfolio-secondary/20 font-bold uppercase">
+                Canvas
+              </span>
+              <span className="text-[10px] px-2 py-1 bg-portfolio-secondary/10 text-portfolio-secondary border border-portfolio-secondary/20 font-bold uppercase">
+                Games
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
       <KenkoModal isOpen={isKenkoOpen} onClose={() => setIsKenkoOpen(false)} />
+      <ArcadeModal isOpen={isArcadeOpen} onClose={() => setIsArcadeOpen(false)} />
     </main>
   );
 };
